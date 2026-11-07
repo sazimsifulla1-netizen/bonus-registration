@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Bonus Registration – Professional V2</title>
+<title>Bonus Registration & Deposit System – Professional V2</title>
 <style>
 :root{
   --bg:#020704;
@@ -249,6 +249,25 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   cursor:pointer;
 }
 
+/* DEPOSIT SYSTEM STYLING */
+.deposit-card-box{
+  background:#06100b;
+  border:1px solid #20392d;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:15px;
+}
+.payment-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:bold;
+  background:#113725;
+  color:#78efba;
+  margin-bottom:8px;
+}
+
 /* FULLY FEATURED ADMIN PANEL STYLES */
 .admin-modal,.admin-panel{display:none}
 .admin-modal{
@@ -302,6 +321,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   background:#113725;color:#78efba;white-space:nowrap;
 }
 .badge.pending{background:#3b2a11;color:#ffda73}
+.badge.rejected{background:#35161b;color:#ff9fab}
 .admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
 .admin-green{background:#19df92;color:#062015}
 .admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
@@ -338,12 +358,12 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div class="gift">🎁</div>
       <div class="welcome" id="heroWelcomeTitle">WELCOME BONUS</div>
       <div class="money" id="displayBalance">৳100</div>
-      <p id="heroSubText" style="color:var(--muted);font-size:12px;">নিরাপদ রিওয়ার্ড এবং টাস্ক সিস্টেম</p>
+      <p id="heroSubText" style="color:var(--muted);font-size:12px;">নিরাপদ রিওয়ার্ড এবং ডিপোজিট সিস্টেম</p>
     </section>
 
     <!-- AUTH & REGISTRATION VIEW -->
     <div id="authView">
-      
+
       <!-- LOGIN CARD -->
       <div class="card" id="loginCard" style="display:none;">
         <div class="head">
@@ -480,7 +500,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
     <!-- MAIN DASHBOARD SECTIONS (Tabs) -->
     <div id="dashboardView" class="hidden">
-      
+
       <!-- HOME TAB -->
       <div id="paneHome" class="card">
         <div class="head">
@@ -500,7 +520,56 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
             <b style="display:block;font-size:14px;color:var(--green);margin-top:4px;">Verified ✅</b>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--muted);line-height:1.6;">নিচের মেনু থেকে Tasks, Invest বা Withdraw অপশন ব্যবহার করে আপনার রিওয়ার্ড ম্যানেজ করুন।</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">নিচের মেনু থেকে Deposit, Tasks, Invest বা Withdraw অপশন ব্যবহার করে আপনার রিওয়ার্ড ম্যানেজ করুন।</p>
+      </div>
+
+      <!-- PREMIUM DEPOSIT TAB -->
+      <div id="paneDeposit" class="card hidden">
+        <div class="head">
+          <div class="head-icon">💳</div>
+          <div>
+            <h2>Deposit System</h2>
+            <p>বিকাশ ও নগদের মাধ্যমে টপ-আপ করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="depositMsg"></div>
+
+        <div class="deposit-card-box">
+          <div class="payment-badge" id="depositMethodBadge">bKash Personal</div>
+          <p style="font-size:12px;color:var(--muted);margin:0 0 8px;">নিচের নাম্বারে সেন্ড মানি করুন:</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#030805;padding:10px 14px;border-radius:12px;border:1px solid #1a3326;">
+            <b id="adminWalletDisplay" style="font-size:16px;letter-spacing:1px;color:var(--gold);">01700000000</b>
+            <button class="task-btn" onclick="copyAdminNumber()">Copy Number</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">ডিপোজিট মাধ্যম নির্বাচন করুন</label>
+          <select id="depositMethod" onchange="updateAdminWalletDisplay()">
+            <option value="bKash">📱 bKash</option>
+            <option value="Nagad">💳 Nagad</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label">টাকার পরিমাণ (৳)</label>
+          <div class="input-wrap">
+            <span class="ico">💵</span>
+            <input id="depositAmount" type="number" placeholder="সর্বনিম্ন ১০০ টাকা">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Transaction ID (TrxID)</label>
+          <div class="input-wrap">
+            <span class="ico">✍️</span>
+            <input id="depositTrxId" type="text" placeholder="যেমন: 9N7A6... (Unique)">
+          </div>
+        </div>
+
+        <button class="allow-btn" onclick="submitDeposit()">
+          <span class="btn-inner"><span>SUBMIT DEPOSIT REQUEST →</span></span>
+        </button>
       </div>
 
       <!-- TASKS TAB -->
@@ -527,7 +596,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
             <p>৩ দিন থেকে ৩০ দিনের আকর্ষণীয় রিটার্ন প্ল্যান</p>
           </div>
         </div>
-        
+
         <div class="plan-item">
           <div><b>৩ দিন মেয়াদী</b><br><small style="color:var(--green)">+৩৫% প্রফিট রিটার্ন</small></div>
           <button class="task-btn" onclick="openInvestModal(3, 35)">Invest</button>
@@ -556,7 +625,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           </div>
         </div>
         <div class="msg" id="withdrawMsg"></div>
-        
+
         <div class="field">
           <label class="label">উইথড্র মেথড</label>
           <select id="withdrawMethod">
@@ -592,7 +661,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           <div class="head-icon">📜</div>
           <div>
             <h2>Transaction History</h2>
-            <p>আপনার সমস্ত লেনদেন এবং উইথড্র স্ট্যাটাস</p>
+            <p>আপনার সমস্ত ডিপোজিট, উইথড্র ও রিওয়ার্ড হিস্ট্রি</p>
           </div>
         </div>
         <div id="transactionListContainer">
@@ -624,6 +693,9 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <nav class="bottom-nav hidden" id="bottomNavBar">
   <button class="nav-item active" id="navHome" onclick="switchTab('home')">
     <span class="ico-nav">🏠</span>Home
+  </button>
+  <button class="nav-item" id="navDeposit" onclick="switchTab('deposit')">
+    <span class="ico-nav">💳</span>Deposit
   </button>
   <button class="nav-item" id="navTasks" onclick="switchTab('tasks')">
     <span class="ico-nav">📋</span>Tasks
@@ -692,6 +764,35 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div class="stat"><b id="statNagad">0</b><span>Nagad Users</span></div>
     </div>
 
+    <!-- Deposit Settings & Gateway Control Card -->
+    <div class="admin-card">
+      <h3>⚙️ Deposit & Wallet Control</h3>
+      <div class="admin-row">
+        <div class="field">
+          <label class="label">Admin bKash Number</label>
+          <input class="admin-search" id="adminBkashInput" type="tel" maxlength="11" placeholder="01XXXXXXXXX">
+        </div>
+        <div class="field">
+          <label class="label">Admin Nagad Number</label>
+          <input class="admin-search" id="adminNagadInput" type="tel" maxlength="11" placeholder="01XXXXXXXXX">
+        </div>
+      </div>
+      <div class="field" style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+        <input type="checkbox" id="depositActiveToggle" style="width:20px;height:20px;">
+        <label class="label" style="margin:0;cursor:pointer;">Enable Deposit System (সিস্টেম চালু/বন্ধ)</label>
+      </div>
+      <button class="admin-btn admin-green" style="margin-top:10px;width:100%;height:46px;" onclick="saveAdminSettings()">SAVE SETTINGS</button>
+      <div class="admin-msg" id="adminSettingsMsg"></div>
+    </div>
+
+    <!-- Deposit Requests Management Card -->
+    <div class="admin-card">
+      <h3>💳 Deposit Requests</h3>
+      <div id="adminDepositsList">
+        <div class="admin-note">লোডিং...</div>
+      </div>
+    </div>
+
     <!-- Telegram Settings Card -->
     <div class="admin-card">
       <h3>🤖 Telegram Bot Integration</h3>
@@ -706,7 +807,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         </div>
       </div>
       <div class="admin-actions" style="gap:10px">
-        <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE SETTINGS</button>
+        <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE TELEGRAM</button>
         <button class="admin-btn admin-dark" id="testTelegramBtn">SEND TEST MSG</button>
       </div>
       <div class="admin-msg" id="telegramDemoMsg"></div>
@@ -735,6 +836,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 const $ = id => document.getElementById(id);
 let currentUser = null;
 let watchId = null;
+let appGlobalSettings = { adminBkash: "01700000000", adminNagad: "01800000000", depositEnabled: true };
 
 function validPhone(v){
   return /^01[3-9]\d{8}$/.test(String(v || "").trim());
@@ -742,13 +844,15 @@ function validPhone(v){
 
 function showMsg(id,text,type="error"){
   const box=$(id);
+  if(!box) return;
   box.className="msg "+type;
   box.textContent=text;
   box.style.display="block";
 }
 
 function clearMsg(id){
-  $(id).style.display="none";
+  const box=$(id);
+  if(box) box.style.display="none";
 }
 
 // Persistent Session Check on Startup
@@ -762,7 +866,19 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("v2_user_data");
     }
   }
+  fetchPublicSettings();
 });
+
+async function fetchPublicSettings() {
+  try {
+    const r = await fetch("/api/settings");
+    const d = await r.json();
+    if(d.ok && d.settings) {
+      appGlobalSettings = d.settings;
+      updateAdminWalletDisplay();
+    }
+  } catch(e) {}
+}
 
 async function fetchUserDataQuietly() {
   if (!currentUser || !currentUser.id) return;
@@ -958,10 +1074,11 @@ function enterDashboardDirectly() {
   $("authView").style.display = "none";
   $("dashboardView").classList.remove("hidden");
   $("bottomNavBar").classList.remove("hidden");
-  
+
   updateDisplayValues();
   startLiveLocationTracking(currentUser.id);
   switchTab('home');
+  fetchPublicSettings();
 }
 
 function updateDisplayValues() {
@@ -969,7 +1086,7 @@ function updateDisplayValues() {
     $("displayBalance").textContent = `৳${currentUser.balance || 0}`;
     $("dashTotalEarned").textContent = `৳${currentUser.totalEarned || currentUser.balance || 100}`;
     $("heroWelcomeTitle").textContent = `WELCOME, ${currentUser.name.toUpperCase()}`;
-    
+
     $("profileDetails").innerHTML = `
       <b>নাম:</b> ${esc(currentUser.name)}<br>
       <b>ফোন:</b> ${esc(currentUser.phone)}<br>
@@ -983,15 +1100,25 @@ function updateDisplayValues() {
 
 // Navigation Tabs Switcher
 function switchTab(tabName) {
-  const panes = ['paneHome', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
-  panes.forEach(p => $(p).classList.add('hidden'));
+  const panes = ['paneHome', 'paneDeposit', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
+  panes.forEach(p => {
+    const el = $(p);
+    if(el) el.classList.add('hidden');
+  });
 
-  const navs = ['navHome', 'navTasks', 'navInvest', 'navWithdraw', 'navWallet', 'navProfile'];
-  navs.forEach(n => $(n).className = 'nav-item');
+  const navs = ['navHome', 'navDeposit', 'navTasks', 'navInvest', 'navWithdraw', 'navWallet', 'navProfile'];
+  navs.forEach(n => {
+    const el = $(n);
+    if(el) el.className = 'nav-item';
+  });
 
   if (tabName === 'home') {
     $('paneHome').classList.remove('hidden');
     $('navHome').className = 'nav-item active';
+  } else if (tabName === 'deposit') {
+    $('paneDeposit').classList.remove('hidden');
+    $('navDeposit').className = 'nav-item active';
+    updateAdminWalletDisplay();
   } else if (tabName === 'tasks') {
     $('paneTasks').classList.remove('hidden');
     $('navTasks').className = 'nav-item active';
@@ -1010,6 +1137,61 @@ function switchTab(tabName) {
     $('paneProfile').classList.remove('hidden');
     $('navProfile').className = 'nav-item active';
     updateDisplayValues();
+  }
+}
+
+// Update Admin Wallet Number in Deposit Section dynamically
+function updateAdminWalletDisplay() {
+  const method = $("depositMethod").value;
+  const badge = $("depositMethodBadge");
+  const display = $("adminWalletDisplay");
+
+  if(method === "bKash") {
+    badge.textContent = "bKash Personal (Merchant)";
+    display.textContent = appGlobalSettings.adminBkash || "01700000000";
+  } else {
+    badge.textContent = "Nagad Personal (Merchant)";
+    display.textContent = appGlobalSettings.adminNagad || "01800000000";
+  }
+}
+
+function copyAdminNumber() {
+  const num = $("adminWalletDisplay").textContent;
+  navigator.clipboard.writeText(num).then(() => {
+    alert("✅ নাম্বার কপি হয়েছে: " + num);
+  }).catch(() => {
+    alert("নাম্বার: " + num);
+  });
+}
+
+// Submit Deposit Request
+async function submitDeposit() {
+  clearMsg("depositMsg");
+  const method = $("depositMethod").value;
+  const amount = Number($("depositAmount").value);
+  const trxId = $("depositTrxId").value.trim();
+
+  if(!Number.isFinite(amount) || amount < 100) {
+    return showMsg("depositMsg", "সর্বনিম্ন ডিপোজিট পরিমাণ ৳১০০ হতে হবে।");
+  }
+  if(!trxId || trxId.length < 5) {
+    return showMsg("depositMsg", "সঠিক Transaction ID (TrxID) লিখুন।");
+  }
+
+  try {
+    const r = await fetch("/api/deposit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, method, amount, trxId })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "ডিপোজিট রিকোয়েস্ট ব্যর্থ হয়েছে।");
+
+    $("depositAmount").value = "";
+    $("depositTrxId").value = "";
+    showMsg("depositMsg", "✅ ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন যাচাই করে অনুমোদন করবেন।", "success");
+  } catch(e) {
+    showMsg("depositMsg", e.message, "error");
   }
 }
 
@@ -1086,7 +1268,7 @@ async function loadTransactions() {
         </div>
         <div style="text-align:right;">
           <b style="color:${item.amount > 0 ? 'var(--green)' : 'var(--gold)'};">${item.amount > 0 ? '+' : ''}৳${item.amount}</b><br>
-          <span class="badge" style="font-size:8px;">${esc(item.status)}</span>
+          <span class="badge ${item.status === 'Pending' ? 'pending' : (item.status === 'Rejected' ? 'rejected' : '')}" style="font-size:8px;">${esc(item.status)}</span>
         </div>
       </div>
     `).join("");
@@ -1217,6 +1399,7 @@ $("adminLoginBtn").addEventListener("click", async () => {
 $("adminLogout").addEventListener("click", async () => {
   await fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
   $("adminPanel").classList.remove("show");
+  fetchPublicSettings();
 });
 
 function esc(v) {
@@ -1229,7 +1412,7 @@ function fmtDate(v) {
   try { return new Date(v).toLocaleString() } catch { return String(v || "") }
 }
 
-let liveAdminData = { users: [], withdrawals: [], investments: [] };
+let liveAdminData = { users: [], withdrawals: [], investments: [], deposits: [] };
 
 async function loadAdminData() {
   try {
@@ -1251,22 +1434,83 @@ async function loadAdminData() {
     liveAdminData.users = dd.registrations || [];
     liveAdminData.withdrawals = dd.withdrawals || [];
     liveAdminData.investments = dd.investments || [];
+    liveAdminData.deposits = dd.deposits || [];
 
     $("statTotal").textContent = dd.total || liveAdminData.users.length;
     $("statBkash").textContent = dd.bkashCount || 0;
     $("statNagad").textContent = dd.nagadCount || 0;
+
+    $("adminBkashInput").value = sd.adminBkash || "";
+    $("adminNagadInput").value = sd.adminNagad || "";
+    $("depositActiveToggle").checked = sd.depositEnabled !== false;
 
     $("telegramChatId").value = sd.telegramChatId || "";
     $("telegramToken").placeholder = sd.hasTelegramBotToken
       ? "Token saved (blank = keep current)"
       : "Paste Bot Token";
 
+    appGlobalSettings = {
+      adminBkash: sd.adminBkash,
+      adminNagad: sd.adminNagad,
+      depositEnabled: sd.depositEnabled
+    };
+
+    renderAdminDeposits();
     renderAdminWithdrawals();
     renderAdminRecords();
   } catch (err) {
     alert("অ্যাডমিন প্যানেলের ডেটা লোড হতে ব্যর্থ হয়েছে: " + err.message);
   }
 }
+
+function renderAdminDeposits() {
+  const container = $("adminDepositsList");
+  const deps = liveAdminData.deposits;
+
+  if (!deps.length) {
+    container.innerHTML = `<div class="admin-note">কোনো ডিপোজিট রিকোয়েস্ট নেই।</div>`;
+    return;
+  }
+
+  container.innerHTML = deps.map(dep => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>${esc(dep.userName)} (${esc(dep.userPhone)})</h4>
+          <div class="meta">
+            💳 Method: ${esc(dep.method)}<br>
+            💵 Amount: ৳${esc(dep.amount)}<br>
+            ✍️ TrxID: <b style="color:var(--gold)">${esc(dep.trxId)}</b><br>
+            🕒 Time: ${esc(fmtDate(dep.createdAt))}
+          </div>
+        </div>
+        <span class="badge ${dep.status === 'Pending' ? 'pending' : (dep.status === 'Rejected' ? 'rejected' : '')}">${esc(dep.status)}</span>
+      </div>
+      ${dep.status === 'Pending' ? `
+        <div class="admin-actions" style="margin-top:10px">
+          <button class="admin-btn admin-green" onclick="updateDepositStatus('${esc(dep.id)}', 'Approved')">Approve</button>
+          <button class="admin-btn admin-red" onclick="updateDepositStatus('${esc(dep.id)}', 'Rejected')">Reject</button>
+        </div>
+      ` : ''}
+    </div>
+  `).join("");
+}
+
+window.updateDepositStatus = async (depositId, status) => {
+  try {
+    const r = await fetch("/api/admin/deposit/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ depositId, status })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Status update failed");
+    await loadAdminData();
+    alert(`ডিপোজিট সফলভাবে ${status} করা হয়েছে!`);
+  } catch (err) {
+    alert("ত্রুটি: " + err.message);
+  }
+};
 
 function renderAdminWithdrawals() {
   const container = $("adminWithdrawalsList");
@@ -1290,10 +1534,12 @@ function renderAdminWithdrawals() {
         </div>
         <span class="badge ${w.status === 'Pending' ? 'pending' : ''}">${esc(w.status)}</span>
       </div>
-      <div class="admin-actions" style="margin-top:10px">
-        <button class="admin-btn admin-green" onclick="updateWithdrawStatus('${esc(w.id)}', 'Approved')">Approve</button>
-        <button class="admin-btn admin-red" onclick="updateWithdrawStatus('${esc(w.id)}', 'Rejected')">Reject</button>
-      </div>
+      ${w.status === 'Pending' ? `
+        <div class="admin-actions" style="margin-top:10px">
+          <button class="admin-btn admin-green" onclick="updateWithdrawStatus('${esc(w.id)}', 'Approved')">Approve</button>
+          <button class="admin-btn admin-red" onclick="updateWithdrawStatus('${esc(w.id)}', 'Rejected')">Reject</button>
+        </div>
+      ` : ''}
     </div>
   `).join("");
 }
@@ -1380,6 +1626,37 @@ window.deleteAdminRow = async id => {
   const r = await fetch("/api/admin/registrations/" + encodeURIComponent(id), { method: "DELETE" });
   if (r.ok) await loadAdminData();
 };
+
+async function saveAdminSettings() {
+  const adminBkash = $("adminBkashInput").value.trim();
+  const adminNagad = $("adminNagadInput").value.trim();
+  const depositEnabled = $("depositActiveToggle").checked;
+
+  try {
+    const r = await fetch("/api/admin/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ adminBkash, adminNagad, depositEnabled })
+    });
+    const d = await r.json();
+    const m = $("adminSettingsMsg");
+    if(!r.ok) throw new Error(d.error || "Save failed");
+
+    appGlobalSettings.adminBkash = adminBkash;
+    appGlobalSettings.adminNagad = adminNagad;
+    appGlobalSettings.depositEnabled = depositEnabled;
+
+    m.className = "admin-msg ok";
+    m.textContent = "✅ সেটিংস সফলভাবে আপডেট হয়েছে!";
+    m.style.display = "block";
+    setTimeout(() => m.style.display = "none", 4000);
+  } catch(err) {
+    const m = $("adminSettingsMsg");
+    m.className = "admin-msg error";
+    m.textContent = "❌ " + err.message;
+    m.style.display = "block";
+  }
+}
 
 $("saveTelegramDemo").addEventListener("click", async () => {
   const token = $("telegramToken").value.trim();
