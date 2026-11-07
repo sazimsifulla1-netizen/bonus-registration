@@ -495,7 +495,7 @@ app.post("/api/invest", (req, res) => {
   });
 });
 
-// 7. Admin Control & Management APIs
+// 7. Admin Control & Management APIs (Fully Updated)
 app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) {
     req.adminRateLimit.fail();
@@ -519,13 +519,15 @@ app.post("/api/admin/logout", requireAdmin, (req, res) => {
   res.json({ ok: true });
 });
 
-app.get("/api/admin/registrations", requireAdmin, (req, res) => {
+app.get("/api/admin/data", requireAdmin, (req, res) => {
   const db = loadDb();
   res.json({
     registrations: db.registrations,
     withdrawals: db.withdrawals,
     investments: db.investments,
-    total: db.registrations.length
+    total: db.registrations.length,
+    bkashCount: db.registrations.filter(r => r.paymentMethod === "bKash").length,
+    nagadCount: db.registrations.filter(r => r.paymentMethod === "Nagad").length
   });
 });
 
@@ -557,6 +559,20 @@ app.post("/api/admin/user/update-balance", requireAdmin, (req, res) => {
   });
 });
 
+// Admin Withdraw Status Approval API
+app.post("/api/admin/withdraw/update", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { withdrawId, status } = req.body; // status: Approved / Rejected
+    const db = loadDb();
+    const wd = db.withdrawals.find(w => w.id === withdrawId);
+    if (!wd) return res.status(404).json({ error: "Withdrawal request not found" });
+
+    wd.status = status;
+    saveDb(db);
+    res.json({ ok: true });
+  });
+});
+
 app.get("/api/admin/settings", requireAdmin, (req, res) => {
   const db = loadDb();
   res.json({
@@ -582,7 +598,7 @@ app.post("/api/admin/settings", requireAdmin, (req, res) => {
 });
 
 app.post("/api/admin/telegram/test", requireAdmin, async (req, res) => {
-  const result = await sendTelegram("🔔 Test Message: Professional V2 Telegram Integration Successfully Configured!");
+  const result = await sendTelegram("🔔 Test Message: Professional V2 Admin Telegram Successfully Configured!");
   if (!result.ok) {
     return res.status(400).json({ error: result.error || "Telegram message send failed" });
   }
