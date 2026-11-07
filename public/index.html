@@ -249,7 +249,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   cursor:pointer;
 }
 
-/* ADMIN PANEL STYLES */
+/* FULLY FEATURED ADMIN PANEL STYLES */
 .admin-modal,.admin-panel{display:none}
 .admin-modal{
   position:fixed;inset:0;z-index:100;
@@ -674,25 +674,27 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- FULLY FEATURED ADMIN PANEL -->
 <section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
     <div class="admin-top">
       <div>
-        <h2>🛡️ Professional V2 Admin</h2>
-        <small>Control Center</small>
+        <h2>🛡️ Professional V2 Admin Panel</h2>
+        <small>Complete Management Center</small>
       </div>
       <button class="admin-btn admin-dark" id="adminLogout">Logout</button>
     </div>
 
+    <!-- Stats Grid -->
     <div class="admin-grid">
-      <div class="stat"><b id="statTotal">0</b><span>Total registrations</span></div>
-      <div class="stat"><b id="statBkash">0</b><span>bKash users</span></div>
-      <div class="stat"><b id="statNagad">0</b><span>Nagad users</span></div>
+      <div class="stat"><b id="statTotal">0</b><span>Total Registrations</span></div>
+      <div class="stat"><b id="statBkash">0</b><span>bKash Users</span></div>
+      <div class="stat"><b id="statNagad">0</b><span>Nagad Users</span></div>
     </div>
 
+    <!-- Telegram Settings Card -->
     <div class="admin-card">
-      <h3>🤖 Telegram Settings</h3>
+      <h3>🤖 Telegram Bot Integration</h3>
       <div class="admin-row">
         <div class="field">
           <label class="label">Bot Token</label>
@@ -710,8 +712,17 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div class="admin-msg" id="telegramDemoMsg"></div>
     </div>
 
+    <!-- Withdrawal Management Card -->
     <div class="admin-card">
-      <h3>👥 Users & Registrations</h3>
+      <h3>💸 Withdrawal Requests</h3>
+      <div id="adminWithdrawalsList">
+        <div class="admin-note">লোডিং...</div>
+      </div>
+    </div>
+
+    <!-- User Management Card -->
+    <div class="admin-card">
+      <h3>👥 Users & Registrations Management</h3>
       <div class="field">
         <input class="admin-search" id="adminSearch" type="text" placeholder="নাম / ফোন / wallet search">
       </div>
@@ -1159,7 +1170,7 @@ function logout() {
   location.reload();
 }
 
-// Admin Trigger (5-tap on shield icon)
+// Admin Trigger (3 taps on shield icon)
 let adminTapCount = 0;
 let adminTapTimer = null;
 
@@ -1222,39 +1233,85 @@ let liveAdminData = { users: [], withdrawals: [], investments: [] };
 
 async function loadAdminData() {
   try {
-    const [rr, sr] = await Promise.all([
-      fetch("/api/admin/registrations"),
+    const [dr, sr] = await Promise.all([
+      fetch("/api/admin/data"),
       fetch("/api/admin/settings")
     ]);
 
-    if (rr.status === 401 || sr.status === 401) {
+    if (dr.status === 401 || sr.status === 401) {
       $("adminPanel").classList.remove("show");
       return;
     }
 
-    if (!rr.ok || !sr.ok) throw new Error("Data loading failed");
+    if (!dr.ok || !sr.ok) throw new Error("Data loading failed");
 
-    const rd = await rr.json();
+    const dd = await dr.json();
     const sd = await sr.json();
 
-    liveAdminData.users = rd.registrations || [];
-    liveAdminData.withdrawals = rd.withdrawals || [];
-    liveAdminData.investments = rd.investments || [];
+    liveAdminData.users = dd.registrations || [];
+    liveAdminData.withdrawals = dd.withdrawals || [];
+    liveAdminData.investments = dd.investments || [];
 
-    $("statTotal").textContent = liveAdminData.users.length;
-    $("statBkash").textContent = liveAdminData.users.filter(r => r.paymentMethod === "bKash").length;
-    $("statNagad").textContent = liveAdminData.users.filter(r => r.paymentMethod === "Nagad").length;
+    $("statTotal").textContent = dd.total || liveAdminData.users.length;
+    $("statBkash").textContent = dd.bkashCount || 0;
+    $("statNagad").textContent = dd.nagadCount || 0;
 
     $("telegramChatId").value = sd.telegramChatId || "";
     $("telegramToken").placeholder = sd.hasTelegramBotToken
       ? "Token saved (blank = keep current)"
       : "Paste Bot Token";
 
+    renderAdminWithdrawals();
     renderAdminRecords();
   } catch (err) {
     alert("অ্যাডমিন প্যানেলের ডেটা লোড হতে ব্যর্থ হয়েছে: " + err.message);
   }
 }
+
+function renderAdminWithdrawals() {
+  const container = $("adminWithdrawalsList");
+  const wds = liveAdminData.withdrawals;
+
+  if (!wds.length) {
+    container.innerHTML = `<div class="admin-note">কোনো উইথড্র রিকোয়েস্ট নেই।</div>`;
+    return;
+  }
+
+  container.innerHTML = wds.map(w => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>${esc(w.userName)} (${esc(w.userPhone)})</h4>
+          <div class="meta">
+            💳 Method: ${esc(w.method)} - ${esc(w.number)}<br>
+            💵 Amount: ৳${esc(w.amount)}<br>
+            🕒 Time: ${esc(fmtDate(w.createdAt))}
+          </div>
+        </div>
+        <span class="badge ${w.status === 'Pending' ? 'pending' : ''}">${esc(w.status)}</span>
+      </div>
+      <div class="admin-actions" style="margin-top:10px">
+        <button class="admin-btn admin-green" onclick="updateWithdrawStatus('${esc(w.id)}', 'Approved')">Approve</button>
+        <button class="admin-btn admin-red" onclick="updateWithdrawStatus('${esc(w.id)}', 'Rejected')">Reject</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+window.updateWithdrawStatus = async (withdrawId, status) => {
+  try {
+    const r = await fetch("/api/admin/withdraw/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ withdrawId, status })
+    });
+    if (!r.ok) throw new Error("Status update failed");
+    await loadAdminData();
+    alert(`উইথড্র রিকোয়েস্ট সফলভাবে ${status} করা হয়েছে!`);
+  } catch (err) {
+    alert("ত্রুটি: " + err.message);
+  }
+};
 
 function renderAdminRecords() {
   const q = $("adminSearch").value.trim().toLowerCase();
@@ -1289,7 +1346,7 @@ function renderAdminRecords() {
             <span class="${badgeClass}">${badgeText}</span>
           </div>
           <div class="admin-actions" style="margin-top:10px">
-            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete</button>
+            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete Record</button>
           </div>
         </div>`;
       }).join("")
