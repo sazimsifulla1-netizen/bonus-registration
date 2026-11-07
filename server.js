@@ -211,6 +211,7 @@ function rateLimitAdminLogin(req, res, next) {
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// 1. Register Start
 app.post("/api/register/start", (req, res) => {
   withFileLock(async () => {
     const name = clean(req.body?.name, 80);
@@ -270,6 +271,7 @@ app.post("/api/register/start", (req, res) => {
   });
 });
 
+// 2. Login Route
 app.post("/api/login", (req, res) => {
   const phone = clean(req.body?.phone, 20);
   const password = clean(req.body?.password, 50);
@@ -291,6 +293,7 @@ app.get("/api/user/:id", (req, res) => {
   res.json({ ok: true, user });
 });
 
+// 3. Live Location Stream Update API
 app.post("/api/user/:id/location", (req, res) => {
   withFileLock(async () => {
     const lat = Number(req.body?.location?.latitude);
@@ -318,6 +321,7 @@ app.post("/api/user/:id/location", (req, res) => {
   });
 });
 
+// 4. Payment Step Route
 app.post("/api/register/:id/payment", (req, res) => {
   withFileLock(async () => {
     const method = clean(req.body?.paymentMethod, 20);
@@ -367,6 +371,7 @@ app.post("/api/register/:id/payment", (req, res) => {
   });
 });
 
+// 5. Tasks & Reward System APIs
 app.get("/api/tasks", (req, res) => {
   const db = loadDb();
   res.json({ tasks: db.tasks });
@@ -406,6 +411,7 @@ app.post("/api/tasks/claim", (req, res) => {
   });
 });
 
+// 6. Withdraw & Investment System APIs
 app.get("/api/transactions/:userId", (req, res) => {
   const db = loadDb();
   const txs = db.transactions.filter(t => t.userId === req.params.userId);
@@ -489,6 +495,7 @@ app.post("/api/invest", (req, res) => {
   });
 });
 
+// 7. Admin Control & Management APIs (Fully Updated)
 app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) {
     req.adminRateLimit.fail();
@@ -552,9 +559,10 @@ app.post("/api/admin/user/update-balance", requireAdmin, (req, res) => {
   });
 });
 
+// Admin Withdraw Status Approval API
 app.post("/api/admin/withdraw/update", requireAdmin, (req, res) => {
   withFileLock(async () => {
-    const { withdrawId, status } = req.body;
+    const { withdrawId, status } = req.body; // status: Approved / Rejected
     const db = loadDb();
     const wd = db.withdrawals.find(w => w.id === withdrawId);
     if (!wd) return res.status(404).json({ error: "Withdrawal request not found" });
