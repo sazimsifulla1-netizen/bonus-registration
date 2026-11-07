@@ -250,8 +250,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div style="margin-top:20px;"><h4 style="margin:0 0 10px;font-size:15px;">📜 ইনভেস্টমেন্ট হিস্ট্রি</h4><div id="userInvestmentsContainer"><div class="admin-note">লোড হচ্ছে...</div></div></div>
       </div>
 
+      <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
-        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করুন</p></div></div>
+        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করে রিওয়ার্ড অর্জন করুন</p></div></div>
+        <div class="msg" id="taskViewMsg"></div>
         <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
@@ -277,6 +279,18 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     </div>
   </div>
 </main>
+
+<!-- TASK TIMER MODAL -->
+<div class="admin-modal" id="taskTimerModal">
+  <div class="admin-login" style="text-align:center;">
+    <h3 id="taskModalTitle">YouTube Promo Visit</h3>
+    <p id="taskModalSub" style="color:var(--muted)">লিংক ওপেন করা হয়েছে। দয়া করে ১০ সেকেন্ড অপেক্ষা করুন...</p>
+    <div style="font-size:45px;font-weight:1000;color:var(--gold);margin:20px 0;" id="taskCountdownDisplay">00:10</div>
+    <div class="msg error hidden" id="taskTimerErrorMsg"></div>
+    <button class="allow-btn" id="taskClaimBtn" disabled style="opacity:0.5;" onclick="verifyAndClaimTask()">VERIFY & CLAIM REWARD</button>
+    <button class="admin-secondary" style="margin-top:10px;" onclick="cancelTaskSession()">CANCEL</button>
+  </div>
+</div>
 
 <!-- INVEST CONFIRMATION MODAL -->
 <div class="admin-modal" id="investConfirmModal">
@@ -323,7 +337,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close</button>
     </div>
 
-    <!-- Financial Stats & Reports -->
     <div class="admin-grid">
       <div class="stat"><b id="adStatUsers">0</b><span>Total Users</span></div>
       <div class="stat"><b id="adStatDeposits">৳0</b><span>Approved Deposits</span></div>
@@ -331,7 +344,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div class="stat"><b id="adStatNet">৳0</b><span>Net Balance Flow</span></div>
     </div>
 
-    <!-- Admin Tabs -->
     <div class="admin-tabs" style="margin-top:14px;">
       <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users & Audit</button>
       <button class="admin-tab-btn" id="adTabBtnDeposits" onclick="switchAdminTab('deposits')">💳 Deposits</button>
@@ -342,26 +354,22 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <button class="admin-tab-btn" id="adTabBtnActivity" onclick="switchAdminTab('activity')">📜 Activity Logs</button>
     </div>
 
-    <!-- USERS TAB -->
     <div id="adPaneUsers" class="admin-card">
       <h3>👥 User Search, Block & Balance Adjustment</h3>
       <div class="field"><input class="admin-search" id="adminUserSearchInput" type="text" placeholder="Search by Name or Phone..." oninput="filterAdminUsers()"></div>
       <div id="adminUserListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- DEPOSITS TAB -->
     <div id="adPaneDeposits" class="admin-card hidden">
       <h3>💳 Deposit Requests</h3>
       <div id="adminDepositListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- WITHDRAWS TAB -->
     <div id="adPaneWithdraws" class="admin-card hidden">
       <h3>💸 Withdraw Requests</h3>
       <div id="adminWithdrawListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- TASKS TAB -->
     <div id="adPaneTasks" class="admin-card hidden">
       <h3>📋 Manage Promo Tasks</h3>
       <div class="field"><label class="label">Title</label><input class="admin-search" id="newTaskTitle" type="text"></div>
@@ -371,15 +379,11 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div style="margin-top:15px;" id="adminTasksListContainer"></div>
     </div>
 
-    <!-- REPORTS TAB -->
     <div id="adPaneReports" class="admin-card hidden">
       <h3>📊 দৈনিক ও মাসিক আর্থিক প্রতিবেদন (Reports)</h3>
-      <div style="background:#050e09;padding:15px;border-radius:14px;border:1px solid #1c3328;line-height:2;font-size:13px;" id="adminReportsBox">
-        লোড হচ্ছে...
-      </div>
+      <div style="background:#050e09;padding:15px;border-radius:14px;border:1px solid #1c3328;line-height:2;font-size:13px;" id="adminReportsBox">লোড হচ্ছে...</div>
     </div>
 
-    <!-- SETTINGS & DB TAB -->
     <div id="adPaneSettings" class="admin-card hidden">
       <h3>⚙️ System Settings, Telegram & Database Backup</h3>
       <div class="field" style="display:flex;align-items:center;gap:10px;">
@@ -404,18 +408,14 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE SETTINGS</button>
 
       <hr style="border-color:#1e3d2e;margin:20px 0;">
-      <h4>💾 Database Backup & Restore</h4>
-      <div style="display:flex;gap:10px;margin-top:10px;">
-        <button class="admin-btn admin-green" onclick="downloadDatabaseBackup()">Download JSON Backup</button>
-      </div>
+      <h4>💾 Database Backup</h4>
+      <button class="admin-btn admin-green" onclick="window.open('/api/admin/backup', '_blank')">Download JSON Backup</button>
     </div>
 
-    <!-- ACTIVITY LOGS TAB -->
     <div id="adPaneActivity" class="admin-card hidden">
       <h3>📜 Admin Activity History</h3>
       <div id="adminActivityListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
-
   </div>
 </section>
 
@@ -425,6 +425,11 @@ let currentUser = null;
 let watchId = null;
 let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000", welcomeBonus: 100, telegramToken: "", telegramChatId: "" };
 let globalAdminUsersCache = [];
+
+// Task Interactive Variables
+let activeTaskSession = null;
+let taskTimerInterval = null;
+let taskSecondsLeft = 10;
 
 function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
 function showMsg(id,text,type="error"){ const b=$(id); if(b){b.className="msg "+type; b.textContent=text; b.style.display="block";}}
@@ -676,14 +681,100 @@ function switchTab(tabName) {
   else if(tabName=='profile'){ $('paneProfile').classList.remove('hidden'); $('navProfile').className='nav-item active'; updateDisplayValues(); }
 }
 
+/* PROMO TASKS WITH SECURE COUNTDOWN & VISIBILITY CHECKS */
 async function loadPromoTasks() {
-  const r = await fetch("/api/promo/tasks"); const d = await r.json();
-  $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => `
-    <div class="task-item">
-      <div><h4>${t.title}</h4><small>Reward: ৳${t.reward}</small></div>
-      <a class="task-btn" href="${t.url}" target="_blank">Visit</a>
-    </div>
-  `).join("") || "<div class='admin-note'>টাস্ক নেই।</div>";
+  try {
+    const r = await fetch(`/api/promo/tasks?userId=${currentUser.id}`);
+    const d = await r.json();
+    $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => {
+      return `
+        <div class="task-item">
+          <div>
+            <h4>${t.title}</h4>
+            <small>টাস্ক পুরস্কার: <b>৳${t.reward}</b></small>
+          </div>
+          ${t.completed ? `<span class="badge">Completed</span>` : `<button class="task-btn" onclick="startPromoTask('${t.id}', '${t.title}', '${t.url}')">Visit Task</button>`}
+        </div>
+      `;
+    }).join("") || "<div class='admin-note'>কোনো টাস্ক নেই।</div>";
+  } catch(e) {
+    $("promoTasksListContainer").innerHTML = "<div class='admin-note'>টাস্ক লোড করতে সমস্যা হয়েছে।</div>";
+  }
+}
+
+function startPromoTask(taskId, title, url) {
+  window.open(url, "_blank");
+  activeTaskSession = { taskId, startTime: Date.now() };
+  taskSecondsLeft = 10;
+  
+  $("taskModalTitle").textContent = title;
+  $("taskCountdownDisplay").textContent = "00:10";
+  $("taskTimerErrorMsg").classList.add("hidden");
+  $("taskClaimBtn").disabled = true;
+  $("taskClaimBtn").style.opacity = "0.5";
+  $("taskTimerModal").classList.add("show");
+
+  if (taskTimerInterval) clearInterval(taskTimerInterval);
+  taskTimerInterval = setInterval(() => {
+    taskSecondsLeft--;
+    if (taskSecondsLeft >= 10) {
+      $("taskCountdownDisplay").textContent = `00:${taskSecondsLeft}`;
+    } else {
+      $("taskCountdownDisplay").textContent = `00:0${taskSecondsLeft}`;
+    }
+
+    if (taskSecondsLeft <= 0) {
+      clearInterval(taskTimerInterval);
+      $("taskCountdownDisplay").textContent = "00:00 - Verified!";
+      $("taskClaimBtn").disabled = false;
+      $("taskClaimBtn").style.opacity = "1";
+    }
+  }, 1000);
+}
+
+// Security: If user changes tab or minimizes window, fail task immediately
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && activeTaskSession) {
+    failTaskSession("মাঝপথে অন্য অ্যাপে বা ট্যাবে চলে যাওয়ার কারণে টাস্ক বাতিল হয়েছে!");
+  }
+});
+
+function failTaskSession(reason) {
+  if (!activeTaskSession) return;
+  if (taskTimerInterval) clearInterval(taskTimerInterval);
+  activeTaskSession = null;
+  $("taskTimerModal").classList.remove("show");
+  showMsg("taskViewMsg", reason, "error");
+}
+
+function cancelTaskSession() {
+  failTaskSession("টাস্ক বাতিল করা হয়েছে।");
+}
+
+async function verifyAndClaimTask() {
+  if (!activeTaskSession) return;
+  const session = activeTaskSession;
+  activeTaskSession = null;
+  if (taskTimerInterval) clearInterval(taskTimerInterval);
+  $("taskTimerModal").classList.remove("show");
+
+  try {
+    const r = await fetch("/api/promo/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, taskId: session.taskId, startTime: session.startTime })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "টাস্ক ভেরিফিকেশন ব্যর্থ হয়েছে।");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
+    showMsg("taskViewMsg", `🎉 অভিনন্দন! টাস্ক সফলভাবে সম্পন্ন হয়েছে এবং ৳${d.reward} আপনার ব্যালেন্সে যোগ হয়েছে।`, "success");
+    loadPromoTasks();
+  } catch (e) {
+    showMsg("taskViewMsg", e.message, "error");
+  }
 }
 
 async function loadTransactions() {
@@ -704,7 +795,7 @@ async function submitWithdraw() {
 function openNotificationModal() { alert("কোনো নতুন নোটিফিকেশন নেই।"); }
 function logout() { localStorage.clear(); location.reload(); }
 
-/* Advanced Master Admin Script */
+/* Admin Script */
 let tapC = 0;
 $('adminTapTarget').addEventListener('click', () => { tapC++; if(tapC >= 3) { tapC = 0; $("adminModal").classList.add("show"); } });
 $("adminLoginBtn").addEventListener('click', async () => {
@@ -742,7 +833,6 @@ async function loadAdminDashboardData() {
   $("adStatWithdraws").textContent = `৳${totalWd}`;
   $("adStatNet").textContent = `৳${totalDep - totalWd}`;
 
-  // Deposits
   $("adminDepositListContainer").innerHTML = d.deposits.map(dep => `
     <div class="record">
       <div class="record-top">
@@ -755,7 +845,6 @@ async function loadAdminDashboardData() {
     </div>
   `).join("") || "<div class='admin-note'>কোনো ডিপোজিট নেই।</div>";
 
-  // Withdraws
   $("adminWithdrawListContainer").innerHTML = d.withdrawals.map(w => `
     <div class="record">
       <div class="record-top">
@@ -768,7 +857,6 @@ async function loadAdminDashboardData() {
     </div>
   `).join("") || "<div class='admin-note'>কোনো উইথড্র নেই।</div>";
 
-  // Settings
   $("adminInvestEnabled").checked = d.settings.investEnabled !== false;
   $("adminMinInvest").value = d.settings.minInvest || 100;
   $("adminMaxInvest").value = d.settings.maxInvest || 50000;
@@ -797,7 +885,7 @@ function renderAdminUsers(users) {
             </div>
           </div>
           <div style="display:flex;gap:5px;flex-direction:column;">
-            <button class="admin-btn admin-green" onclick="adjustUserBalancePrompt('${u.id}', '${u.name}')">Adjust Bal</button>
+            <button class="admin-btn admin-green" onclick="adjustUserBalancePrompt('${u.id}', '${u.name}')">Adjust</button>
             <button class="admin-btn ${u.isBlocked ? 'admin-green' : 'admin-red'}" onclick="toggleBlockUser('${u.id}')">${u.isBlocked ? 'Unblock' : 'Block'}</button>
           </div>
         </div>
@@ -815,7 +903,7 @@ function filterAdminUsers() {
 async function adjustUserBalancePrompt(userId, userName) {
   const amt = prompt(`Adjust balance for ${userName}. Enter amount (+/- e.g. 500 or -200):`);
   if(!amt || isNaN(amt)) return;
-  const reason = prompt("Enter audit reason for balance adjustment:") || "Admin adjustment";
+  const reason = prompt("Enter audit reason:") || "Admin adjustment";
   const r = await fetch("/api/admin/user/adjust", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId, amount: Number(amt), reason}) });
   if(r.ok) { alert("Balance adjusted successfully!"); loadAdminDashboardData(); }
 }
@@ -870,11 +958,7 @@ async function loadAdminActivityLogs() {
     <div class="record">
       <div><b>${l.action}</b><br><small style="color:var(--muted)">${new Date(l.date).toLocaleString()} | IP: ${l.ip || 'Admin'}</small></div>
     </div>
-  `).join("") || "<div class='admin-note'>কোনো অ্যাক্টিভিটি লগ নেই।</div>";
-}
-
-function downloadDatabaseBackup() {
-  window.open("/api/admin/backup", "_blank");
+  `).join("") || "<div class='admin-note'>কোনো লগ নেই।</div>";
 }
 
 async function approveDeposit(depId) {
