@@ -7,7 +7,7 @@ require("dotenv").config();
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
-// Default FallbackWarning সহ Production Checks
+// Default Fallback Warning সহ Production Checks
 const ADMIN_PIN = String(process.env.ADMIN_PIN || "6123");
 const APP_SECRET = String(process.env.APP_SECRET || "change-this-secret-now");
 
@@ -33,7 +33,12 @@ function defaultDb() {
   return {
     registrations: [],
     usedNumbers: [], // ফোন নম্বর কখনো যেন রিপিট না হয় (Delete করলেও নয়)
-    settings: { telegramChatId: "", telegramBotTokenEncrypted: "" }
+    settings: { telegramChatId: "", telegramBotTokenEncrypted: "" },
+    tasks: [
+      { id: "task_1", title: "Daily Check-in", reward: 10, type: "daily" },
+      { id: "task_2", title: "Referral Bonus", reward: 50, type: "referral" },
+      { id: "task_3", title: "Visit Promo Link", reward: 20, type: "visit" }
+    ]
   };
 }
 
@@ -51,7 +56,8 @@ function loadDb() {
       settings: {
         telegramChatId: parsed.settings?.telegramChatId || "",
         telegramBotTokenEncrypted: parsed.settings?.telegramBotTokenEncrypted || ""
-      }
+      },
+      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : defaultDb().tasks
     };
   } catch {
     return defaultDb();
@@ -232,18 +238,20 @@ app.post("/api/register/start", (req, res) => {
       name,
       phone,
       age,
+      points: 100, // Welcome Bonus ৳100
       location: {
         latitude: lat,
         longitude: lon,
         accuracy: Number.isFinite(acc) ? acc : null,
         capturedAt: createdAt
       },
-      locationHistory: [{ // অনির্দিষ্টকালের জন্য Tracking Records জমার অ্যারে
+      locationHistory: [{
         latitude: lat,
         longitude: lon,
         accuracy: Number.isFinite(acc) ? acc : null,
         capturedAt: createdAt
       }],
+      completedTasks: [],
       paymentMethod: "",
       paymentNumber: "",
       status: "awaiting_payment",
@@ -279,9 +287,9 @@ app.post("/api/register/:id/location", (req, res) => {
       capturedAt
     };
 
-    row.location = locObj; // Update Latest Location
+    row.location = locObj;
     if (!Array.isArray(row.locationHistory)) row.locationHistory = [];
-    row.locationHistory.push(locObj); // Store Indefinitely
+    row.locationHistory.push(locObj);
     row.updatedAt = capturedAt;
 
     saveDb(db);
@@ -337,6 +345,64 @@ app.post("/api/register/:id/payment", (req, res) => {
     });
   });
 });
+
+// --- NEW TASK SYSTEM API ENDPOINTS ---
+
+// Get Available Tasks
+app.get("/api/tasks", (req, res) => {
+  const db = loadDb();
+  res.json({ tasks: db.tasks });
+});
+
+// Complete Task & Earn Reward
+app.post("/api/tasks/complete", (req, res) => {
+  withFileLock(async () => {
+    const registrationId = clean(req.body?.registrationId, 100);
+    const taskId = clean(req.body?.taskId, 50);
+
+    if (!registrationId || !taskId) {
+      return res.status(400).json({ error: "Invalid request parameters" });
+    }
+
+    const db = loadDb();
+    const user = db.registrations.find(r => r.id === registrationId);
+    if (!user) {
+      return res.status(404).json({ error: "Registration not found. Please register first." });
+    }
+
+    const task = db.tasks.find(t => t.id === taskId);
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    if (!Array.isArray(user.completedTasks)) user.completedTasks = [];
+    if (!Number.isFinite(user.points)) user.points = 100;
+
+    const today = new Date().toISOString().split("T")[0];
+
+    if (task.type === "daily") {
+      const alreadyDoneToday = user.completedTasks.some(ct => ct.taskId === taskId && ct.date === today);
+      if (alreadyDoneToday) {
+        return res.status(400).json({ error: "আজকের Daily Check-in ইতিমধ্যে সম্পন্ন হয়েছে।" });
+      }
+      user.completedTasks.push({ taskId, date: today });
+    } else {
+      const alreadyDone = user.completedTasks.some(ct => ct.taskId === taskId);
+      if (alreadyDone && task.type === "visit") {
+        return res.status(400).json({ error: "এই টাস্কটি আপনি ইতিমধ্যে সম্পন্ন করেছেন।" });
+      }
+      user.completedTasks.push({ taskId, date: today });
+    }
+
+    user.points += task.reward;
+    user.updatedAt = new Date().toISOString();
+
+    saveDb(db);
+    res.json({ ok: true, points: user.points, reward: task.reward });
+  });
+});
+
+// --- ADMIN ROUTES ---
 
 // Admin Login Route
 app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
