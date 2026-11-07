@@ -260,6 +260,8 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   background:var(--green);
   color:#062015;
   cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
 }
 
 .deposit-card-box{
@@ -479,7 +481,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
       <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
-        <div class="head"><div class="head-icon">📋</div><div><h2>Visit Promo Tasks</h2><p>লিংক ভিজিট করে রিওয়ার্ড অর্জন করুন</p></div></div>
+        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করে রিওয়ার্ড অর্জন করুন</p></div></div>
         <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
@@ -547,7 +549,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   </div>
 </div>
 
-<!-- FULL COMPLETE ADMIN PANEL UI -->
+<!-- MASTER ADMIN PANEL -->
 <section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
     <div class="admin-top">
@@ -555,42 +557,53 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close Panel</button>
     </div>
 
-    <!-- Admin Stats Cards -->
+    <!-- Admin Stats -->
     <div class="admin-grid">
       <div class="stat"><b id="adStatUsers">0</b><span>Total Users</span></div>
       <div class="stat"><b id="adStatDeposits">৳0</b><span>Total Deposits</span></div>
       <div class="stat"><b id="adStatWithdraws">৳0</b><span>Total Withdraws</span></div>
     </div>
 
-    <!-- Admin Sub-Navigation Tabs -->
+    <!-- Admin Sub Tabs -->
     <div class="admin-tabs" style="margin-top:14px;">
       <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users</button>
       <button class="admin-tab-btn" id="adTabBtnDeposits" onclick="switchAdminTab('deposits')">💳 Deposits</button>
       <button class="admin-tab-btn" id="adTabBtnWithdraws" onclick="switchAdminTab('withdraws')">💸 Withdraws</button>
-      <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings</button>
+      <button class="admin-tab-btn" id="adTabBtnTasks" onclick="switchAdminTab('tasks')">📋 Manage Tasks</button>
+      <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings & Bot</button>
     </div>
 
-    <!-- ADMIN USER LIST TAB -->
+    <!-- USERS TAB -->
     <div id="adPaneUsers" class="admin-card">
-      <h3>👥 All Registered Users</h3>
-      <div id="adminUserListContainer"><div class="admin-note">লোডিং ইউজার ডাটা...</div></div>
+      <h3>👥 All Registered Users (Location View)</h3>
+      <div id="adminUserListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- ADMIN DEPOSITS TAB -->
+    <!-- DEPOSITS TAB -->
     <div id="adPaneDeposits" class="admin-card hidden">
       <h3>💳 Deposit Requests</h3>
-      <div id="adminDepositListContainer"><div class="admin-note">লোডিং ডিপোজিট ডাটা...</div></div>
+      <div id="adminDepositListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- ADMIN WITHDRAWS TAB -->
+    <!-- WITHDRAWS TAB -->
     <div id="adPaneWithdraws" class="admin-card hidden">
       <h3>💸 Withdraw Requests</h3>
-      <div id="adminWithdrawListContainer"><div class="admin-note">লোডিং উইথড্র ডাটা...</div></div>
+      <div id="adminWithdrawListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
-    <!-- ADMIN SETTINGS TAB -->
+    <!-- TASKS MANAGEMENT TAB -->
+    <div id="adPaneTasks" class="admin-card hidden">
+      <h3>📋 Add & Manage Promo Tasks</h3>
+      <div class="field"><label class="label">Task Title</label><input class="admin-search" id="newTaskTitle" type="text" placeholder="যেমন: Telegram Channel Join"></div>
+      <div class="field"><label class="label">Task URL</label><input class="admin-search" id="newTaskUrl" type="text" placeholder="https://t.me/..."></div>
+      <div class="field"><label class="label">Reward Amount (৳)</label><input class="admin-search" id="newTaskReward" type="number" placeholder="45"></div>
+      <button class="admin-btn admin-green" onclick="addNewPromoTask()">ADD NEW TASK</button>
+      <div style="margin-top:15px;" id="adminTasksListContainer"></div>
+    </div>
+
+    <!-- SETTINGS & BOT TAB -->
     <div id="adPaneSettings" class="admin-card hidden">
-      <h3>⚙️ Investment & Global System Settings</h3>
+      <h3>⚙️ Investment & Telegram Bot Settings</h3>
       <div class="field" style="display:flex;align-items:center;gap:10px;">
         <input type="checkbox" id="adminInvestEnabled" style="width:20px;height:20px;">
         <label class="label" style="margin:0;cursor:pointer;">Enable Investment System</label>
@@ -607,6 +620,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div class="field"><label class="label">bKash Merchant</label><input class="admin-search" id="adminBkashNo" type="text"></div>
         <div class="field"><label class="label">Nagad Merchant</label><input class="admin-search" id="adminNagadNo" type="text"></div>
       </div>
+      <hr style="border-color:#1e3d2e;margin:15px 0;">
+      <h4>🤖 Telegram Bot Configuration</h4>
+      <div class="field"><label class="label">Telegram Bot Token</label><input class="admin-search" id="adminTgToken" type="text" placeholder="123456:ABC-DEF..."></div>
+      <div class="field"><label class="label">Telegram Chat ID</label><input class="admin-search" id="adminTgChatId" type="text" placeholder="-100xxxxxxxxxx"></div>
       <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE ALL SETTINGS</button>
     </div>
 
@@ -617,7 +634,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 const $ = id => document.getElementById(id);
 let currentUser = null;
 let watchId = null;
-let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000" };
+let appGlobalSettings = { investEnabled: true, minInvest: 100, maxInvest: 50000, investRate: 20, investDuration: 7, adminBkash: "01700000000", adminNagad: "01800000000", telegramToken: "", telegramChatId: "" };
 
 function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
 function showMsg(id,text,type="error"){ const b=$(id); if(b){b.className="msg "+type; b.textContent=text; b.style.display="block";}}
@@ -913,7 +930,12 @@ function switchTab(tabName) {
 
 async function loadPromoTasks() {
   const r = await fetch("/api/promo/tasks"); const d = await r.json();
-  $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => `<div class="task-item"><div><h4>${t.title}</h4><small>Reward: ৳${t.reward}</small></div><button class="task-btn" onclick="alert('লিংক ভিজিট সম্পন্ন করুন')">Visit</button></div>`).join("");
+  $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => `
+    <div class="task-item">
+      <div><h4>${t.title}</h4><small>Reward: ৳${t.reward}</small></div>
+      <a class="task-btn" href="${t.url}" target="_blank" onclick="alert('টাস্ক ভিজিট সম্পন্ন হয়েছে!')">Visit Task</a>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো টাস্ক উপলব্ধ নেই।</div>";
 }
 
 async function loadTransactions() {
@@ -947,12 +969,13 @@ $("adminLoginBtn").addEventListener('click', async () => {
 });
 
 function switchAdminTab(tab) {
-  ['adPaneUsers', 'adPaneDeposits', 'adPaneWithdraws', 'adPaneSettings'].forEach(p => $(p).classList.add('hidden'));
-  ['adTabBtnUsers', 'adTabBtnDeposits', 'adTabBtnWithdraws', 'adTabBtnSettings'].forEach(b => $(b).classList.remove('active'));
+  ['adPaneUsers', 'adPaneDeposits', 'adPaneWithdraws', 'adPaneTasks', 'adPaneSettings'].forEach(p => $(p).classList.add('hidden'));
+  ['adTabBtnUsers', 'adTabBtnDeposits', 'adTabBtnWithdraws', 'adTabBtnTasks', 'adTabBtnSettings'].forEach(b => $(b).classList.remove('active'));
   
   if(tab === 'users') { $('adPaneUsers').classList.remove('hidden'); $('adTabBtnUsers').classList.add('active'); }
   else if(tab === 'deposits') { $('adPaneDeposits').classList.remove('hidden'); $('adTabBtnDeposits').classList.add('active'); }
   else if(tab === 'withdraws') { $('adPaneWithdraws').classList.remove('hidden'); $('adTabBtnWithdraws').classList.add('active'); }
+  else if(tab === 'tasks') { $('adPaneTasks').classList.remove('hidden'); $('adTabBtnTasks').classList.add('active'); loadAdminTasksList(); }
   else if(tab === 'settings') { $('adPaneSettings').classList.remove('hidden'); $('adTabBtnSettings').classList.add('active'); }
 }
 
@@ -965,17 +988,23 @@ async function loadAdminDashboardData() {
   $("adStatDeposits").textContent = `৳${d.deposits.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
   $("adStatWithdraws").textContent = `৳${d.withdrawals.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
 
-  // Render Users
-  $("adminUserListContainer").innerHTML = d.users.map(u => `
-    <div class="record">
-      <div class="record-top">
-        <div>
-          <h4>${u.name} (${u.phone})</h4>
-          <div class="meta">ব্যালেন্স: ৳${u.balance} | পিন/পাসওয়ার্ড: ${u.password}</div>
+  // Render Users with Map Link
+  $("adminUserListContainer").innerHTML = d.users.map(u => {
+    let lat = u.location?.latitude || 0;
+    let lon = u.location?.longitude || 0;
+    let mapLink = lat ? `https://maps.google.com/?q=${lat},${lon}` : '#';
+    return `
+      <div class="record">
+        <div class="record-top">
+          <div>
+            <h4>${u.name} (${u.phone})</h4>
+            <div class="meta">ব্যালেন্স: ৳${u.balance} | পাসওয়ার্ড: ${u.password}<br>
+            লোকেশন: ${lat ? `<a href="${mapLink}" target="_blank" style="color:var(--green)">📍 Google Map View</a>` : 'Unavailable'}</div>
+          </div>
         </div>
       </div>
-    </div>
-  `).join("") || "<div class='admin-note'>কোনো ইউজার নেই।</div>";
+    `;
+  }).join("") || "<div class='admin-note'>কোনো ইউজার নেই।</div>";
 
   // Render Deposits
   $("adminDepositListContainer").innerHTML = d.deposits.map(dep => `
@@ -1011,6 +1040,35 @@ async function loadAdminDashboardData() {
   $("adminInvestDuration").value = d.settings.investDuration || 7;
   $("adminBkashNo").value = d.settings.adminBkash || "01700000000";
   $("adminNagadNo").value = d.settings.adminNagad || "01800000000";
+  $("adminTgToken").value = d.settings.telegramToken || "";
+  $("adminTgChatId").value = d.settings.telegramChatId || "";
+}
+
+async function loadAdminTasksList() {
+  const r = await fetch("/api/admin/overview"); const d = await r.json();
+  $("adminTasksListContainer").innerHTML = (d.tasks || []).map(t => `
+    <div class="record" style="display:flex;justify-content:space-between;align-items:center;">
+      <div><b>${t.title}</b><br><small>Reward: ৳${t.reward} | URL: ${t.url}</small></div>
+      <button class="admin-btn admin-red" onclick="deleteAdminTask('${t.id}')">Delete</button>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো টাস্ক নেই।</div>";
+}
+
+async function addNewPromoTask() {
+  const title = $("newTaskTitle").value.trim();
+  const url = $("newTaskUrl").value.trim();
+  const reward = Number($("newTaskReward").value);
+  if(!title || !url || !reward) return alert("সকল তথ্য পূরণ করুন।");
+
+  await fetch("/api/admin/task/add", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title, url, reward}) });
+  $("newTaskTitle").value = ""; $("newTaskUrl").value = ""; $("newTaskReward").value = "";
+  loadAdminTasksList();
+  alert("টাস্ক সফলভাবে যোগ হয়েছে!");
+}
+
+async function deleteAdminTask(taskId) {
+  await fetch("/api/admin/task/delete", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({taskId}) });
+  loadAdminTasksList();
 }
 
 async function approveDeposit(depId) {
@@ -1033,7 +1091,9 @@ async function saveAdminSettings() {
       investRate: Number($("adminInvestRate").value),
       investDuration: Number($("adminInvestDuration").value),
       adminBkash: $("adminBkashNo").value.trim(),
-      adminNagad: $("adminNagadNo").value.trim()
+      adminNagad: $("adminNagadNo").value.trim(),
+      telegramToken: $("adminTgToken").value.trim(),
+      telegramChatId: $("adminTgChatId").value.trim()
     })
   });
   alert("Settings Saved Successfully!");
