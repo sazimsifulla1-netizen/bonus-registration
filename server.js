@@ -30,7 +30,7 @@ function defaultDb() {
     usedTrxIds: [],
     promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45 }],
     settings: {
-      noticeText: "📢 Professional Investment System লাইভ হয়েছে!",
+      noticeText: "📢 Master Investment & Reward System live!",
       noticeActive: true,
       investEnabled: true,
       minInvest: 100,
@@ -175,7 +175,6 @@ app.post("/api/register/:id/payment", (req, res) => {
   });
 });
 
-// Deposit API with TrxID Protection
 app.post("/api/deposit", (req, res) => {
   withFileLock(async () => {
     const { userId, method, amount, trxId } = req.body;
@@ -194,7 +193,6 @@ app.post("/api/deposit", (req, res) => {
   });
 });
 
-// Premium Investment APIs
 app.post("/api/invest/create", (req, res) => {
   withFileLock(async () => {
     const { userId, amount } = req.body;
@@ -306,12 +304,51 @@ app.get("/api/promo/tasks", (req, res) => {
   res.json({ tasks: db.promoTasks });
 });
 
-// Admin APIs
+/* Master Admin APIs */
 app.post("/api/admin/login", (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) return res.status(401).json({ error: "Invalid PIN" });
   const token = signSession({ role: "admin", exp: Date.now() + 8*3600*1000 });
   res.setHeader("Set-Cookie", `admin_session=${token}; HttpOnly; Path=/; Max-Age=28800`);
   res.json({ ok: true });
+});
+
+app.get("/api/admin/overview", requireAdmin, (req, res) => {
+  const db = loadDb();
+  res.json({
+    ok: true,
+    users: db.registrations,
+    deposits: db.deposits,
+    withdrawals: db.withdrawals,
+    settings: db.settings
+  });
+});
+
+app.post("/api/admin/deposit/approve", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { depId } = req.body;
+    const db = loadDb();
+    const dep = db.deposits.find(d => d.id === depId);
+    if (dep && dep.status === "Pending") {
+      dep.status = "Approved";
+      const user = db.registrations.find(u => u.id === dep.userId);
+      if (user) user.balance += Number(dep.amount);
+      saveDb(db);
+    }
+    res.json({ ok: true });
+  });
+});
+
+app.post("/api/admin/withdraw/approve", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { wId } = req.body;
+    const db = loadDb();
+    const w = db.withdrawals.find(x => x.id === wId);
+    if (w && w.status === "Pending") {
+      w.status = "Approved";
+      saveDb(db);
+    }
+    res.json({ ok: true });
+  });
 });
 
 app.get("/api/admin/settings", requireAdmin, (req, res) => {
