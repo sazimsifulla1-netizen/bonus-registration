@@ -7,7 +7,6 @@ require("dotenv").config();
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
-// Default Fallback Warning সহ Production Checks
 const ADMIN_PIN = String(process.env.ADMIN_PIN || "6123");
 const APP_SECRET = String(process.env.APP_SECRET || "change-this-secret-now");
 
@@ -21,7 +20,6 @@ const DB_FILE = path.join(DATA_DIR, "db.json");
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
-// Concurrency Race-condition ঠেকানোর জন্য Async File Mutex Lock System
 let fileLockPromise = Promise.resolve();
 function withFileLock(operation) {
   const result = fileLockPromise.then(() => operation());
@@ -32,7 +30,7 @@ function withFileLock(operation) {
 function defaultDb() {
   return {
     registrations: [],
-    usedNumbers: [], // ফোন নম্বর কখনো যেন রিপিট না হয় (Delete করলেও নয়)
+    usedNumbers: [],
     settings: { telegramChatId: "", telegramBotTokenEncrypted: "" },
     tasks: [
       { id: "task_1", title: "Daily Check-in", reward: 10, type: "daily" },
@@ -147,7 +145,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// Global System Wide Unique Check (Phone/Payment Number)
 function isNumberUsed(db, num) {
   if (!num) return false;
   if (db.usedNumbers.includes(num)) return true;
@@ -178,7 +175,6 @@ async function sendTelegram(text) {
   }
 }
 
-// Admin Rate Limiter Lockout System
 const loginAttempts = new Map();
 function rateLimitAdminLogin(req, res, next) {
   const ip = req.ip || req.headers['x-forwarded-for'] || 'global';
@@ -195,7 +191,7 @@ function rateLimitAdminLogin(req, res, next) {
     fail: () => {
       record.count += 1;
       if (record.count >= 5) {
-        record.lockUntil = now + 15 * 60 * 1000; // 15 mins block
+        record.lockUntil = now + 15 * 60 * 1000;
         record.count = 0;
       }
       loginAttempts.set(ip, record);
@@ -238,7 +234,7 @@ app.post("/api/register/start", (req, res) => {
       name,
       phone,
       age,
-      points: 100, // Welcome Bonus ৳100
+      points: 100,
       location: {
         latitude: lat,
         longitude: lon,
@@ -264,7 +260,7 @@ app.post("/api/register/start", (req, res) => {
   });
 });
 
-// Live Location Stream Update API Endpoint
+// Live Location Stream Update API
 app.post("/api/register/:id/location", (req, res) => {
   withFileLock(async () => {
     const lat = Number(req.body?.location?.latitude);
@@ -311,7 +307,6 @@ app.post("/api/register/:id/payment", (req, res) => {
     }
 
     const db = loadDb();
-
     const row = db.registrations.find(r => r.id === req.params.id);
     if (!row) return res.status(404).json({ error: "রেজিস্ট্রেশন সেশন পাওয়া যায়নি। আবার চেষ্টা করুন।" });
 
@@ -346,15 +341,12 @@ app.post("/api/register/:id/payment", (req, res) => {
   });
 });
 
-// --- NEW TASK SYSTEM API ENDPOINTS ---
-
-// Get Available Tasks
+// Task System API
 app.get("/api/tasks", (req, res) => {
   const db = loadDb();
   res.json({ tasks: db.tasks });
 });
 
-// Complete Task & Earn Reward
 app.post("/api/tasks/complete", (req, res) => {
   withFileLock(async () => {
     const registrationId = clean(req.body?.registrationId, 100);
@@ -402,9 +394,7 @@ app.post("/api/tasks/complete", (req, res) => {
   });
 });
 
-// --- ADMIN ROUTES ---
-
-// Admin Login Route
+// Admin Routes
 app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) {
     req.adminRateLimit.fail();
@@ -474,7 +464,6 @@ app.post("/api/admin/settings", requireAdmin, (req, res) => {
   });
 });
 
-// Admin Telegram Test Endpoint
 app.post("/api/admin/telegram/test", requireAdmin, async (req, res) => {
   const result = await sendTelegram("🔔 Test Message: Telegram Integration Successfully Configured!");
   if (!result.ok) {
