@@ -30,6 +30,7 @@ function defaultDb() {
     usedTrxIds: [],
     auditLogs: [],
     activityLogs: [],
+    completedTasks: [], // Track user completed tasks to prevent double claiming
     promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45 }],
     settings: {
       noticeText: "📢 Advanced Master Investment & Reward System live!",
@@ -65,6 +66,7 @@ function loadDb() {
       usedTrxIds: Array.isArray(parsed.usedTrxIds) ? parsed.usedTrxIds : [],
       auditLogs: Array.isArray(parsed.auditLogs) ? parsed.auditLogs : [],
       activityLogs: Array.isArray(parsed.activityLogs) ? parsed.activityLogs : [],
+      completedTasks: Array.isArray(parsed.completedTasks) ? parsed.completedTasks : [],
       promoTasks: Array.isArray(parsed.promoTasks) ? parsed.promoTasks : defaultDb().promoTasks,
       settings: { ...defaultDb().settings, ...(parsed.settings || {}) }
     };
@@ -304,9 +306,50 @@ app.post("/api/withdraw", (req, res) => {
   });
 });
 
+/* SECURE PROMO TASKS ENDPOINTS WITH SERVER-SIDE TIME VALIDATION */
 app.get("/api/promo/tasks", (req, res) => {
   const db = loadDb();
-  res.json({ tasks: db.promoTasks });
+  const userId = req.query.userId;
+  const tasks = db.promoTasks.map(t => {
+    const completed = db.completedTasks.some(ct => ct.userId === userId && ct.taskId === t.id);
+    return { ...t, completed };
+  });
+  res.json({ tasks });
+});
+
+app.post("/api/promo/claim", (req, res) => {
+  withFileLock(async () => {
+    const { userId, taskId, startTime } = req.body;
+    const db = loadDb();
+    const user = db.registrations.find(r => r.id === userId);
+    const task = db.promoTasks.find(t => t.id === taskId);
+
+    if (!user || !task) return res.status(404).json({ error: "ইউজার বা টাস্ক পাওয়া যায়নি।" });
+
+    // Check if already claimed
+    const alreadyClaimed = db.completedTasks.some(ct => ct.userId === userId && ct.taskId === taskId);
+    if (alreadyClaimed) return res.status(400).json({ error: "এই টাস্কটি ইতিমধ্যে সম্পন্ন করা হয়েছে!" });
+
+    // Server-side time verification (must have elapsed at least 9.5 seconds)
+    const elapsedSeconds = (Date.now() - Number(startTime)) / 1000;
+    if (elapsedSeconds < 9.5) {
+      return res.status(400).json({ error: "টাস্কের সময়সীমা (১০ সেকেন্ড) পূর্ণ হয়নি! টাস্ক বাতিল।" });
+    }
+
+    // Mark task completed and reward user
+    db.completedTasks.push({ userId, taskId, date: new Date().toISOString() });
+    user.balance += Number(task.reward);
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId,
+      type: `Promo Task Reward (${task.title})`,
+      amount: Number(task.reward),
+      date: new Date().toISOString()
+    });
+
+    saveDb(db);
+    res.json({ ok: true, balance: user.balance, reward: task.reward });
+  });
 });
 
 /* Advanced Master Admin APIs */
@@ -352,7 +395,6 @@ app.post("/api/admin/withdraw/approve", requireAdmin, (req, res) => {
   });
 });
 
-// User Search, Block & Balance Adjustment with Audit Log
 app.post("/api/admin/user/toggle-block", requireAdmin, (req, res) => {
   withFileLock(async () => {
     const { userId } = req.body;
@@ -382,7 +424,6 @@ app.post("/api/admin/user/adjust", requireAdmin, (req, res) => {
   });
 });
 
-// Reports API (Daily & Monthly Calculations)
 app.get("/api/admin/reports", requireAdmin, (req, res) => {
   const db = loadDb();
   const now = new Date();
@@ -411,7 +452,6 @@ app.get("/api/admin/reports", requireAdmin, (req, res) => {
   res.json({ ok: true, dailyDeposit, dailyWithdraw, monthlyDeposit, monthlyWithdraw, totalUsers: db.registrations.length });
 });
 
-// Database Backup & Activity Logs
 app.get("/api/admin/backup", requireAdmin, (req, res) => {
   const db = loadDb();
   res.setHeader('Content-Type', 'application/json');
@@ -424,7 +464,6 @@ app.get("/api/admin/activity", requireAdmin, (req, res) => {
   res.json({ ok: true, logs: db.activityLogs });
 });
 
-// Task Management
 app.post("/api/admin/task/add", requireAdmin, (req, res) => {
   withFileLock(async () => {
     const { title, url, reward } = req.body;
