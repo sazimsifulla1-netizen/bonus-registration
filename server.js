@@ -31,11 +31,19 @@ function defaultDb() {
   return {
     registrations: [],
     usedNumbers: [],
+    usedTrxIds: [],
     withdrawals: [],
     investments: [],
+    deposits: [],
     transactions: [],
     notifications: [],
-    settings: { telegramChatId: "", telegramBotTokenEncrypted: "" },
+    settings: {
+      telegramChatId: "",
+      telegramBotTokenEncrypted: "",
+      adminBkash: "01700000000",
+      adminNagad: "01800000000",
+      depositEnabled: true
+    },
     tasks: [
       { id: "task_1", title: "Daily Check-in", description: "প্রতিদিন লগইন করে নিন ফ্রি রিওয়ার্ড", reward: 20, type: "daily" },
       { id: "task_2", title: "Visit Promo Link", description: "প্রোমো ওয়েবসাইট ভিজিট করুন", reward: 30, type: "visit" },
@@ -55,13 +63,18 @@ function loadDb() {
     return {
       registrations: Array.isArray(parsed.registrations) ? parsed.registrations : [],
       usedNumbers: Array.isArray(parsed.usedNumbers) ? parsed.usedNumbers : [],
+      usedTrxIds: Array.isArray(parsed.usedTrxIds) ? parsed.usedTrxIds : [],
       withdrawals: Array.isArray(parsed.withdrawals) ? parsed.withdrawals : [],
       investments: Array.isArray(parsed.investments) ? parsed.investments : [],
+      deposits: Array.isArray(parsed.deposits) ? parsed.deposits : [],
       transactions: Array.isArray(parsed.transactions) ? parsed.transactions : [],
       notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
       settings: {
         telegramChatId: parsed.settings?.telegramChatId || "",
-        telegramBotTokenEncrypted: parsed.settings?.telegramBotTokenEncrypted || ""
+        telegramBotTokenEncrypted: parsed.settings?.telegramBotTokenEncrypted || "",
+        adminBkash: parsed.settings?.adminBkash || "01700000000",
+        adminNagad: parsed.settings?.adminNagad || "01800000000",
+        depositEnabled: parsed.settings?.depositEnabled !== false
       },
       tasks: Array.isArray(parsed.tasks) ? parsed.tasks : defaultDb().tasks
     };
@@ -210,6 +223,19 @@ function rateLimitAdminLogin(req, res, next) {
 
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(path.join(__dirname, "public")));
+
+// Public Settings API for User Panel
+app.get("/api/settings", (req, res) => {
+  const db = loadDb();
+  res.json({
+    ok: true,
+    settings: {
+      adminBkash: db.settings.adminBkash,
+      adminNagad: db.settings.adminNagad,
+      depositEnabled: db.settings.depositEnabled
+    }
+  });
+});
 
 // 1. Register Start
 app.post("/api/register/start", (req, res) => {
@@ -371,7 +397,65 @@ app.post("/api/register/:id/payment", (req, res) => {
   });
 });
 
-// 5. Tasks & Reward System APIs
+// 5. Deposit System API
+app.post("/api/deposit", (req, res) => {
+  withFileLock(async () => {
+    const { userId, method, amount, trxId } = req.body;
+    const db = loadDb();
+
+    if (!db.settings.depositEnabled) {
+      return res.status(400).json({ error: "বর্তমানে ডিপোজিট সিস্টেম বন্ধ রয়েছে।" });
+    }
+
+    const user = db.registrations.find(r => r.id === userId);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const numAmount = Number(amount);
+    const cleanTrx = clean(trxId, 50).toUpperCase();
+
+    if (!Number.isFinite(numAmount) || numAmount < 100) {
+      return res.status(400).json({ error: "সর্বনিম্ন ডিপোজিট পরিমাণ ৳১০০ হতে হবে।" });
+    }
+    if (!cleanTrx || cleanTrx.length < 5) {
+      return res.status(400).json({ error: "সঠিক Transaction ID দিন।" });
+    }
+
+    // Rule 1: Prevent duplicate TrxID usage across the system
+    if (db.usedTrxIds.includes(cleanTrx) || db.deposits.some(d => d.trxId === cleanTrx)) {
+      return res.status(400).json({ error: "এই Transaction ID টি ইতিপূর্বে ব্যবহার করা হয়েছে! দ্বিতীয়বার ব্যবহার করা যাবে না।" });
+    }
+
+    db.usedTrxIds.push(cleanTrx);
+    const depositId = crypto.randomUUID();
+    const createdAt = new Date().toISOString();
+
+    db.deposits.unshift({
+      id: depositId,
+      userId,
+      userName: user.name,
+      userPhone: user.phone,
+      method,
+      amount: numAmount,
+      trxId: cleanTrx,
+      status: "Pending",
+      createdAt
+    });
+
+    db.transactions.unshift({
+      id: crypto.randomUUID(),
+      userId,
+      type: `Deposit (${method})`,
+      amount: numAmount,
+      status: "Pending",
+      date: createdAt
+    });
+
+    saveDb(db);
+    res.json({ ok: true });
+  });
+});
+
+// 6. Tasks & Reward System APIs
 app.get("/api/tasks", (req, res) => {
   const db = loadDb();
   res.json({ tasks: db.tasks });
@@ -411,7 +495,7 @@ app.post("/api/tasks/claim", (req, res) => {
   });
 });
 
-// 6. Withdraw & Investment System APIs
+// 7. Withdraw & Investment System APIs
 app.get("/api/transactions/:userId", (req, res) => {
   const db = loadDb();
   const txs = db.transactions.filter(t => t.userId === req.params.userId);
@@ -495,7 +579,7 @@ app.post("/api/invest", (req, res) => {
   });
 });
 
-// 7. Admin Control & Management APIs (Fully Updated)
+// 8. Admin Control & Management APIs
 app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
   if (String(req.body?.pin || "") !== ADMIN_PIN) {
     req.adminRateLimit.fail();
@@ -525,6 +609,7 @@ app.get("/api/admin/data", requireAdmin, (req, res) => {
     registrations: db.registrations,
     withdrawals: db.withdrawals,
     investments: db.investments,
+    deposits: db.deposits,
     total: db.registrations.length,
     bkashCount: db.registrations.filter(r => r.paymentMethod === "bKash").length,
     nagadCount: db.registrations.filter(r => r.paymentMethod === "Nagad").length
@@ -559,6 +644,38 @@ app.post("/api/admin/user/update-balance", requireAdmin, (req, res) => {
   });
 });
 
+// Admin Deposit Approval/Rejection API (Rule 4: Balance change record)
+app.post("/api/admin/deposit/update", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { depositId, status } = req.body; // status: Approved / Rejected
+    const db = loadDb();
+    const dep = db.deposits.find(d => d.id === depositId);
+    if (!dep) return res.status(404).json({ error: "Deposit request not found" });
+
+    if (dep.status === "Approved") {
+      return res.status(400).json({ error: "এই ডিপোজিট ইতিপূর্বে অনুমোদিত হয়েছে।" });
+    }
+
+    dep.status = status;
+    const user = db.registrations.find(r => r.id === dep.userId);
+
+    if (status === "Approved" && user) {
+      user.balance = (user.balance || 0) + dep.amount;
+      user.totalEarned = (user.totalEarned || 0) + dep.amount;
+
+      // Update matching transaction status in history
+      const tx = db.transactions.find(t => t.userId === dep.userId && t.type.includes("Deposit") && t.amount === dep.amount && t.status === "Pending");
+      if(tx) tx.status = "Success";
+    } else if (status === "Rejected" && user) {
+      const tx = db.transactions.find(t => t.userId === dep.userId && t.type.includes("Deposit") && t.amount === dep.amount && t.status === "Pending");
+      if(tx) tx.status = "Rejected";
+    }
+
+    saveDb(db);
+    res.json({ ok: true });
+  });
+});
+
 // Admin Withdraw Status Approval API
 app.post("/api/admin/withdraw/update", requireAdmin, (req, res) => {
   withFileLock(async () => {
@@ -568,6 +685,16 @@ app.post("/api/admin/withdraw/update", requireAdmin, (req, res) => {
     if (!wd) return res.status(404).json({ error: "Withdrawal request not found" });
 
     wd.status = status;
+    const user = db.registrations.find(r => r.id === wd.userId);
+    const tx = db.transactions.find(t => t.userId === wd.userId && t.type.includes("Withdraw") && t.amount === -wd.amount && t.status === "Pending");
+
+    if (status === "Rejected" && user) {
+      user.balance += wd.amount; // Refund balance if rejected
+      if(tx) tx.status = "Rejected";
+    } else if (status === "Approved" && tx) {
+      tx.status = "Success";
+    }
+
     saveDb(db);
     res.json({ ok: true });
   });
@@ -577,6 +704,9 @@ app.get("/api/admin/settings", requireAdmin, (req, res) => {
   const db = loadDb();
   res.json({
     telegramChatId: db.settings.telegramChatId || "",
+    adminBkash: db.settings.adminBkash || "01700000000",
+    adminNagad: db.settings.adminNagad || "01800000000",
+    depositEnabled: db.settings.depositEnabled !== false,
     hasTelegramBotToken: Boolean(db.settings.telegramBotTokenEncrypted)
   });
 });
@@ -586,8 +716,15 @@ app.post("/api/admin/settings", requireAdmin, (req, res) => {
     const db = loadDb();
     const chatId = clean(req.body?.telegramChatId, 100);
     const token = clean(req.body?.telegramBotToken, 300);
+    const adminBkash = clean(req.body?.adminBkash, 20);
+    const adminNagad = clean(req.body?.adminNagad, 20);
+    const depositEnabled = Boolean(req.body?.depositEnabled);
 
-    db.settings.telegramChatId = chatId;
+    if (chatId !== undefined) db.settings.telegramChatId = chatId;
+    if (adminBkash) db.settings.adminBkash = adminBkash;
+    if (adminNagad) db.settings.adminNagad = adminNagad;
+    db.settings.depositEnabled = depositEnabled;
+
     if (token) {
       db.settings.telegramBotTokenEncrypted = encryptSecret(token);
     }
