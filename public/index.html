@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>1x Bat 2027 Bonus & Tasks</title>
+<title>Bonus Registration – Professional V2</title>
 <style>
 :root{
   --bg:#020704;
@@ -25,7 +25,7 @@ html,body{
   color:var(--text);
   background:radial-gradient(circle at 50% -10%,#12452f 0,#04110b 35%,#010302 80%);
 }
-body{overflow-x:hidden;padding-bottom:50px}
+body{overflow-x:hidden;padding-bottom:70px}
 .page{
   width:100%;
   max-width:460px;
@@ -59,8 +59,10 @@ body{overflow-x:hidden;padding-bottom:50px}
 .top-badge{
   position:relative;
   overflow:hidden;
-  text-align:center;
-  padding:15px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 16px;
   margin-bottom:13px;
   border-radius:20px;
   border:1px solid rgba(255,211,77,.26);
@@ -69,18 +71,12 @@ body{overflow-x:hidden;padding-bottom:50px}
 }
 .brand{
   font-weight:1000;
-  font-size:20px;
+  font-size:18px;
   letter-spacing:.5px;
   color:#fff;
 }
 .brand span{color:var(--gold)}
-.brand-sub{
-  margin-top:5px;
-  font-size:11px;
-  letter-spacing:2.4px;
-  color:#bafbdd;
-  font-weight:900;
-}
+.top-icons{display:flex;gap:12px;font-size:18px;cursor:pointer;}
 .hero{
   position:relative;
   overflow:hidden;
@@ -92,74 +88,62 @@ body{overflow-x:hidden;padding-bottom:50px}
   box-shadow:0 26px 70px rgba(0,0,0,.42);
 }
 .gift{
-  width:70px;height:70px;
+  width:64px;height:64px;
   margin:auto;
   display:grid;place-items:center;
-  border-radius:23px;
-  font-size:36px;
+  border-radius:20px;
+  font-size:32px;
   background:linear-gradient(145deg,#ffd958,#e69b00);
   box-shadow:0 14px 35px rgba(255,193,31,.25);
 }
 .hero .welcome{
-  margin-top:14px;
-  letter-spacing:3px;
+  margin-top:12px;
+  letter-spacing:2px;
   font-size:11px;
   font-weight:900;
   color:#caffea;
 }
-.hero h1{margin:9px 0 4px;font-size:23px}
 .money{
   display:inline-block;
-  margin:10px 0 8px;
-  font-size:45px;
+  margin:8px 0;
+  font-size:42px;
   line-height:1;
   font-weight:1000;
   color:var(--gold);
 }
-.pay-mini{
+
+/* Bottom Navigation Bar for Professional V2 */
+.bottom-nav{
+  position:fixed;
+  bottom:0; left:50%;
+  transform:translateX(-50%);
+  width:100%; max-width:460px;
+  background:#05120b;
+  border-top:1px solid var(--line);
   display:flex;
-  justify-content:center;
-  gap:9px;
-  margin-top:16px;
+  justify-content:space-around;
+  padding:10px 4px;
+  z-index:50;
 }
-.pay-mini span{
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(1,8,5,.34);
-  border:1px solid rgba(255,255,255,.08);
-  font-size:12px;
-  font-weight:900;
-}
-.nav-tabs{
-  display:flex;
-  gap:8px;
-  margin-top:15px;
-  background:#07120d;
-  padding:6px;
-  border-radius:18px;
-  border:1px solid var(--line);
-}
-.nav-tab{
-  flex:1;
-  padding:10px 6px;
-  border:0;
-  border-radius:13px;
-  background:transparent;
+.nav-item{
+  background:none; border:0;
   color:var(--muted);
-  font-weight:900;
-  font-size:12px;
+  font-size:10px;
+  font-weight:bold;
+  text-align:center;
   cursor:pointer;
-  transition:.2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
 }
-.nav-tab.active{
-  background:linear-gradient(135deg,#12452f,#0b2d1e);
-  color:#fff;
-  border:1px solid rgba(27,224,146,.3);
-}
+.nav-item span.ico-nav{font-size:18px;}
+.nav-item.active{color:var(--green);}
+
 .card{
   margin-top:15px;
-  padding:22px 18px;
-  border-radius:29px;
+  padding:20px 16px;
+  border-radius:26px;
   background:linear-gradient(180deg,rgba(12,27,19,.98),rgba(4,12,8,.98));
   border:1px solid var(--line);
   box-shadow:0 25px 65px rgba(0,0,0,.38);
@@ -168,18 +152,18 @@ body{overflow-x:hidden;padding-bottom:50px}
   display:flex;
   align-items:center;
   gap:12px;
-  margin-bottom:19px;
+  margin-bottom:15px;
 }
 .head-icon{
-  width:48px;height:48px;
+  width:42px;height:42px;
   display:grid;place-items:center;
-  border-radius:16px;
-  font-size:23px;
+  border-radius:14px;
+  font-size:20px;
   background:linear-gradient(145deg,#123d2b,#0b251a);
   border:1px solid #295c43;
 }
-.head h2{margin:0;font-size:20px}
-.head p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.head h2{margin:0;font-size:18px}
+.head p{margin:2px 0 0;color:var(--muted);font-size:11px}
 .msg{
   display:none;
   padding:12px 13px;
@@ -203,18 +187,18 @@ body{overflow-x:hidden;padding-bottom:50px}
   position:absolute;
   left:15px;top:50%;
   transform:translateY(-50%);
-  font-size:20px;
+  font-size:18px;
 }
 input, select{
   width:100%;
-  height:56px;
-  padding:0 14px 0 49px;
-  border-radius:17px;
+  height:52px;
+  padding:0 14px 0 46px;
+  border-radius:15px;
   border:1px solid #294338;
   background:#06100b;
   color:#fff;
   outline:none;
-  font-size:15px;
+  font-size:14px;
 }
 input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27,224,146,.08)}
 .hint{margin:-4px 3px 14px;color:#86a494;font-size:10px;line-height:1.5}
@@ -222,16 +206,16 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   position:relative;
   overflow:hidden;
   width:100%;
-  height:64px;
+  height:58px;
   margin-top:8px;
   border:0;
-  border-radius:19px;
+  border-radius:17px;
   cursor:pointer;
   color:#062115;
   background:linear-gradient(135deg,#f8d650 0%,#ffc52b 42%,#24e79f 100%);
   box-shadow:0 15px 36px rgba(24,205,137,.2);
   font-weight:1000;
-  font-size:17px;
+  font-size:16px;
 }
 .allow-btn:disabled{filter:saturate(.45);cursor:not-allowed}
 .btn-inner{
@@ -242,88 +226,30 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   justify-content:center;
   gap:10px;
 }
-.coin-stack{position:relative;width:34px;height:32px}
-.coin{
-  position:absolute;
-  width:21px;height:21px;
-  border-radius:50%;
-  display:grid;place-items:center;
-  font-size:12px;
-  font-weight:1000;
-  background:linear-gradient(145deg,#fff4a4,#ffb800);
-  border:2px solid #f2a700;
-  color:#785000;
-}
-.coin.c1{left:0;bottom:0}
-.coin.c2{left:12px;bottom:5px}
-.coin.c3{left:6px;bottom:12px}
-.note{margin-top:13px;text-align:center;color:#82988c;font-size:10px;line-height:1.55}
-.check{
-  width:64px;height:64px;
-  margin:auto;
-  display:grid;place-items:center;
-  border-radius:21px;
-  font-size:30px;
-  background:#0e3827;
-  border:1px solid #2e7455;
-}
-.payment-title h2{margin:12px 0 5px}
-.payment-title p{margin:0;color:var(--muted);font-size:12px}
-.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
-.pay-option input{display:none}
-.pay-card{
-  height:96px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  border-radius:19px;
-  background:#07110c;
-  border:2px solid #2c4137;
-  cursor:pointer;
-}
-.pay-option input:checked + .pay-card{
-  border-color:var(--green);
-  background:#0c2b1e;
-}
-.pay-icon{font-size:27px}
-.success-box{text-align:center;padding:20px 5px}
-.success-icon{
-  width:84px;height:84px;
-  margin:auto;
-  border-radius:50%;
-  display:grid;place-items:center;
-  font-size:42px;
-  background:linear-gradient(145deg,#0f402c,#0a2a1d);
-  border:1px solid #2d7656;
-}
-.success-box h2{margin:15px 0 7px}
-.success-box p{color:#9eb0a7;font-size:13px;line-height:1.65}
-.task-item, .plan-item{
+.task-item, .plan-item, .tx-item{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:15px;
-  margin-bottom:12px;
-  border-radius:16px;
+  padding:14px;
+  margin-bottom:10px;
+  border-radius:15px;
   background:#06110b;
   border:1px solid #20392d;
 }
-.task-info h4{margin:0 0 4px;font-size:15px}
+.task-info h4{margin:0 0 3px;font-size:14px}
 .task-info p{margin:0;color:var(--muted);font-size:11px}
 .task-btn{
   padding:8px 14px;
   border-radius:10px;
   font-weight:900;
-  font-size:12px;
+  font-size:11px;
   border:0;
   background:var(--green);
   color:#062015;
   cursor:pointer;
 }
 
-/* ADMIN */
+/* ADMIN PANEL STYLES */
 .admin-modal,.admin-panel{display:none}
 .admin-modal{
   position:fixed;inset:0;z-index:100;
@@ -342,7 +268,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 .admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
 .admin-actions{display:flex;gap:9px}
 .admin-secondary{
-  width:100%;height:52px;border-radius:15px;
+  width:100%;height:50px;border-radius:14px;
   border:1px solid #33483e;background:#111b16;
   color:#fff;font-weight:900;cursor:pointer;
 }
@@ -361,7 +287,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 .admin-top small{color:var(--muted)}
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 .stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
-.stat b{display:block;font-size:24px;color:#fff}
+.stat b{display:block;font-size:22px;color:#fff}
 .stat span{font-size:10px;color:var(--muted)}
 .admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
 .admin-card h3{margin:0 0 12px}
@@ -400,42 +326,31 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   <div class="content">
 
     <section class="top-badge">
-      <div class="brand">1x Bat <span>2027 BONUS</span></div>
-      <div class="brand-sub">LIMITED WELCOME REWARD</div>
+      <div class="brand">1x Bat <span>V2 BONUS</span></div>
+      <div class="top-icons">
+        <span onclick="openNotificationModal()" title="Notifications">🔔</span>
+        <span id="adminTapTarget" title="Admin Secret" style="cursor:pointer;">🛡️</span>
+      </div>
     </section>
 
-    <!-- App Hero Section with Persistent Balance -->
+    <!-- Professional V2 Hero Section -->
     <section class="hero">
       <div class="gift">🎁</div>
-      <div class="welcome" id="adminTapTarget" style="cursor:pointer;user-select:none">WELCOME BONUS</div>
-      <h1>একাউন্ট খুললেই পাচ্ছেন</h1>
+      <div class="welcome" id="heroWelcomeTitle">WELCOME BONUS</div>
       <div class="money" id="displayBalance">৳100</div>
-      <p id="heroSubText">রেজিস্ট্রেশন সম্পন্ন করে আপনার পছন্দের মাধ্যমে গ্রহণ করুন</p>
-      
-      <div class="pay-mini">
-        <span>📱 bKash</span>
-        <span>💳 Nagad</span>
-      </div>
-
-      <!-- Navigation Tabs (Only visible after login/registration) -->
-      <div class="nav-tabs hidden" id="appNavTabs">
-        <button class="nav-tab active" id="tabHomeBtn" onclick="switchTab('home')">🏠 Home</button>
-        <button class="nav-tab" id="tabTasksBtn" onclick="switchTab('tasks')">📋 Tasks</button>
-        <button class="nav-tab" id="tabInvestBtn" onclick="switchTab('invest')">📈 Invest</button>
-        <button class="nav-tab" id="tabWithdrawBtn" onclick="switchTab('withdraw')">💸 Withdraw</button>
-      </div>
+      <p id="heroSubText" style="color:var(--muted);font-size:12px;">নিরাপদ রিওয়ার্ড এবং টাস্ক সিস্টেম</p>
     </section>
 
     <!-- AUTH & REGISTRATION VIEW -->
     <div id="authView">
       
-      <!-- LOGIN / REGISTER TOGGLE CARD -->
+      <!-- LOGIN CARD -->
       <div class="card" id="loginCard" style="display:none;">
         <div class="head">
           <div class="head-icon">🔑</div>
           <div>
-            <h2>একাউন্ট লগইন</h2>
-            <p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিয়ে প্রবেশ করুন</p>
+            <h2>অ্যাকাউন্ট লগইন</h2>
+            <p>আপনার মোবাইল নাম্বার ও পাসওয়ার্ড দিন</p>
           </div>
         </div>
         <div class="msg" id="loginMsg"></div>
@@ -453,11 +368,11 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
             <input id="loginPassword" type="password" placeholder="পাসওয়ার্ড লিখুন">
           </div>
         </div>
-        <button class="allow-btn" id="loginBtn" onclick="handleLogin()">
+        <button class="allow-btn" onclick="handleLogin()">
           <span class="btn-inner"><span>LOGIN →</span></span>
         </button>
         <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(false)">
-          নতুন একাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন
+          নতুন অ্যাকাউন্ট খুলতে চান? রেজিস্ট্রেশন করুন
         </div>
       </div>
 
@@ -466,8 +381,8 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         <div class="head">
           <div class="head-icon">👤</div>
           <div>
-            <h2>নতুন একাউন্ট</h2>
-            <p>নিচের তথ্যগুলো সঠিকভাবে পূরণ করুন</p>
+            <h2>নতুন অ্যাকাউন্ট</h2>
+            <p>সঠিক তথ্য দিয়ে ফর্ম পূরণ করুন</p>
           </div>
         </div>
 
@@ -497,7 +412,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           </div>
         </div>
 
-        <div class="hint">✓ একটি ফোন নাম্বার দিয়ে শুধু একবার রেজিস্ট্রেশন করা যাবে</div>
+        <div class="hint">✓ একটি ফোন নাম্বার দিয়ে একবারই রেজিস্ট্রেশন করা যাবে</div>
 
         <div class="field">
           <label class="label">বয়স</label>
@@ -509,45 +424,34 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
         <button class="allow-btn" id="allowBtn">
           <span class="btn-inner">
-            <span class="coin-stack">
-              <span class="coin c1">৳</span>
-              <span class="coin c2">৳</span>
-              <span class="coin c3">৳</span>
-            </span>
+            <span class="coin-stack" style="font-size:14px;">💰</span>
             <span id="allowText">ALLOW LOCATION & REGISTER →</span>
           </span>
         </button>
 
         <div class="note" style="cursor:pointer;color:var(--green);margin-top:12px;" onclick="toggleAuthMode(true)">
-          ইতিমধ্যে একাউন্ট আছে? লগইন করুন
+          ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন
         </div>
       </section>
 
       <!-- REGISTRATION STEP 2 (Payment Method) -->
       <section class="card" id="paymentStep" style="display:none;">
-        <div class="payment-title">
-          <div class="check">✓</div>
-          <h2>লোকেশন যাচাই সফল</h2>
-          <p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p>
+        <div class="head">
+          <div class="head-icon">💳</div>
+          <div>
+            <h2>পেমেন্ট মেথড</h2>
+            <p>৳100 বোনাস গ্রহণের মাধ্যম নির্বাচন করুন</p>
+          </div>
         </div>
 
         <div class="msg" id="paymentMsg"></div>
 
-        <div class="pay-grid">
-          <label class="pay-option">
-            <input type="radio" name="payment" value="bKash">
-            <span class="pay-card">
-              <span class="pay-icon">📱</span>
-              <strong>bKash</strong>
-            </span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
+            <input type="radio" name="payment" value="bKash" checked> 📱 bKash
           </label>
-
-          <label class="pay-option">
-            <input type="radio" name="payment" value="Nagad">
-            <span class="pay-card">
-              <span class="pay-icon">💳</span>
-              <strong>Nagad</strong>
-            </span>
+          <label style="border:1px solid var(--line);padding:14px;border-radius:14px;text-align:center;cursor:pointer;background:#06100b;">
+            <input type="radio" name="payment" value="Nagad"> 💳 Nagad
           </label>
         </div>
 
@@ -560,42 +464,52 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         </div>
 
         <button class="allow-btn" id="confirmBtn" onclick="submitPayment()">
-          <span class="btn-inner">
-            <span class="coin-stack">
-              <span class="coin c1">৳</span>
-              <span class="coin c2">৳</span>
-              <span class="coin c3">৳</span>
-            </span>
-            <span>CONFIRM BONUS →</span>
-          </span>
+          <span class="btn-inner"><span>CONFIRM & GET BONUS →</span></span>
         </button>
       </section>
 
       <!-- SUCCESS STEP -->
-      <section class="card" id="successStep" style="display:none;">
-        <div class="success-box">
-          <div class="success-icon">✓</div>
-          <h2>Registration Successful</h2>
-          <p>
-            আপনার তথ্য এবং লাইভ লোকেশন সংরক্ষিত হয়েছে।<br>
-            এখন আপনি ড্যাশবোর্ড থেকে টাস্ক এবং ইনভেস্ট করতে পারবেন।
-          </p>
-          <button class="allow-btn" style="margin-top:20px;" onclick="enterDashboard()">DASHBOARD এ যান →</button>
-        </div>
+      <section class="card" id="successStep" style="display:none;text-align:center;">
+        <div style="font-size:50px;margin-bottom:10px;">🎉</div>
+        <h2>রেজিস্ট্রেশন সফল!</h2>
+        <p style="color:var(--muted);font-size:12px;margin:10px 0 20px;">আপনার অ্যাকাউন্ট ভেরিফাই হয়েছে এবং লাইভ লোকেশন সংরক্ষিত হয়েছে।</p>
+        <button class="allow-btn" onclick="enterDashboard()">DASHBOARD এ যান →</button>
       </section>
 
     </div>
 
-    <!-- MAIN DASHBOARD TABS VIEW (Hidden initially until logged in) -->
+    <!-- MAIN DASHBOARD SECTIONS (Tabs) -->
     <div id="dashboardView" class="hidden">
       
+      <!-- HOME TAB -->
+      <div id="paneHome" class="card">
+        <div class="head">
+          <div class="head-icon">📊</div>
+          <div>
+            <h2>অ্যাকাউন্ট ওভারভিউ</h2>
+            <p>আপনার ব্যালেন্স এবং আর্নিং সামারি</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px;">
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
+            <small style="color:var(--muted)">Total Earned</small>
+            <b id="dashTotalEarned" style="display:block;font-size:18px;color:var(--gold);margin-top:4px;">৳100</b>
+          </div>
+          <div style="background:#05120b;padding:14px;border-radius:14px;border:1px solid var(--line);">
+            <small style="color:var(--muted)">Active Status</small>
+            <b style="display:block;font-size:14px;color:var(--green);margin-top:4px;">Verified ✅</b>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">নিচের মেনু থেকে Tasks, Invest বা Withdraw অপশন ব্যবহার করে আপনার রিওয়ার্ড ম্যানেজ করুন।</p>
+      </div>
+
       <!-- TASKS TAB -->
-      <div id="paneTasks" class="card">
+      <div id="paneTasks" class="card hidden">
         <div class="head">
           <div class="head-icon">📋</div>
           <div>
-            <h2>Daily Tasks & Rewards</h2>
-            <p>টাস্ক কমপ্লিট করে আপনার ব্যালেন্স বাড়ান</p>
+            <h2>Daily & Promo Tasks</h2>
+            <p>টাস্ক সম্পন্ন করে অতিরিক্ত পয়েন্ট অর্জন করুন</p>
           </div>
         </div>
         <div class="msg" id="taskMsg"></div>
@@ -672,17 +586,79 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
         </button>
       </div>
 
-      <button class="allow-btn" style="background:#3a1418;color:#ff8e99;margin-top:20px;" onclick="logout()">LOGOUT</button>
+      <!-- WALLET / HISTORY TAB -->
+      <div id="paneWallet" class="card hidden">
+        <div class="head">
+          <div class="head-icon">📜</div>
+          <div>
+            <h2>Transaction History</h2>
+            <p>আপনার সমস্ত লেনদেন এবং উইথড্র স্ট্যাটাস</p>
+          </div>
+        </div>
+        <div id="transactionListContainer">
+          <div class="admin-note">হিস্ট্রি লোড হচ্ছে...</div>
+        </div>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div id="paneProfile" class="card hidden">
+        <div class="head">
+          <div class="head-icon">⚙️</div>
+          <div>
+            <h2>User Profile</h2>
+            <p>অ্যাকাউন্ট ইনফরমেশন এবং সেটিংস</p>
+          </div>
+        </div>
+        <div style="font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:15px;" id="profileDetails">
+          লোডিং...
+        </div>
+        <button class="allow-btn" style="background:#3a1418;color:#ff8e99;" onclick="logout()">LOGOUT</button>
+      </div>
+
     </div>
 
   </div>
 </main>
 
+<!-- BOTTOM NAVIGATION BAR -->
+<nav class="bottom-nav hidden" id="bottomNavBar">
+  <button class="nav-item active" id="navHome" onclick="switchTab('home')">
+    <span class="ico-nav">🏠</span>Home
+  </button>
+  <button class="nav-item" id="navTasks" onclick="switchTab('tasks')">
+    <span class="ico-nav">📋</span>Tasks
+  </button>
+  <button class="nav-item" id="navInvest" onclick="switchTab('invest')">
+    <span class="ico-nav">📈</span>Invest
+  </button>
+  <button class="nav-item" id="navWithdraw" onclick="switchTab('withdraw')">
+    <span class="ico-nav">💸</span>Withdraw
+  </button>
+  <button class="nav-item" id="navWallet" onclick="switchTab('wallet')">
+    <span class="ico-nav">📜</span>Wallet
+  </button>
+  <button class="nav-item" id="navProfile" onclick="switchTab('profile')">
+    <span class="ico-nav">👤</span>Profile
+  </button>
+</nav>
+
+<!-- NOTIFICATION MODAL -->
+<div class="admin-modal" id="notificationModal">
+  <div class="admin-login">
+    <h3>🔔 Notifications</h3>
+    <p style="margin-bottom:12px;">আপনার সাম্প্রতিক আপডেটসমূহ</p>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:15px;" id="notificationContent">
+      কোনো নতুন নোটিফিকেশন নেই। স্বাগত Bonus V2 অ্যাপে!
+    </div>
+    <button class="allow-btn" style="height:46px;margin:0;" onclick="$('notificationModal').classList.remove('show')">CLOSE</button>
+  </div>
+</div>
+
 <!-- ADMIN LOGIN MODAL -->
 <div class="admin-modal" id="adminModal">
   <div class="admin-login">
     <h3>🔐 Admin Access</h3>
-    <p>WELCOME BONUS-এ ৫ বার ট্যাপ করলে এই PIN screen আসে</p>
+    <p>উপরে 🛡️ আইকনে ট্যাপ করে পিন দিয়ে প্রবেশ করুন</p>
     <div class="msg" id="adminPinMsg"></div>
     <div class="field">
       <label class="label">Admin PIN</label>
@@ -693,7 +669,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     </div>
     <div class="admin-actions">
       <button class="admin-secondary" id="adminCancel">CANCEL</button>
-      <button class="allow-btn" id="adminLoginBtn" style="height:52px;margin:0">LOGIN</button>
+      <button class="allow-btn" id="adminLoginBtn" style="height:50px;margin:0">LOGIN</button>
     </div>
   </div>
 </div>
@@ -703,8 +679,8 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   <div class="admin-shell">
     <div class="admin-top">
       <div>
-        <h2>🛡️ Bonus Admin Panel</h2>
-        <small>1x Bat 2027 Control Center</small>
+        <h2>🛡️ Professional V2 Admin</h2>
+        <small>Control Center</small>
       </div>
       <button class="admin-btn admin-dark" id="adminLogout">Logout</button>
     </div>
@@ -764,29 +740,15 @@ function clearMsg(id){
   $(id).style.display="none";
 }
 
-function confetti(){
-  const pieces=["💰","🪙","✨","💸"];
-  for(let i=0;i<18;i++){
-    const e=document.createElement("div");
-    e.className="confetti";
-    e.textContent=pieces[Math.floor(Math.random()*pieces.length)];
-    e.style.left=(Math.random()*94)+"vw";
-    e.style.top=(-20-Math.random()*90)+"px";
-    e.style.animationDelay=(Math.random()*.35)+"s";
-    document.body.appendChild(e);
-    setTimeout(()=>e.remove(),2100);
-  }
-}
-
-// Persistent Auto-Login Check on Startup
+// Persistent Session Check on Startup
 document.addEventListener("DOMContentLoaded", () => {
-  const savedUser = localStorage.getItem("app_user_data");
+  const savedUser = localStorage.getItem("v2_user_data");
   if (savedUser) {
     try {
       currentUser = JSON.parse(savedUser);
       fetchUserDataQuietly();
     } catch {
-      localStorage.removeItem("app_user_data");
+      localStorage.removeItem("v2_user_data");
     }
   }
 });
@@ -798,17 +760,16 @@ async function fetchUserDataQuietly() {
     const d = await r.json();
     if (d.ok) {
       currentUser = d.user;
-      localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+      localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
       enterDashboardDirectly();
     } else {
-      localStorage.removeItem("app_user_data");
+      localStorage.removeItem("v2_user_data");
     }
   } catch (err) {
     console.error("Session sync failed", err);
   }
 }
 
-// Toggle between Register and Login screens
 function toggleAuthMode(isLogin) {
   if (isLogin) {
     $("registerStep").style.display = "none";
@@ -837,14 +798,14 @@ async function handleLogin() {
     if (!r.ok) throw new Error(d.error || "লগইন ব্যর্থ হয়েছে।");
 
     currentUser = d.user;
-    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
     enterDashboardDirectly();
   } catch (e) {
     showMsg("loginMsg", e.message);
   }
 }
 
-// Live Location Tracking implementation
+// Live GPS Tracking
 function startLiveLocationTracking(userId) {
   if (!navigator.geolocation) return;
   if (watchId !== null) navigator.geolocation.clearWatch(watchId);
@@ -872,7 +833,6 @@ function startLiveLocationTracking(userId) {
   );
 }
 
-// Register Step 1: Location & Form Start
 $("allowBtn").addEventListener("click", () => {
   clearMsg("formMsg");
 
@@ -922,12 +882,11 @@ $("allowBtn").addEventListener("click", () => {
         if (!r.ok) throw new Error(d.error || "রেজিস্ট্রেশন সম্ভব হচ্ছে না।");
 
         currentUser = d.user;
-        localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+        localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
         startLiveLocationTracking(currentUser.id);
 
         $("registerStep").style.display = "none";
         $("paymentStep").style.display = "block";
-        confetti();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (e) {
         $("allowBtn").disabled = false;
@@ -944,13 +903,12 @@ $("allowBtn").addEventListener("click", () => {
   );
 });
 
-// Register Step 2: Payment Method Confirm
 async function submitPayment() {
   clearMsg("paymentMsg");
-  const method = document.querySelector('input[name="payment"]:checked');
+  const methodEl = document.querySelector('input[name="payment"]:checked');
   const wallet = $("walletNumber").value.trim();
 
-  if (!method) return showMsg("paymentMsg", "bKash অথবা Nagad নির্বাচন করুন।");
+  if (!methodEl) return showMsg("paymentMsg", "পেমেন্ট মাধ্যম নির্বাচন করুন।");
   if (!validPhone(wallet)) return showMsg("paymentMsg", "সঠিক bKash/Nagad নাম্বার লিখুন।");
   if (!currentUser) return showMsg("paymentMsg", "সেশন পাওয়া যায়নি।");
 
@@ -961,7 +919,7 @@ async function submitPayment() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        paymentMethod: method.value,
+        paymentMethod: methodEl.value,
         paymentNumber: wallet
       })
     });
@@ -970,11 +928,10 @@ async function submitPayment() {
     if (!r.ok) throw new Error(d.error || "Save failed");
 
     currentUser = d.user;
-    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
 
     $("paymentStep").style.display = "none";
     $("successStep").style.display = "block";
-    confetti();
     window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (e) {
     $("confirmBtn").disabled = false;
@@ -989,41 +946,59 @@ function enterDashboard() {
 function enterDashboardDirectly() {
   $("authView").style.display = "none";
   $("dashboardView").classList.remove("hidden");
-  $("appNavTabs").classList.remove("hidden");
+  $("bottomNavBar").classList.remove("hidden");
   
-  updateDisplayBalance();
+  updateDisplayValues();
   startLiveLocationTracking(currentUser.id);
-  loadTasks();
-  switchTab('tasks');
+  switchTab('home');
 }
 
-function updateDisplayBalance() {
+function updateDisplayValues() {
   if (currentUser) {
     $("displayBalance").textContent = `৳${currentUser.balance || 0}`;
-    $("heroSubTest").textContent = `স্বাগতম, ${currentUser.name}! আপনার ড্যাশবোর্ড`;
+    $("dashTotalEarned").textContent = `৳${currentUser.totalEarned || currentUser.balance || 100}`;
+    $("heroWelcomeTitle").textContent = `WELCOME, ${currentUser.name.toUpperCase()}`;
+    
+    $("profileDetails").innerHTML = `
+      <b>নাম:</b> ${esc(currentUser.name)}<br>
+      <b>ফোন:</b> ${esc(currentUser.phone)}<br>
+      <b>বয়স:</b> ${esc(currentUser.age)}<br>
+      <b>পেমেন্ট মাধ্যম:</b> ${esc(currentUser.paymentMethod || "N/A")} (${esc(currentUser.paymentNumber || "N/A")})<br>
+      <b>রেফারেল কোড:</b> ${esc(currentUser.referralCode || "REF12345")}<br>
+      <b>অ্যাকাউন্ট স্ট্যাটাস:</b> Active & Verified ✅
+    `;
   }
 }
 
-// Navigation Tab Switcher inside Dashboard
+// Navigation Tabs Switcher
 function switchTab(tabName) {
-  $("paneTasks").classList.add("hidden");
-  $("paneInvest").classList.add("hidden");
-  $("paneWithdraw").classList.add("hidden");
+  const panes = ['paneHome', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
+  panes.forEach(p => $(p).classList.add('hidden'));
 
-  $("tabTasksBtn").className = "nav-tab";
-  $("tabInvestBtn").className = "nav-tab";
-  $("tabWithdrawBtn").className = "nav-tab";
+  const navs = ['navHome', 'navTasks', 'navInvest', 'navWithdraw', 'navWallet', 'navProfile'];
+  navs.forEach(n => $(n).className = 'nav-item');
 
-  if (tabName === 'tasks') {
-    $("paneTasks").classList.remove("hidden");
-    $("tabTasksBtn").className = "nav-tab active";
+  if (tabName === 'home') {
+    $('paneHome').classList.remove('hidden');
+    $('navHome').className = 'nav-item active';
+  } else if (tabName === 'tasks') {
+    $('paneTasks').classList.remove('hidden');
+    $('navTasks').className = 'nav-item active';
     loadTasks();
   } else if (tabName === 'invest') {
-    $("paneInvest").classList.remove("hidden");
-    $("tabInvestBtn").className = "nav-tab active";
+    $('paneInvest').classList.remove('hidden');
+    $('navInvest').className = 'nav-item active';
   } else if (tabName === 'withdraw') {
-    $("paneWithdraw").classList.remove("hidden");
-    $("tabWithdrawBtn").className = "nav-tab active";
+    $('paneWithdraw').classList.remove('hidden');
+    $('navWithdraw').className = 'nav-item active';
+  } else if (tabName === 'wallet') {
+    $('paneWallet').classList.remove('hidden');
+    $('navWallet').className = 'nav-item active';
+    loadTransactions();
+  } else if (tabName === 'profile') {
+    $('paneProfile').classList.remove('hidden');
+    $('navProfile').className = 'nav-item active';
+    updateDisplayValues();
   }
 }
 
@@ -1044,7 +1019,7 @@ async function loadTasks() {
       <div class="task-item">
         <div class="task-info">
           <h4>${esc(t.title)}</h4>
-          <p>Reward: ৳${t.reward} (${esc(t.type)})</p>
+          <p>${esc(t.description || "")} • Reward: ৳${t.reward}</p>
         </div>
         <button class="task-btn" onclick="claimTask('${esc(t.id)}')">Claim</button>
       </div>
@@ -1068,17 +1043,48 @@ async function claimTask(taskId) {
     if (!r.ok) throw new Error(d.error || "Claim failed");
 
     currentUser.balance = d.balance;
-    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
-    updateDisplayBalance();
+    currentUser.totalEarned = d.totalEarned;
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
 
     showMsg("taskMsg", `অভিনন্দন! ৳${d.reward} সফলভাবে আপনার ব্যালেন্সে যোগ হয়েছে।`, "success");
-    confetti();
   } catch (err) {
     showMsg("taskMsg", err.message, "error");
   }
 }
 
-// Investment Plan Modal/Action
+// Transaction History Load
+async function loadTransactions() {
+  if (!currentUser) return;
+  try {
+    const r = await fetch(`/api/transactions/${currentUser.id}`);
+    const d = await r.json();
+    const container = $("transactionListContainer");
+
+    const allItems = [...(d.transactions || [])];
+    if (!allItems.length) {
+      container.innerHTML = `<div class="admin-note">এখনো কোনো লেনদেন নেই।</div>`;
+      return;
+    }
+
+    container.innerHTML = allItems.map(item => `
+      <div class="tx-item">
+        <div>
+          <b>${esc(item.type)}</b><br>
+          <small style="color:var(--muted)">${new Date(item.date).toLocaleString()}</small>
+        </div>
+        <div style="text-align:right;">
+          <b style="color:${item.amount > 0 ? 'var(--green)' : 'var(--gold)'};">${item.amount > 0 ? '+' : ''}৳${item.amount}</b><br>
+          <span class="badge" style="font-size:8px;">${esc(item.status)}</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    $("transactionListContainer").innerHTML = `<div class="admin-note">হিস্ট্রি লোড করতে সমস্যা হয়েছে।</div>`;
+  }
+}
+
+// Investment Plan
 async function openInvestModal(planDays, profitPercent) {
   const amount = prompt(`আপনি কত টাকা ইনভেস্ট করতে চান?\n(${planDays} দিন মেয়াদী প্ল্যান, প্রফিট +${profitPercent}%)`);
   if (!amount) return;
@@ -1098,17 +1104,16 @@ async function openInvestModal(planDays, profitPercent) {
     if (!r.ok) throw new Error(d.error || "Investment failed");
 
     currentUser.balance = d.balance;
-    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
-    updateDisplayBalance();
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
 
     alert("✅ আপনার ইনভেস্টমেন্ট সফলভাবে একটিভ হয়েছে!");
-    confetti();
   } catch (err) {
     alert("❌ ত্রুটি: " + err.message);
   }
 }
 
-// Withdraw Request Submit
+// Withdraw Request
 async function submitWithdraw() {
   clearMsg("withdrawMsg");
   const method = $("withdrawMethod").value;
@@ -1121,7 +1126,7 @@ async function submitWithdraw() {
     return showMsg("withdrawMsg", "সর্বনিম্ন উইথড্র পরিমাণ ৳৫০০ হতে হবে।");
   }
   if (numAmount > (currentUser.balance || 0)) {
-    return showMsg("withdrawMsg", "আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই।");
+    return showMsg("withdrawMsg", "আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স নেই।");
   }
 
   try {
@@ -1134,47 +1139,42 @@ async function submitWithdraw() {
     if (!r.ok) throw new Error(d.error || "Withdraw failed");
 
     currentUser.balance = d.balance;
-    localStorage.setItem("app_user_data", JSON.stringify(currentUser));
-    updateDisplayBalance();
+    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
+    updateDisplayValues();
 
     $("withdrawNumber").value = "";
     $("withdrawAmount").value = "";
     showMsg("withdrawMsg", "✅ উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে!", "success");
-    confetti();
   } catch (err) {
     showMsg("withdrawMsg", err.message, "error");
   }
 }
 
+function openNotificationModal() {
+  $("notificationModal").classList.add("show");
+}
+
 function logout() {
-  localStorage.removeItem("app_user_data");
+  localStorage.removeItem("v2_user_data");
   location.reload();
 }
 
-// Secret 5-tap Admin Trigger on "WELCOME BONUS" text
+// Admin Trigger (5-tap on shield icon)
 let adminTapCount = 0;
 let adminTapTimer = null;
 
-function handleAdminTap(e) {
-  if (e) e.preventDefault();
+$("adminTapTarget").addEventListener("click", (e) => {
+  e.preventDefault();
   adminTapCount++;
   clearTimeout(adminTapTimer);
   adminTapTimer = setTimeout(() => adminTapCount = 0, 3000);
 
-  if (adminTapCount >= 5) {
+  if (adminTapCount >= 3) {
     adminTapCount = 0;
     $("adminModal").classList.add("show");
     setTimeout(() => $("adminPin").focus(), 100);
   }
-}
-
-const targetEl = $("adminTapTarget");
-if (window.PointerEvent) {
-  targetEl.addEventListener("pointerup", handleAdminTap);
-} else {
-  targetEl.addEventListener("touchend", handleAdminTap);
-  targetEl.addEventListener("click", handleAdminTap);
-}
+});
 
 $("adminCancel").addEventListener("click", () => {
   $("adminModal").classList.remove("show");
@@ -1270,7 +1270,7 @@ function renderAdminRecords() {
         const badgeText = isComplete ? "VERIFIED / COMPLETE" : "AWAITING PAYMENT";
 
         const loc = r.location
-          ? `<a target="_blank" rel="noopener" style="color:#58e8b3" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude + "," + r.location.longitude)}">📍 View Current Location</a>`
+          ? `<a target="_blank" rel="noopener" style="color:#58e8b3" href="https://maps.google.com/?q=${encodeURIComponent(r.location.latitude + "," + r.location.longitude)}">📍 View Location</a>`
           : "📍 No location";
 
         return `<div class="record">
@@ -1289,17 +1289,17 @@ function renderAdminRecords() {
             <span class="${badgeClass}">${badgeText}</span>
           </div>
           <div class="admin-actions" style="margin-top:10px">
-            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete Record</button>
+            <button class="admin-btn admin-red" onclick="deleteAdminRow('${esc(r.id)}')">Delete</button>
           </div>
         </div>`;
       }).join("")
-    : `<div class="admin-note">কোনো ইউজার বা রেজিস্ট্রেশন পাওয়া যায়নি।</div>`;
+    : `<div class="admin-note">কোনো ইউজার পাওয়া যায়নি।</div>`;
 }
 
 $("adminSearch").addEventListener("input", renderAdminRecords);
 
 window.editUserBalance = async (userId, currentBal) => {
-  const val = prompt("ইউজারের নতুন ব্যালেন্স পরিমাণ দিন:", currentBal);
+  const val = prompt("নতুন ব্যালেন্স পরিমাণ দিন:", currentBal);
   if (val === null) return;
   const newBalance = Number(val);
   if (!Number.isFinite(newBalance)) return alert("সঠিক সংখ্যা দিন।");
@@ -1312,14 +1312,14 @@ window.editUserBalance = async (userId, currentBal) => {
     });
     if (!r.ok) throw new Error("Update failed");
     await loadAdminData();
-    alert("ব্যালেন্স সফলভাবে আপডেট করা হয়েছে!");
+    alert("ব্যালেন্স আপডেট সফল হয়েছে!");
   } catch (err) {
     alert("ত্রুটি: " + err.message);
   }
 };
 
 window.deleteAdminRow = async id => {
-  if (!confirm("এই recordটি ডিলিট করতে চান?")) return;
+  if (!confirm("এই রেকর্ড ডিলিট করতে চান?")) return;
   const r = await fetch("/api/admin/registrations/" + encodeURIComponent(id), { method: "DELETE" });
   if (r.ok) await loadAdminData();
 };
