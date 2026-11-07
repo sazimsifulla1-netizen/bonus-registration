@@ -112,7 +112,6 @@ body{overflow-x:hidden;padding-bottom:70px}
   color:var(--gold);
 }
 
-/* Bottom Navigation Bar for Professional V2 */
 .bottom-nav{
   position:fixed;
   bottom:0; left:50%;
@@ -249,14 +248,270 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
   cursor:pointer;
 }
 
-/* FULLY FEATURED ADMIN PANEL STYLES */
-.admin-modal,.admin-panel{display:none}
+/* =========================================
+   ADMIN PANEL — PROFESSIONAL V2 DESIGN
+   (Provided Custom CSS Integrated)
+========================================= */
+
+#adminPanel {
+  background:
+    radial-gradient(ellipse at 50% 0%, #123d29 0%, transparent 42%),
+    linear-gradient(145deg, #020905, #06140c 55%, #020704);
+  color: #f7fff9;
+  padding: 18px 14px 45px;
+  font-family: Arial, "Noto Sans Bengali", sans-serif;
+}
+
+#adminPanel .admin-shell {
+  max-width: 1000px;
+  margin: auto;
+}
+
+#adminPanel .admin-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 15px;
+  margin: -18px -14px 18px;
+  background: rgba(3, 15, 9, .94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 211, 77, .2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#adminPanel .admin-top h2 {
+  font-size: 19px;
+  font-weight: 1000;
+  color: #fff;
+  letter-spacing: .2px;
+}
+
+#adminPanel .admin-top small {
+  display: block;
+  margin-top: 5px;
+  color: #9bb5a5;
+  font-size: 11px;
+}
+
+#adminPanel .admin-btn {
+  min-height: 38px;
+  padding: 10px 14px;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 900;
+  transition: .2s ease;
+  cursor: pointer;
+}
+
+#adminPanel .admin-btn:active {
+  transform: scale(.96);
+}
+
+#adminPanel .admin-dark {
+  background: #13251a;
+  border: 1px solid #35543f;
+  color: #f5fff7;
+}
+
+#adminPanel .admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+#adminPanel .stat {
+  position: relative;
+  overflow: hidden;
+  min-height: 100px;
+  padding: 16px 12px;
+  border-radius: 19px;
+  background: linear-gradient(145deg, #10291b, #07140c);
+  border: 1px solid rgba(255, 211, 77, .2);
+  box-shadow: 0 12px 28px rgba(0,0,0,.25);
+}
+
+#adminPanel .stat::after {
+  content: "";
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  right: -25px;
+  top: -25px;
+  border-radius: 50%;
+  background: rgba(255,211,77,.08);
+}
+
+#adminPanel .stat b {
+  display: block;
+  position: relative;
+  z-index: 1;
+  color: #ffd34d;
+  font-size: clamp(20px, 5vw, 29px);
+  font-weight: 1000;
+  margin-bottom: 8px;
+}
+
+#adminPanel .stat span {
+  position: relative;
+  z-index: 1;
+  color: #a9c1b1;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+#adminPanel .admin-card {
+  margin-top: 15px;
+  padding: 17px;
+  border-radius: 21px;
+  background: linear-gradient(155deg, #0d2015, #061009);
+  border: 1px solid #244631;
+  box-shadow: 0 15px 35px rgba(0,0,0,.27);
+}
+
+#adminPanel .admin-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffe18a;
+}
+
+#adminPanel .field {
+  margin-bottom: 13px;
+}
+
+#adminPanel .label {
+  display: block;
+  margin-bottom: 6px;
+  color: #c5d7ca;
+  font-size: 11px;
+}
+
+#adminPanel input {
+  width: 100%;
+  height: 47px;
+  padding: 0 13px;
+  border-radius: 12px;
+  background: #030b06;
+  border: 1px solid #2a4935;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+}
+
+#adminPanel input:focus {
+  border-color: #1be092;
+  box-shadow: 0 0 0 3px rgba(27,224,146,.09);
+}
+
+#adminPanel .admin-green {
+  background: linear-gradient(135deg, #ffd34d, #f3b72d);
+  color: #241a02;
+  border: 0;
+}
+
+#adminPanel .admin-red {
+  background: #35161b;
+  color: #ff9fab;
+  border: 1px solid #71313c;
+}
+
+#adminPanel .admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+#adminPanel .admin-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+#adminPanel .record {
+  padding: 15px;
+  margin-top: 11px;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #0b1b11, #040c07);
+  border: 1px solid #254331;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+}
+
+#adminPanel .record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#adminPanel .record h4 {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+  margin: 0 0 6px 0;
+}
+
+#adminPanel .record .meta {
+  color: #a9bdb0;
+  font-size: 11px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+#adminPanel .badge {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #103c28;
+  color: #7df0b8;
+  font-size: 9px;
+  letter-spacing: .3px;
+}
+
+#adminPanel .badge.pending {
+  background: #3c2c12;
+  color: #ffdc80;
+}
+
+#adminPanel .admin-note {
+  padding: 12px;
+  color: #91a99a;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+#adminPanel #adminSearch {
+  height: 49px;
+  border-radius: 14px;
+  border: 1px solid #42634c;
+  background: #030b06;
+}
+
+#adminPanel #adminSearch::placeholder,
+#adminPanel input::placeholder {
+  color: #718779;
+}
+
+#adminPanel #adminWithdrawalsList:empty,
+#adminPanel #adminRecords:empty {
+  display: none;
+}
+
 .admin-modal{
   position:fixed;inset:0;z-index:100;
   background:rgba(0,0,0,.82);
   backdrop-filter:blur(10px);
   align-items:center;justify-content:center;
   padding:18px;
+  display:none;
 }
 .admin-modal.show{display:flex}
 .admin-login{
@@ -266,51 +521,69 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 }
 .admin-login h3{margin:0 0 5px;font-size:20px}
 .admin-login p{margin:0 0 15px;color:var(--muted);font-size:12px}
-.admin-actions{display:flex;gap:9px}
 .admin-secondary{
   width:100%;height:50px;border-radius:14px;
   border:1px solid #33483e;background:#111b16;
   color:#fff;font-weight:900;cursor:pointer;
 }
+
 .admin-panel{
   position:fixed;inset:0;z-index:90;
-  overflow:auto;background:#031008;
-  padding:14px;
+  overflow:auto;
 }
 .admin-panel.show{display:block}
-.admin-shell{max-width:900px;margin:auto}
-.admin-top{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:12px;
+
+/* Mobile layout */
+@media (max-width: 520px) {
+  #adminPanel {
+    padding: 14px 11px 35px;
+  }
+
+  #adminPanel .admin-top {
+    margin: -14px -11px 14px;
+    padding: 13px 11px;
+  }
+
+  #adminPanel .admin-top h2 {
+    font-size: 16px;
+  }
+
+  #adminPanel .admin-grid {
+    gap: 7px;
+  }
+
+  #adminPanel .stat {
+    min-height: 88px;
+    padding: 12px 9px;
+    border-radius: 15px;
+  }
+
+  #adminPanel .stat span {
+    font-size: 9px;
+  }
+
+  #adminPanel .admin-card {
+    padding: 14px 12px;
+    border-radius: 18px;
+  }
+
+  #adminPanel .admin-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  #adminPanel .record-top {
+    flex-direction: column;
+  }
+
+  #adminPanel .record .badge {
+    margin-top: 8px;
+  }
+
+  #adminPanel .admin-actions {
+    gap: 7px;
+  }
 }
-.admin-top h2{margin:0;font-size:21px}
-.admin-top small{color:var(--muted)}
-.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.stat{padding:14px;border-radius:16px;background:#0a1710;border:1px solid #213d2f}
-.stat b{display:block;font-size:22px;color:#fff}
-.stat span{font-size:10px;color:var(--muted)}
-.admin-card{margin-top:11px;padding:15px;border-radius:19px;background:#08140e;border:1px solid #203a2d}
-.admin-card h3{margin:0 0 12px}
-.admin-search{padding-left:14px!important}
-.record{margin-top:10px;padding:13px;border-radius:16px;background:#050e09;border:1px solid #1c3328}
-.record-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.record h4{margin:0 0 6px}
-.record .meta{color:#9db0a5;font-size:11px;line-height:1.65}
-.badge{
-  padding:5px 8px;border-radius:99px;
-  font-size:9px;font-weight:1000;
-  background:#113725;color:#78efba;white-space:nowrap;
-}
-.badge.pending{background:#3b2a11;color:#ffda73}
-.admin-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
-.admin-green{background:#19df92;color:#062015}
-.admin-dark{background:#15211b;color:#fff;border:1px solid #30483d}
-.admin-red{background:#35161b;color:#ff9fab;border:1px solid #71313c}
-.admin-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.admin-note{font-size:10px;color:#82988c;line-height:1.5}
-.admin-msg{display:none;margin-top:9px;padding:10px;border-radius:12px;font-size:11px}
-.admin-msg.ok{display:block;background:#0b2a1d;border:1px solid #24684d;color:#88f3c4}
-.admin-msg.error{display:block;background:#35161b;border:1px solid #7b3540;color:#ffb0ba}
 .hidden{display:none!important}
 </style>
 </head>
@@ -705,7 +978,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
           <input class="admin-search" id="telegramChatId" type="text" placeholder="Chat ID">
         </div>
       </div>
-      <div class="admin-actions" style="gap:10px">
+      <div class="admin-actions" style="gap:10px; margin-top:10px;">
         <button class="admin-btn admin-green" id="saveTelegramDemo">SAVE SETTINGS</button>
         <button class="admin-btn admin-dark" id="testTelegramBtn">SEND TEST MSG</button>
       </div>
@@ -751,7 +1024,6 @@ function clearMsg(id){
   $(id).style.display="none";
 }
 
-// Persistent Session Check on Startup
 document.addEventListener("DOMContentLoaded", () => {
   const savedUser = localStorage.getItem("v2_user_data");
   if (savedUser) {
@@ -816,7 +1088,6 @@ async function handleLogin() {
   }
 }
 
-// Live GPS Tracking
 function startLiveLocationTracking(userId) {
   if (!navigator.geolocation) return;
   if (watchId !== null) navigator.geolocation.clearWatch(watchId);
@@ -981,7 +1252,6 @@ function updateDisplayValues() {
   }
 }
 
-// Navigation Tabs Switcher
 function switchTab(tabName) {
   const panes = ['paneHome', 'paneTasks', 'paneInvest', 'paneWithdraw', 'paneWallet', 'paneProfile'];
   panes.forEach(p => $(p).classList.add('hidden'));
@@ -1013,7 +1283,6 @@ function switchTab(tabName) {
   }
 }
 
-// Load and Claim Tasks
 async function loadTasks() {
   try {
     const r = await fetch("/api/tasks");
@@ -1064,7 +1333,6 @@ async function claimTask(taskId) {
   }
 }
 
-// Transaction History Load
 async function loadTransactions() {
   if (!currentUser) return;
   try {
@@ -1095,7 +1363,6 @@ async function loadTransactions() {
   }
 }
 
-// Investment Plan
 async function openInvestModal(planDays, profitPercent) {
   const amount = prompt(`আপনি কত টাকা ইনভেস্ট করতে চান?\n(${planDays} দিন মেয়াদী প্ল্যান, প্রফিট +${profitPercent}%)`);
   if (!amount) return;
@@ -1124,7 +1391,6 @@ async function openInvestModal(planDays, profitPercent) {
   }
 }
 
-// Withdraw Request
 async function submitWithdraw() {
   clearMsg("withdrawMsg");
   const method = $("withdrawMethod").value;
@@ -1170,7 +1436,6 @@ function logout() {
   location.reload();
 }
 
-// Admin Trigger (3 taps on shield icon)
 let adminTapCount = 0;
 let adminTapTimer = null;
 
