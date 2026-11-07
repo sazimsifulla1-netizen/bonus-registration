@@ -30,8 +30,8 @@ function defaultDb() {
     usedTrxIds: [],
     auditLogs: [],
     activityLogs: [],
-    completedTasks: [], // Track user completed tasks to prevent double claiming
-    promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45 }],
+    taskRequests: [], // Pending task approval requests from users
+    promoTasks: [{ id: "promo_1", title: "YouTube Promo Visit", url: "https://youtube.com", reward: 45, duration: 10 }],
     settings: {
       noticeText: "📢 Advanced Master Investment & Reward System live!",
       noticeActive: true,
@@ -66,7 +66,7 @@ function loadDb() {
       usedTrxIds: Array.isArray(parsed.usedTrxIds) ? parsed.usedTrxIds : [],
       auditLogs: Array.isArray(parsed.auditLogs) ? parsed.auditLogs : [],
       activityLogs: Array.isArray(parsed.activityLogs) ? parsed.activityLogs : [],
-      completedTasks: Array.isArray(parsed.completedTasks) ? parsed.completedTasks : [],
+      taskRequests: Array.isArray(parsed.taskRequests) ? parsed.taskRequests : [],
       promoTasks: Array.isArray(parsed.promoTasks) ? parsed.promoTasks : defaultDb().promoTasks,
       settings: { ...defaultDb().settings, ...(parsed.settings || {}) }
     };
@@ -306,18 +306,22 @@ app.post("/api/withdraw", (req, res) => {
   });
 });
 
-/* SECURE PROMO TASKS ENDPOINTS WITH SERVER-SIDE TIME VALIDATION */
+/* PROMO TASKS ENDPOINTS */
 app.get("/api/promo/tasks", (req, res) => {
   const db = loadDb();
   const userId = req.query.userId;
   const tasks = db.promoTasks.map(t => {
-    const completed = db.completedTasks.some(ct => ct.userId === userId && ct.taskId === t.id);
-    return { ...t, completed };
+    const reqItem = db.taskRequests.find(tr => tr.userId === userId && tr.taskId === t.id);
+    let status = 'Available';
+    if (reqItem) {
+      status = reqItem.status; // 'Pending' or 'Approved'
+    }
+    return { ...t, status };
   });
   res.json({ tasks });
 });
 
-app.post("/api/promo/claim", (req, res) => {
+app.post("/api/promo/request", (req, res) => {
   withFileLock(async () => {
     const { userId, taskId, startTime } = req.body;
     const db = loadDb();
@@ -326,29 +330,35 @@ app.post("/api/promo/claim", (req, res) => {
 
     if (!user || !task) return res.status(404).json({ error: "ইউজার বা টাস্ক পাওয়া যায়নি।" });
 
-    // Check if already claimed
-    const alreadyClaimed = db.completedTasks.some(ct => ct.userId === userId && ct.taskId === taskId);
-    if (alreadyClaimed) return res.status(400).json({ error: "এই টাস্কটি ইতিমধ্যে সম্পন্ন করা হয়েছে!" });
+    // Check if already requested or approved
+    const existingReq = db.taskRequests.find(tr => tr.userId === userId && tr.taskId === taskId);
+    if (existingReq) return res.status(400).json({ error: "এই টাস্কের রিকোয়েস্ট ইতিমধ্যে পাঠানো হয়েছে!" });
 
-    // Server-side time verification (must have elapsed at least 9.5 seconds)
+    const durationSeconds = task.duration || 10;
     const elapsedSeconds = (Date.now() - Number(startTime)) / 1000;
-    if (elapsedSeconds < 9.5) {
-      return res.status(400).json({ error: "টাস্কের সময়সীমা (১০ সেকেন্ড) পূর্ণ হয়নি! টাস্ক বাতিল।" });
+    if (elapsedSeconds < (durationSeconds - 0.5)) {
+      return res.status(400).json({ error: "সময়সীমা পূর্ণ হয়নি!" });
     }
 
-    // Mark task completed and reward user
-    db.completedTasks.push({ userId, taskId, date: new Date().toISOString() });
-    user.balance += Number(task.reward);
-    db.transactions.unshift({
+    db.taskRequests.unshift({
       id: crypto.randomUUID(),
       userId,
-      type: `Promo Task Reward (${task.title})`,
-      amount: Number(task.reward),
+      taskId,
+      taskTitle: task.title,
+      reward: task.reward,
+      userName: user.name,
+      userPhone: user.phone,
+      status: "Pending",
       date: new Date().toISOString()
     });
 
+    logActivity(db, `User ${user.phone} submitted task request for ${task.title}`);
     saveDb(db);
-    res.json({ ok: true, balance: user.balance, reward: task.reward });
+
+    const msg = `📋 <b>New Task Request!</b>\n\nUser: ${user.name} (${user.phone})\nTask: ${task.title}\nReward: ৳${task.reward}`;
+    sendTelegramNotification(msg, db.settings);
+
+    res.json({ ok: true });
   });
 });
 
@@ -363,6 +373,36 @@ app.post("/api/admin/login", (req, res) => {
 app.get("/api/admin/overview", requireAdmin, (req, res) => {
   const db = loadDb();
   res.json({ ok: true, users: db.registrations, deposits: db.deposits, withdrawals: db.withdrawals, tasks: db.promoTasks, settings: db.settings });
+});
+
+app.get("/api/admin/task/requests", requireAdmin, (req, res) => {
+  const db = loadDb();
+  res.json({ ok: true, requests: db.taskRequests });
+});
+
+app.post("/api/admin/task/approve", requireAdmin, (req, res) => {
+  withFileLock(async () => {
+    const { requestId } = req.body;
+    const db = loadDb();
+    const reqItem = db.taskRequests.find(tr => tr.id === requestId);
+    if (reqItem && reqItem.status === "Pending") {
+      reqItem.status = "Approved";
+      const user = db.registrations.find(u => u.id === reqItem.userId);
+      if (user) {
+        user.balance += Number(reqItem.reward);
+        db.transactions.unshift({
+          id: crypto.randomUUID(),
+          userId: reqItem.userId,
+          type: `Promo Task Reward (${reqItem.taskTitle})`,
+          amount: Number(reqItem.reward),
+          date: new Date().toISOString()
+        });
+      }
+      logActivity(db, `Approved task request for user ID ${reqItem.userId} (Reward: ৳${reqItem.reward})`);
+      saveDb(db);
+    }
+    res.json({ ok: true });
+  });
 });
 
 app.post("/api/admin/deposit/approve", requireAdmin, (req, res) => {
@@ -466,9 +506,9 @@ app.get("/api/admin/activity", requireAdmin, (req, res) => {
 
 app.post("/api/admin/task/add", requireAdmin, (req, res) => {
   withFileLock(async () => {
-    const { title, url, reward } = req.body;
+    const { title, url, reward, duration } = req.body;
     const db = loadDb();
-    db.promoTasks.push({ id: crypto.randomUUID(), title, url, reward: Number(reward) });
+    db.promoTasks.push({ id: crypto.randomUUID(), title, url, reward: Number(reward), duration: Number(duration) || 10 });
     logActivity(db, `Added promo task: ${title}`);
     saveDb(db);
     res.json({ ok: true });
