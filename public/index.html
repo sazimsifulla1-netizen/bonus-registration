@@ -252,7 +252,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 
       <!-- PROMO TASKS TAB -->
       <div id="paneTasks" class="card hidden">
-        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>টাস্ক সম্পন্ন করে রিওয়ার্ড অর্জন করুন</p></div></div>
+        <div class="head"><div class="head-icon">📋</div><div><h2>Promo Tasks</h2><p>লিংকে ক্লিক করে নির্দিষ্ট সময় বাইরে থেকে টাস্ক রিকোয়েস্ট পাঠান</p></div></div>
         <div class="msg" id="taskViewMsg"></div>
         <div id="promoTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
       </div>
@@ -283,11 +283,11 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <!-- TASK TIMER MODAL -->
 <div class="admin-modal" id="taskTimerModal">
   <div class="admin-login" style="text-align:center;">
-    <h3 id="taskModalTitle">YouTube Promo Visit</h3>
-    <p id="taskModalSub" style="color:var(--muted)">লিংক ওপেন করা হয়েছে। দয়া করে ১০ সেকেন্ড অপেক্ষা করুন...</p>
+    <h3 id="taskModalTitle">Promo Task</h3>
+    <p id="taskModalSub" style="color:var(--muted)">লিংক ওপেন হয়েছে। দয়া করে অ্যাপ বা ট্যাব থেকে বাইরে থাকুন...</p>
     <div style="font-size:45px;font-weight:1000;color:var(--gold);margin:20px 0;" id="taskCountdownDisplay">00:10</div>
     <div class="msg error hidden" id="taskTimerErrorMsg"></div>
-    <button class="allow-btn" id="taskClaimBtn" disabled style="opacity:0.5;" onclick="verifyAndClaimTask()">VERIFY & CLAIM REWARD</button>
+    <button class="allow-btn" id="taskClaimBtn" disabled style="opacity:0.5;" onclick="submitTaskRequestToAdmin()">SUBMIT REQUEST TO ADMIN</button>
     <button class="admin-secondary" style="margin-top:10px;" onclick="cancelTaskSession()">CANCEL</button>
   </div>
 </div>
@@ -333,7 +333,7 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
 <section class="admin-panel" id="adminPanel">
   <div class="admin-shell">
     <div class="admin-top">
-      <div><h2>🛡️ Advanced Master Admin Panel</h2><small>System Control & Audit Center</small></div>
+      <div><h2>🛡️ Advanced Master Admin Panel</h2><small>System Control & Task Requests</small></div>
       <button class="admin-btn admin-dark" onclick="$('adminPanel').classList.remove('show')">Close</button>
     </div>
 
@@ -345,10 +345,10 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
     </div>
 
     <div class="admin-tabs" style="margin-top:14px;">
-      <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users & Audit</button>
+      <button class="admin-tab-btn active" id="adTabBtnUsers" onclick="switchAdminTab('users')">👥 Users</button>
       <button class="admin-tab-btn" id="adTabBtnDeposits" onclick="switchAdminTab('deposits')">💳 Deposits</button>
       <button class="admin-tab-btn" id="adTabBtnWithdraws" onclick="switchAdminTab('withdraws')">💸 Withdraws</button>
-      <button class="admin-tab-btn" id="adTabBtnTasks" onclick="switchAdminTab('tasks')">📋 Tasks</button>
+      <button class="admin-tab-btn" id="adTabBtnTasks" onclick="switchAdminTab('tasks')">📋 Manage Tasks & Requests</button>
       <button class="admin-tab-btn" id="adTabBtnReports" onclick="switchAdminTab('reports')">📊 Reports</button>
       <button class="admin-tab-btn" id="adTabBtnSettings" onclick="switchAdminTab('settings')">⚙️ Settings & DB</button>
       <button class="admin-tab-btn" id="adTabBtnActivity" onclick="switchAdminTab('activity')">📜 Activity Logs</button>
@@ -370,13 +370,24 @@ input:focus, select:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(27
       <div id="adminWithdrawListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
+    <!-- ADMIN TASKS & REQUESTS TAB -->
     <div id="adPaneTasks" class="admin-card hidden">
-      <h3>📋 Manage Promo Tasks</h3>
-      <div class="field"><label class="label">Title</label><input class="admin-search" id="newTaskTitle" type="text"></div>
-      <div class="field"><label class="label">URL</label><input class="admin-search" id="newTaskUrl" type="text"></div>
-      <div class="field"><label class="label">Reward (৳)</label><input class="admin-search" id="newTaskReward" type="number"></div>
-      <button class="admin-btn admin-green" onclick="addNewPromoTask()">ADD TASK</button>
-      <div style="margin-top:15px;" id="adminTasksListContainer"></div>
+      <h3>📋 Add Task (with Duration Seconds) & Pending Requests</h3>
+      <div class="field"><label class="label">Task Title</label><input class="admin-search" id="newTaskTitle" type="text" placeholder="যেমন: YouTube Promo Visit"></div>
+      <div class="field"><label class="label">Task URL</label><input class="admin-search" id="newTaskUrl" type="text" placeholder="https://youtube.com"></div>
+      <div class="admin-row">
+        <div class="field"><label class="label">Reward Amount (৳)</label><input class="admin-search" id="newTaskReward" type="number" placeholder="45"></div>
+        <div class="field"><label class="label">Duration (Seconds)</label><input class="admin-search" id="newTaskDuration" type="number" value="10" placeholder="10"></div>
+      </div>
+      <button class="admin-btn admin-green" onclick="addNewPromoTask()">ADD NEW TASK</button>
+
+      <hr style="border-color:#1e3d2e;margin:20px 0;">
+      <h4>Pending Task Requests from Users</h4>
+      <div id="adminTaskRequestsContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
+
+      <hr style="border-color:#1e3d2e;margin:20px 0;">
+      <h4>Existing Promo Tasks</h4>
+      <div id="adminTasksListContainer"><div class="admin-note">লোড হচ্ছে...</div></div>
     </div>
 
     <div id="adPaneReports" class="admin-card hidden">
@@ -430,6 +441,7 @@ let globalAdminUsersCache = [];
 let activeTaskSession = null;
 let taskTimerInterval = null;
 let taskSecondsLeft = 10;
+let userWasOutside = false;
 
 function validPhone(v){ return /^01[3-9]\d{8}$/.test(String(v || "").trim()); }
 function showMsg(id,text,type="error"){ const b=$(id); if(b){b.className="msg "+type; b.textContent=text; b.style.display="block";}}
@@ -681,19 +693,23 @@ function switchTab(tabName) {
   else if(tabName=='profile'){ $('paneProfile').classList.remove('hidden'); $('navProfile').className='nav-item active'; updateDisplayValues(); }
 }
 
-/* PROMO TASKS WITH SECURE COUNTDOWN & VISIBILITY CHECKS */
+/* PROMO TASKS: Click link, stay outside for set duration, then submit request to admin */
 async function loadPromoTasks() {
   try {
     const r = await fetch(`/api/promo/tasks?userId=${currentUser.id}`);
     const d = await r.json();
     $("promoTasksListContainer").innerHTML = (d.tasks || []).map(t => {
+      let statusBtn = `<button class="task-btn" onclick="startPromoTask('${t.id}', '${t.title}', '${t.url}', ${t.duration || 10})">Visit Task</button>`;
+      if (t.status === 'Pending') statusBtn = `<span class="badge pending">Pending Admin Approval</span>`;
+      else if (t.status === 'Approved') statusBtn = `<span class="badge">Completed</span>`;
+
       return `
         <div class="task-item">
           <div>
             <h4>${t.title}</h4>
-            <small>টাস্ক পুরস্কার: <b>৳${t.reward}</b></small>
+            <small>পুরস্কার: <b>৳${t.reward}</b> | সময়: ${t.duration || 10} সেকেন্ড</small>
           </div>
-          ${t.completed ? `<span class="badge">Completed</span>` : `<button class="task-btn" onclick="startPromoTask('${t.id}', '${t.title}', '${t.url}')">Visit Task</button>`}
+          ${statusBtn}
         </div>
       `;
     }).join("") || "<div class='admin-note'>কোনো টাস্ক নেই।</div>";
@@ -702,13 +718,14 @@ async function loadPromoTasks() {
   }
 }
 
-function startPromoTask(taskId, title, url) {
+function startPromoTask(taskId, title, url, duration) {
   window.open(url, "_blank");
-  activeTaskSession = { taskId, startTime: Date.now() };
-  taskSecondsLeft = 10;
+  activeTaskSession = { taskId, startTime: Date.now(), duration };
+  taskSecondsLeft = duration;
+  userWasOutside = false;
   
   $("taskModalTitle").textContent = title;
-  $("taskCountdownDisplay").textContent = "00:10";
+  $("taskCountdownDisplay").textContent = `00:${duration < 10 ? '0' + duration : duration}`;
   $("taskTimerErrorMsg").classList.add("hidden");
   $("taskClaimBtn").disabled = true;
   $("taskClaimBtn").style.opacity = "0.5";
@@ -717,41 +734,43 @@ function startPromoTask(taskId, title, url) {
   if (taskTimerInterval) clearInterval(taskTimerInterval);
   taskTimerInterval = setInterval(() => {
     taskSecondsLeft--;
-    if (taskSecondsLeft >= 10) {
-      $("taskCountdownDisplay").textContent = `00:${taskSecondsLeft}`;
-    } else {
-      $("taskCountdownDisplay").textContent = `00:0${taskSecondsLeft}`;
-    }
+    let formatted = taskSecondsLeft >= 10 ? `00:${taskSecondsLeft}` : `00:0${Math.max(0, taskSecondsLeft)}`;
+    $("taskCountdownDisplay").textContent = formatted;
 
     if (taskSecondsLeft <= 0) {
       clearInterval(taskTimerInterval);
-      $("taskCountdownDisplay").textContent = "00:00 - Verified!";
-      $("taskClaimBtn").disabled = false;
-      $("taskClaimBtn").style.opacity = "1";
+      if (userWasOutside) {
+        $("taskCountdownDisplay").textContent = "Success!";
+        $("taskClaimBtn").disabled = false;
+        $("taskClaimBtn").style.opacity = "1";
+      } else {
+        $("taskCountdownDisplay").textContent = "Failed!";
+        showTaskModalError("শর্ত পূরণ হয়নি: লিংকে ক্লিক করার পর আপনাকে অন্তত একবার অ্যাপ বা ট্যাব থেকে বাইরে (다른 ট্যাব/ব্রাউজারে) যেতে হবে!");
+      }
     }
   }, 1000);
 }
 
-// Security: If user changes tab or minimizes window, fail task immediately
+// Track if user went outside page/app
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && activeTaskSession) {
-    failTaskSession("মাঝপথে অন্য অ্যাপে বা ট্যাবে চলে যাওয়ার কারণে টাস্ক বাতিল হয়েছে!");
+    userWasOutside = true;
   }
 });
 
-function failTaskSession(reason) {
-  if (!activeTaskSession) return;
-  if (taskTimerInterval) clearInterval(taskTimerInterval);
-  activeTaskSession = null;
-  $("taskTimerModal").classList.remove("show");
-  showMsg("taskViewMsg", reason, "error");
+function showTaskModalError(msg) {
+  const errBox = $("taskTimerErrorMsg");
+  errBox.textContent = msg;
+  errBox.classList.remove("hidden");
 }
 
 function cancelTaskSession() {
-  failTaskSession("টাস্ক বাতিল করা হয়েছে।");
+  if (taskTimerInterval) clearInterval(taskTimerInterval);
+  activeTaskSession = null;
+  $("taskTimerModal").classList.remove("show");
 }
 
-async function verifyAndClaimTask() {
+async function submitTaskRequestToAdmin() {
   if (!activeTaskSession) return;
   const session = activeTaskSession;
   activeTaskSession = null;
@@ -759,18 +778,15 @@ async function verifyAndClaimTask() {
   $("taskTimerModal").classList.remove("show");
 
   try {
-    const r = await fetch("/api/promo/claim", {
+    const r = await fetch("/api/promo/request", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: currentUser.id, taskId: session.taskId, startTime: session.startTime })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d.error || "টাস্ক ভেরিফিকেশন ব্যর্থ হয়েছে।");
+    if (!r.ok) throw new Error(d.error || "টাস্ক রিকোয়েস্ট পাঠানো ব্যর্থ হয়েছে।");
 
-    currentUser.balance = d.balance;
-    localStorage.setItem("v2_user_data", JSON.stringify(currentUser));
-    updateDisplayValues();
-    showMsg("taskViewMsg", `🎉 অভিনন্দন! টাস্ক সফলভাবে সম্পন্ন হয়েছে এবং ৳${d.reward} আপনার ব্যালেন্সে যোগ হয়েছে।`, "success");
+    showMsg("taskViewMsg", "🎉 টাস্ক রিকোয়েস্ট সফলভাবে এডমিনের কাছে পাঠানো হয়েছে! এডমিন অ্যাপ্রুভ করলে আপনার ব্যালেন্সে টাকা যোগ হবে।", "success");
     loadPromoTasks();
   } catch (e) {
     showMsg("taskViewMsg", e.message, "error");
@@ -812,7 +828,7 @@ function switchAdminTab(tab) {
   if(tab === 'users') { $('adPaneUsers').classList.remove('hidden'); $('adTabBtnUsers').classList.add('active'); }
   else if(tab === 'deposits') { $('adPaneDeposits').classList.remove('hidden'); $('adTabBtnDeposits').classList.add('active'); }
   else if(tab === 'withdraws') { $('adPaneWithdraws').classList.remove('hidden'); $('adTabBtnWithdraws').classList.add('active'); }
-  else if(tab === 'tasks') { $('adPaneTasks').classList.remove('hidden'); $('adTabBtnTasks').classList.add('active'); loadAdminTasksList(); }
+  else if(tab === 'tasks') { $('adPaneTasks').classList.remove('hidden'); $('adTabBtnTasks').classList.add('active'); loadAdminTasksList(); loadAdminTaskRequests(); }
   else if(tab === 'reports') { $('adPaneReports').classList.remove('hidden'); $('adTabBtnReports').classList.add('active'); loadAdminReports(); }
   else if(tab === 'settings') { $('adPaneSettings').classList.remove('hidden'); $('adTabBtnSettings').classList.add('active'); }
   else if(tab === 'activity') { $('adPaneActivity').classList.remove('hidden'); $('adTabBtnActivity').classList.add('active'); loadAdminActivityLogs(); }
@@ -917,25 +933,47 @@ async function loadAdminTasksList() {
   const r = await fetch("/api/admin/overview"); const d = await r.json();
   $("adminTasksListContainer").innerHTML = (d.tasks || []).map(t => `
     <div class="record" style="display:flex;justify-content:space-between;align-items:center;">
-      <div><b>${t.title}</b><br><small>Reward: ৳${t.reward} | URL: ${t.url}</small></div>
+      <div><b>${t.title}</b><br><small>Reward: ৳${t.reward} | Duration: ${t.duration || 10}s | URL: ${t.url}</small></div>
       <button class="admin-btn admin-red" onclick="deleteAdminTask('${t.id}')">Delete</button>
     </div>
   `).join("") || "<div class='admin-note'>কোনো টাস্ক নেই।</div>";
+}
+
+async function loadAdminTaskRequests() {
+  const r = await fetch("/api/admin/task/requests");
+  const d = await r.json();
+  $("adminTaskRequestsContainer").innerHTML = (d.requests || []).map(req => `
+    <div class="record">
+      <div class="record-top">
+        <div>
+          <h4>${req.taskTitle} (Reward: ৳${req.reward})</h4>
+          <div class="meta">User: ${req.userName} (${req.userPhone})<br>Status: <span class="badge pending">${req.status}</span></div>
+        </div>
+        ${req.status === 'Pending' ? `<button class="admin-btn admin-green" onclick="approveTaskRequest('${req.id}')">Approve & Pay</button>` : ''}
+      </div>
+    </div>
+  `).join("") || "<div class='admin-note'>কোনো পেন্ডিং টাস্ক রিকোয়েস্ট নেই।</div>";
 }
 
 async function addNewPromoTask() {
   const title = $("newTaskTitle").value.trim();
   const url = $("newTaskUrl").value.trim();
   const reward = Number($("newTaskReward").value);
+  const duration = Number($("newTaskDuration").value) || 10;
   if(!title || !url || !reward) return alert("সকল তথ্য পূরণ করুন।");
-  await fetch("/api/admin/task/add", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title, url, reward}) });
-  $("newTaskTitle").value = ""; $("newTaskUrl").value = ""; $("newTaskReward").value = "";
+  await fetch("/api/admin/task/add", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({title, url, reward, duration}) });
+  $("newTaskTitle").value = ""; $("newTaskUrl").value = ""; $("newTaskReward").value = ""; $("newTaskDuration").value = "10";
   loadAdminTasksList();
 }
 
 async function deleteAdminTask(taskId) {
   await fetch("/api/admin/task/delete", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({taskId}) });
   loadAdminTasksList();
+}
+
+async function approveTaskRequest(requestId) {
+  await fetch("/api/admin/task/approve", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({requestId}) });
+  loadAdminTaskRequests();
 }
 
 async function loadAdminReports() {
