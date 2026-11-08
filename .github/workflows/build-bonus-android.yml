@@ -1,4 +1,4 @@
-name: Build Bonus Registration APK
+Name: Build Bonus Registration APK
 
 on:
   workflow_dispatch:
@@ -18,17 +18,14 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install SDK Packages
-        run: |
-          sdkmanager --version
-          yes | sdkmanager --licenses
-          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+          accept-android-sdk-licenses: true
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -37,7 +34,7 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: gradle assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
